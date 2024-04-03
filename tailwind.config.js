@@ -12,10 +12,11 @@ export default {
         display: ["Nunito"],
       },
       colors: {
-        "base": "#1e1e2e",
-        "text": "#cdd6f4",
+        "base": "#242424",
+        "text": "#ffffff",
         "surface-0": "#313244",
         "rosewater": "#f5e0dc",
+        "teal": "#94e2d5",
       },
       fontWeight: {
         extralight: "200",
