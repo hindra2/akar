@@ -5,7 +5,13 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    fontFamily: {
+      'sans': "Nunito"
+    },
+    colors: {
+      "base": "#1e1e2e",
+      "text": "#cdd6f4"
+    },
   },
   plugins: [],
 }
