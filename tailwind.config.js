@@ -1,22 +1,18 @@
 /** @type {import('tailwindcss').Config} */
-const defaultTheme = require('tailwindcss/defaultTheme')
-
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontFamily: {
         display: ["Nunito"],
       },
       colors: {
-        "base": "#242424",
-        "text": "#ffffff",
+        base: "#1e1e2e",
+        textBase: "#cdd6f4",
         "surface-0": "#313244",
-        "rosewater": "#f5e0dc",
-        "teal": "#94e2d5",
+        rosewater: "#f5e0dc",
+        teal: "#94e2d5",
+        accent: "#94e2d5",
       },
       fontWeight: {
         extralight: "200",
@@ -33,8 +29,7 @@ export default {
         sxl: "1.13rem",
         s2xl: "1.35rem",
       },
-    }
+    },
   },
   plugins: [],
-}
-
+};
