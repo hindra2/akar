@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import InfoPreview from "../components/flashcards/InfoPreview";
 
 const DeckInfo: React.FC = () => {
   return (
@@ -49,20 +50,16 @@ const DeckInfo: React.FC = () => {
         <hr className="bg-surface1 my-[70px] h-0.5 border-0" />
 
         <div>
-          <div
-            className="h-[50px] bg-surface0 rounded-lg mt-4 flex justify-center items-center px-[20px]"
+          <button
+            className="w-full h-[50px] bg-surface0 rounded-lg mt-4 flex justify-center items-center px-[20px]"
             style={{ backgroundColor: "rgba(49, 50, 68, 0.3)" }}
           >
             <img src={"/plus.svg"} alt="" className="h-[15px] w-[15px]" />
             <span className=" text-Subtext2 ml-[10px] font-semibold">
               New Card
             </span>
-          </div>
-          <div className="h-[50px] bg-surface0 rounded-lg mt-4 flex items-center px-[20px]">
-            <span className="text-textBase ml-[10px] font-semibold">
-              What is the formula of Force ?
-            </span>
-          </div>
+          </button>
+          <InfoPreview />
         </div>
       </div>
     </div>
