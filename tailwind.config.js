@@ -9,6 +9,7 @@ export default {
       colors: {
         base: "#1e1e2e",
         textBase: "#cdd6f4",
+        Subtext2: "#a6adc8",
         surface0: "#313244",
         rosewater: "#f5e0dc",
         teal: "#94e2d5",
