@@ -9,10 +9,11 @@ export default {
       colors: {
         base: "#1e1e2e",
         textBase: "#cdd6f4",
-        "surface-0": "#313244",
+        surface0: "#313244",
         rosewater: "#f5e0dc",
         teal: "#94e2d5",
         accent: "#94e2d5",
+        surface1: "#45475a"
       },
       fontWeight: {
         extralight: "200",
