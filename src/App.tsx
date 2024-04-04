@@ -1,5 +1,7 @@
 import "./index.css";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 // Pages imports
 import HomePage from "./pages/HomePage";
@@ -9,22 +11,22 @@ import DeckInfo from "./pages/DeckInfo";
 // Components imports
 import Sidebar from "./components/sidebar";
 
-// function ScrollToTop() {
-//   const { pathname } = useLocation();
+function ScrollToTop() {
+  const { pathname } = useLocation();
 
-//   useEffect(() => {
-//     window.scrollTo(0, 0);
-//   }, [pathname]);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
-//   return null;
-// }
+  return null;
+}
 
 function App() {
   return (
     <Router>
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen overflow-hidden">
         <Sidebar />
-        {/* <ScrollToTop /> */}
+        <ScrollToTop />
         <main className="flex-grow bg-base">
           <Routes>
             <Route path="/" element={<HomePage />} />

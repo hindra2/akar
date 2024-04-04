@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
 import InfoPreview from "../components/flashcards/InfoPreview";
-
 import { PlusIcon, SettingsIcon } from "../components/icons";
 
 const DeckInfo: React.FC = () => {
+
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="w-[700px] h-full mt-[200px]">

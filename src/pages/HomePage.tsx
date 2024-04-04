@@ -1,7 +1,8 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 
-import { PlusIcon, ArrowIcon } from "../components/icons";
+import { PlusIcon } from "../components/icons";
+
+import Deck from "../components/deck";
 
 const HomePage: React.FC = () => {
   return (
@@ -17,36 +18,8 @@ const HomePage: React.FC = () => {
             </span>
           </div>
         </button>
-        <NavLink to="/deckinfo">
-          <div className="w-[750px] h-[50px] bg-surface0 rounded-lg mt-4 flex justify-between items-center px-[20px]">
-            <span className="font-semibold text-textBase">CS 173</span>
-            <div className="flex space-x-[20px] justify-center items-center">
-              <div className="flex space-x-[8px]">
-                <div
-                  className="h-[20px] text-xs rounded-3xl flex justify-center items-center align-middle text-new ring-new ring-opacity-50 ring-1 px-[12px]"
-                  style={{ backgroundColor: "rgba(203,166,247, 0.2)" }}
-                >
-                  5 New
-                </div>
-                <div
-                  className="h-[20px] text-xs rounded-3xl flex justify-center items-center align-middle text-learning ring-learning ring-opacity-50 ring-1 px-[12px]"
-                  style={{ backgroundColor: "rgba(250, 179, 135, 0.2)" }}
-                >
-                  2 Learning
-                </div>
-                <div
-                  className="h-[20px] text-xs rounded-3xl flex justify-center items-center align-middle text-review ring-review ring-opacity-50 ring-1 px-[12px]"
-                  style={{ backgroundColor: "rgba(166, 227, 161, 0.2)" }}
-                >
-                  9 Review
-                </div>
-              </div>
-              <div className="fill-textBase">
-                <ArrowIcon />
-              </div>
-            </div>
-          </div>
-        </NavLink>
+        <Deck name="CS173" newLabel="5" learningLabel="2" reviewLabel="9"/>
+        <Deck name="CS225" newLabel="3" learningLabel="5" reviewLabel="200"/>
       </div>
     </div>
   );
