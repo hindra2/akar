@@ -14,9 +14,6 @@ export default {
         teal: "#94e2d5",
         accent: "#94e2d5",
         surface1: "#45475a",
-        new: "#cba6f7",
-        learning: "#fab387",
-        review: "#a6e3a1",
       },
       fontWeight: {
         extralight: "200",
