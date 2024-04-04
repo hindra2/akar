@@ -18,6 +18,7 @@ export default {
         new: "#cba6f7",
         learning: "#fab387",
         review: "#a6e3a1",
+        overlay0: "#6c7086"
       },
       fontWeight: {
         extralight: "200",

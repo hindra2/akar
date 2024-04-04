@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import InfoPreview from "../components/flashcards/InfoPreview";
 
+import { PlusIcon, SettingsIcon } from "../components/icons";
+
 const DeckInfo: React.FC = () => {
   return (
     <div className="flex items-center justify-center h-screen">
@@ -8,7 +10,9 @@ const DeckInfo: React.FC = () => {
         <div className="flex justify-between">
           <div className="text-2xl font-semibold text-textBase">CS 173</div>
           <button className="w-[140px] h-[40px] bg-surface0 rounded-lg flex justify-center items-center">
-            <img src={"/settings.svg"} alt="" className="h-[15px] w-[15px]" />
+            <div className="fill-textBase">
+              <SettingsIcon />
+            </div>
             <span className="text-textBase ml-[10px] font-semibold">
               Settings
             </span>
@@ -54,7 +58,9 @@ const DeckInfo: React.FC = () => {
             className="w-full h-[50px] bg-surface0 rounded-lg mt-4 flex justify-center items-center px-[20px]"
             style={{ backgroundColor: "rgba(49, 50, 68, 0.3)" }}
           >
-            <img src={"/plus.svg"} alt="" className="h-[15px] w-[15px]" />
+            <div className="fill-textBase">
+              <PlusIcon />
+            </div>
             <span className=" text-Subtext2 ml-[10px] font-semibold">
               New Card
             </span>

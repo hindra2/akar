@@ -1,13 +1,17 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+import { PlusIcon, ArrowIcon } from "../components/icons";
+
 const HomePage: React.FC = () => {
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="flex flex-col items-end mt-[-20%]">
         <button>
           <div className="w-[140px] h-[40px] bg-surface0 rounded-lg flex justify-center items-center">
-            <img src={"/plus.svg"} alt="" className="h-[15px] w-[15px]" />
+            <div className="fill-textBase">
+              <PlusIcon />
+            </div>
             <span className="text-textBase ml-[10px] font-semibold">
               New Deck
             </span>
@@ -37,11 +41,9 @@ const HomePage: React.FC = () => {
                   9 Review
                 </div>
               </div>
-              <img
-                src={"/arrow.svg"}
-                alt=""
-                className="h-[10px] w-[10px] mr-[4px]"
-              />
+              <div className="fill-textBase">
+                <ArrowIcon />
+              </div>
             </div>
           </div>
         </NavLink>
