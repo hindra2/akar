@@ -1,23 +1,53 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
-const NotFound: React.FC = () => {
+const HomePage: React.FC = () => {
   return (
     <div className="flex items-center justify-center h-screen">
-      <div className="flex flex-col items-end">
+      <div className="flex flex-col items-end mt-[-20%]">
         <button>
-          <div className="w-[140px] h-[40px] bg-surface0 rounded-xl flex justify-center items-center">
-            <img className="" src={"/plus.svg"} alt="" height={15} width={15} />
-            <span className="text-textBase ml-[12px] font-semibold">
+          <div className="w-[140px] h-[40px] bg-surface0 rounded-lg flex justify-center items-center">
+            <img src={"/plus.svg"} alt="" className="h-[15px] w-[15px]" />
+            <span className="text-textBase ml-[10px] font-semibold">
               New Deck
             </span>
           </div>
         </button>
-        <div className="w-[750px] h-[50px] bg-surface0 rounded-2xl mt-4 flex align-middle items-center px-[20px]">
-          <span className="text-textBase">CS 173</span>
-        </div>
+        <NavLink to="/deckinfo">
+          <div className="w-[750px] h-[50px] bg-surface0 rounded-lg mt-4 flex justify-between items-center px-[20px]">
+            <span className="font-semibold text-textBase">CS 173</span>
+            <div className="flex space-x-[20px] justify-center items-center">
+              <div className="flex space-x-[8px]">
+                <div
+                  className="h-[20px] text-xs rounded-3xl flex justify-center items-center align-middle text-new ring-new ring-opacity-50 ring-1 px-[12px]"
+                  style={{ backgroundColor: "rgba(203,166,247, 0.2)" }}
+                >
+                  5 New
+                </div>
+                <div
+                  className="h-[20px] text-xs rounded-3xl flex justify-center items-center align-middle text-learning ring-learning ring-opacity-50 ring-1 px-[12px]"
+                  style={{ backgroundColor: "rgba(250, 179, 135, 0.2)" }}
+                >
+                  2 Learning
+                </div>
+                <div
+                  className="h-[20px] text-xs rounded-3xl flex justify-center items-center align-middle text-review ring-review ring-opacity-50 ring-1 px-[12px]"
+                  style={{ backgroundColor: "rgba(166, 227, 161, 0.2)" }}
+                >
+                  9 Review
+                </div>
+              </div>
+              <img
+                src={"/arrow.svg"}
+                alt=""
+                className="h-[10px] w-[10px] mr-[4px]"
+              />
+            </div>
+          </div>
+        </NavLink>
       </div>
     </div>
   );
 };
 
-export default NotFound;
+export default HomePage;

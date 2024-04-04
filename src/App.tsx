@@ -1,16 +1,13 @@
-import './index.css';
-import { 
-  HashRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import "./index.css";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages imports
 import HomePage from "./pages/HomePage";
 import TestPage from "./pages/TestPage";
+import DeckInfo from "./pages/DeckInfo";
 
 // Components imports
-import Sidebar from './components/sidebar';
+import Sidebar from "./components/sidebar";
 
 // function ScrollToTop() {
 //   const { pathname } = useLocation();
@@ -25,18 +22,19 @@ import Sidebar from './components/sidebar';
 function App() {
   return (
     <Router>
-      <div className='flex min-h-screen'>
+      <div className="flex min-h-screen">
         <Sidebar />
         {/* <ScrollToTop /> */}
-        <main className='flex-grow bg-base'>
+        <main className="flex-grow bg-base">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/test" element={<TestPage />} />
+            <Route path="/deckinfo" element={<DeckInfo />} />
           </Routes>
         </main>
       </div>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
