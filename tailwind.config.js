@@ -14,7 +14,6 @@ export default {
         teal: "#94e2d5",
         accent: "#94e2d5",
         surface1: "#45475a",
-        overlay0: "#6c7086"
       },
       fontWeight: {
         extralight: "200",
