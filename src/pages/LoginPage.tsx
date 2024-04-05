@@ -4,7 +4,13 @@ import LoginDetails from "../components/Login/LoginDetails";
 const LoginPage: React.FC = () => {
   return (
     <div className="flex h-screen">
-      <div className="w-[65%] h-full bg-base"></div>
+      <div className="w-[65%] h-full bg-base px-[100px] flex justify-center items-center">
+        <span className="text-7xl text-textBase">
+          Flashcards boost memory retention by{" "}
+          <span className="font-bold text-accent">50%</span> through active
+          recall.
+        </span>
+      </div>
       <div className="w-[35%] h-full bg-surface0">
         <LoginDetails />
       </div>
