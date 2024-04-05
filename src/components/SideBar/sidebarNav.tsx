@@ -19,7 +19,7 @@ const NavigationLink: React.FC<NavigationLinkProps> = ({ to, label, Icon }) => {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `flex items-center p-2 mx-5 rounded-lg font-bold text-xl space-x-[12px] hover:bg-overlay0 transform transition-all duration-150 ${
+        `flex items-center p-2 mx-5 rounded-lg font-semibold text-xl space-x-[12px] hover:bg-overlay0 transform transition-all duration-150 ${
           isActive ? "text-accent fill-accent" : "text-textBase fill-textBase"
         } ${isClicked ? "scale-[98%] bg-opacity-50" : ""}`
       }

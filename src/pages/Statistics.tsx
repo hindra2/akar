@@ -2,7 +2,7 @@ import React from "react";
 
 const Statistics: React.FC = () => {
   return (
-    <div className="flex justify-center h-full">
+    <div className="flex justify-center h-full bg-white">
       <h1 className="flex items-center justify-center w-full font-bold text-text">
         TESTPAGE
       </h1>

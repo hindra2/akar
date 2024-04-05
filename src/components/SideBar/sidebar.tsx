@@ -8,7 +8,7 @@ import {
   LogoutIcon,
   StatsIcon,
   SettingsIconSidebar,
-} from "./icons";
+} from "../icons";
 
 const Sidebar: React.FC = () => {
   return (
@@ -44,9 +44,9 @@ const Sidebar: React.FC = () => {
       </nav>
 
       <div className="absolute bottom-0 w-64 p-4">
-        <div className="flex items-center p-2 rounded-lg hover:bg-overlay0 fill-textBase">
+        <div className="flex items-center p-2 rounded-lg hover:bg-overlay0 fill-textBase space-x-[12px]">
           <LogoutIcon />
-          <span className="ml-2">Logout</span>
+          <span className="text-xl font-semibold">Logout</span>
         </div>
       </div>
     </aside>

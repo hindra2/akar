@@ -9,7 +9,7 @@ import TestPage from "./pages/TestPage";
 import DeckInfo from "./pages/DeckInfo";
 
 // Components imports
-import Sidebar from "./components/sidebar";
+import Sidebar from "./components/SideBar/sidebar";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
