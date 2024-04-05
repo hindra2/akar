@@ -51,7 +51,26 @@ const LoginPage: React.FC = () => {
             <hr className="bg-surface1 h-[1px] border-0 w-[30%]" />
           </div>
 
-          <button className="w-full h-[40px] bg-white"></button>
+          <button className="w-full h-[40px]s flex items-center justify-center">
+            <img
+              className=""
+              src={"/googleLogo.png"}
+              alt=""
+              height={20}
+              width={20}
+            />
+            <span className="text-textBase ml-[10px]">Sign in with Google</span>
+          </button>
+
+          <div className="flex justify-center my-[30px]">
+            <span className="text-textBase">New user?</span>
+            <a
+              href="/reset-password"
+              className="ml-[10px] underline text-textBase  mr-[10px]"
+            >
+              Create an Account
+            </a>
+          </div>
         </div>
       </div>
     </div>
