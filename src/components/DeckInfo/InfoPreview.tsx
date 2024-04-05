@@ -23,7 +23,7 @@ const InfoPreview = () => {
   return (
     <div>
       <div
-        className={`w-full bg-surface0 rounded-lg mt-4 flex flex-col justify-center px-[20px] transition-all duration-300 ease-in-out cursor-pointer ${
+        className={`w-full bg-surface0 rounded-lg mt-4 flex flex-col justify-center px-[20px] transition-all duration-300 ease-in-out cursor-pointer hover:bg-overlay0 hover:scale-[101%] ${
           isExpanded ? "h-[100px]" : "h-[50px]"
         }`}
         onClick={toggleExpansion}

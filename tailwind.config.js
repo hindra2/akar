@@ -11,6 +11,7 @@ export default {
         textBase: "#cdd6f4",
         Subtext2: "#a6adc8",
         surface0: "#313244",
+        translucentSurface0: "rgba(49, 50, 68, 0.3)",
         rosewater: "#f5e0dc",
         teal: "#94e2d5",
         accent: "#94e2d5",
@@ -18,7 +19,7 @@ export default {
         new: "#cba6f7",
         learning: "#fab387",
         review: "#a6e3a1",
-        overlay0: "#6c7086"
+        overlay0: "#6c7086",
       },
       fontWeight: {
         extralight: "200",

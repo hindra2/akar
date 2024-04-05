@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowIcon } from "../components/icons";
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ArrowIcon } from "../icons";
 
 interface DeckProps {
   name: string;
@@ -10,7 +9,12 @@ interface DeckProps {
   reviewLabel: string;
 }
 
-const Deck: React.FC<DeckProps> = ({ name, newLabel, learningLabel, reviewLabel }) => {
+const Deck: React.FC<DeckProps> = ({
+  name,
+  newLabel,
+  learningLabel,
+  reviewLabel,
+}) => {
   const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate(); // Hook for navigation
 
@@ -20,11 +24,11 @@ const Deck: React.FC<DeckProps> = ({ name, newLabel, learningLabel, reviewLabel 
 
     setTimeout(() => {
       setIsClicked(false);
-      navigate('/deckinfo');
+      navigate("/deckinfo");
     }, 70);
-  }
+  };
 
-  const animatedStyle = isClicked ? { transform: 'scale(0.98)' } : {};
+  const animatedStyle = isClicked ? { transform: "scale(0.98)" } : {};
 
   return (
     <button onClick={handleOnClick} style={animatedStyle}>

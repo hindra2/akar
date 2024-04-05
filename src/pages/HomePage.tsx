@@ -2,7 +2,7 @@ import React from "react";
 
 import { PlusIcon } from "../components/icons";
 
-import Deck from "../components/deck";
+import Deck from "../components/Home/deck";
 
 const HomePage: React.FC = () => {
   return (
@@ -18,8 +18,8 @@ const HomePage: React.FC = () => {
             </span>
           </div>
         </button>
-        <Deck name="CS173" newLabel="5" learningLabel="2" reviewLabel="9"/>
-        <Deck name="CS225" newLabel="3" learningLabel="5" reviewLabel="200"/>
+        <Deck name="CS173" newLabel="5" learningLabel="2" reviewLabel="9" />
+        <Deck name="CS225" newLabel="3" learningLabel="5" reviewLabel="200" />
       </div>
     </div>
   );

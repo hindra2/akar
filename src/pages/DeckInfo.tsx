@@ -2,7 +2,6 @@ import DeckPreview from "../components/DeckInfo/DeckPreview";
 import DeckSettings from "../components/DeckInfo/DeckSettings";
 import InfoPreview from "../components/DeckInfo/InfoPreview";
 import NewCard from "../components/DeckInfo/NewCard";
-import { PlusIcon } from "../components/icons";
 
 const DeckInfo: React.FC = () => {
   return (
@@ -16,7 +15,7 @@ const DeckInfo: React.FC = () => {
         <DeckPreview />
 
         <div className="flex justify-center align-middle item-center">
-          <button className="mt-[40px] bg-surface1 w-[300px] py-[10px] rounded-lg">
+          <button className="mt-[40px] bg-surface1 w-[300px] py-[10px] rounded-lg hover:bg-overlay0 hover:scale-[101%]">
             <span className="text-textBase">Study Now</span>
           </button>
         </div>
