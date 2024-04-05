@@ -3,18 +3,19 @@ import React from "react";
 import { PlusIcon } from "../components/icons";
 import Deck from "../components/Home/deck";
 import WeekStreak from "../components/Home/WeekStreak";
+import Greetings from "../components/Home/Greetings";
 
 const HomePage: React.FC = () => {
   return (
     <div className="flex justify-center h-screen">
       <div className="flex flex-col mt-[8%]">
-        <span className="mb-[15%] text-textBase font-semibold text-5xl text-center">
-          Good Afternoon, John{" "}
-        </span>
+        <div className="mb-[15%] flex justify-center">
+          <Greetings />
+        </div>
 
         <div className="flex flex-col items-end">
           <button>
-            <div className="w-[140px] h-[40px] bg-surface0 rounded-lg flex justify-center items-center">
+            <div className="w-[140px] h-[40px] bg-surface0 rounded-lg flex justify-center items-center hover:bg-overlay0 hover:scale-[101%]">
               <div className="fill-textBase">
                 <PlusIcon />
               </div>
