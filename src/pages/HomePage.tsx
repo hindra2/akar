@@ -32,7 +32,7 @@ const HomePage: React.FC = () => {
           <WeekStreak />
         </div>
 
-        <span className="text-center text-textBase mt-[10%]">
+        <span className="text-center text-textBase mt-[4%]">
           12 Cards Studied Today
         </span>
       </div>

@@ -41,6 +41,7 @@ const Sidebar: React.FC = () => {
           label="Settings"
           Icon={SettingsIconSidebar}
         />
+        <NavigationLink to="/login" label="Login" Icon={SettingsIconSidebar} />
       </nav>
 
       <div className="absolute bottom-0 w-64 p-4">
