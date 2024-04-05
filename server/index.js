@@ -7,67 +7,87 @@ const bcrypt = require("bcrypt");
 
 //middleware
 app.use(cors());
-app.use(express.json()); //req.body
+app.use(express.json());
 
 //ROUTES//
-
 // register API
-
 app.post("/users/register", async (req, res) => {
   const { username, password } = req.body;
-
   const errors = [];
 
   if (!username || !password) {
     errors.push({ message: "Please enter all fields" });
   }
 
-  if (!password.length < 6) {
-    errors.push({ message: "Password must be a least 6 characters long" });
+  if (password.length < 6) {
+    errors.push({ message: "Password must be at least 6 characters long" });
   }
 
   if (errors.length > 0) {
-    res.render("register", { errors, username, password });
+    return res.status(400).json({ errors });
   } else {
-    hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
     console.log(hashedPassword);
 
     // Validation passed
-    pool.query(
-      `SELECT * FROM users
-      WHERE name = $1`,
-      [username],
-      (err, results) => {
-        if (err) {
-          console.log(err);
-        }
-        console.log(results.rows);
-
-        if (results.rows.length > 0) {
-          return res.render("register", {
-            message: "Username already registered",
-          });
-        } else {
-          pool.query(
-            `INSERT INTO users (name, password)
-            VALUES ($1, $2)
-            RETURNING id, password`,
-            [username, hashedPassword],
-            (err, results) => {
-              if (err) {
-                throw err;
-              }
-              console.log(results.rows);
-              req.flash("success_msg", "You are now registered. Please log in");
-              res.redirect("/users/login");
-            }
-          );
-        }
+    pool.query(`SELECT * FROM users WHERE username = $1`, [username], (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ error: "Internal server error" });
       }
-    );
+
+      console.log(results.rows);
+
+      if (results.rows.length > 0) {
+        return res.status(400).json({ message: "Username already registered" });
+      } else {
+        pool.query(`INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, password`, [username, hashedPassword], (err, results) => {
+          if (err) {
+            console.log(err);
+            return res.status(500).json({ error: "Internal server error" });
+          }
+
+          console.log(results.rows);
+          return res.status(201).json({ message: "User registered successfully" });
+        });
+      }
+    });
   }
 });
 
-app.listen(5000, () => {
-  console.log("server has started on port 5000");
+app.post("/users/login", (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    errors.push({ message: "Please enter all fields" });
+  }
+
+  pool.query(`SELECT * FROM users WHERE username = $1`, [username], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: "Internal server error" });
+    }
+
+    if (results.rows.length == 0) {
+      return res.status(401).json({ error: "Invalid username and password" });
+    }
+
+    const user = results.rows[0];
+
+    bcrypt.compare(password, user.password, (err, isMatch) => {
+      if (err) {
+        return res.status(500).json({ error: "Internal server error" });
+      }
+
+      if (isMatch) {
+        const token = jwt.sign({ id: user.id }, "your-secret-key", { expiresIn: "1h" });
+        return res.status(200).json({ token });
+      } else {
+        return res.status(401).json({ error: "Invalid username or password" });
+      }
+    });
+  });
+});
+
+app.listen(3000, () => {
+  console.log("Server has started on port 3000");
 });
