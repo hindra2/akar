@@ -12,7 +12,8 @@ import HomePage from "./pages/HomePage";
 import Statistics from "./pages/Statistics";
 import Settings from "./pages/Settings";
 import DeckInfo from "./pages/DeckInfo";
-import LoginPage from "./pages/LoginPage"; // Your login page component
+import Pomodoro from "./pages/PomodoroTimer";
+import LoginPage from "./pages/LoginPage";
 
 // Components imports
 import Sidebar from "./components/SideBar/sidebar";
@@ -71,6 +72,14 @@ const App: React.FC = () => {
           element={
             <LayoutWithSidebar>
               <Settings />
+            </LayoutWithSidebar>
+          }
+        />
+        <Route
+          path="/pomodoro"
+          element={
+            <LayoutWithSidebar>
+              <Pomodoro />
             </LayoutWithSidebar>
           }
         />

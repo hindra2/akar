@@ -10,6 +10,7 @@ import {
   StatsIcon,
   SettingsIconSidebar,
   AkarLogo,
+  TimerIcon,
 } from "../icons";
 
 const Sidebar: React.FC = () => {
@@ -31,12 +32,7 @@ const Sidebar: React.FC = () => {
   return (
     <aside className="w-64 h-screen bg-surface0 text-textBase">
       <div className="flex items-center justify-between p-4 border-b border-overlay0">
-        <button
-          className="flex items-center justify-center 
-                    onClick={handleOnClick}
-                    style={animatedStyle}
-        "
-        >
+        <button className="flex items-center justify-center">
           <AkarLogo />
           <span className="text-lg font-semibold">akar</span>
         </button>
@@ -62,11 +58,15 @@ const Sidebar: React.FC = () => {
         <NavigationLink to="/" label="Home" Icon={HomeIcon} />
         <NavigationLink to="/statistics" label="Statistics" Icon={StatsIcon} />
         <NavigationLink
+          to="/pomodoro"
+          label="Pomodoro Timer"
+          Icon={TimerIcon}
+        />
+        <NavigationLink
           to="/settings"
           label="Settings"
           Icon={SettingsIconSidebar}
         />
-        <NavigationLink to="/login" label="Login" Icon={SettingsIconSidebar} />
       </nav>
 
       <div className="absolute bottom-0 w-64 p-4">
