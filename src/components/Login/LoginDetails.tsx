@@ -39,7 +39,7 @@ const LoginDetails = () => {
           </div>
         </div>
 
-        <button className="w-full h-[40px] bg-surface2 rounded-lg text-textBase my-[20px]">
+        <button className="w-full h-[40px] bg-surface2 rounded-lg text-textBase my-[20px] hover:bg-overlay0 hover:scale-[101%]">
           Sign in
         </button>
 
@@ -49,7 +49,7 @@ const LoginDetails = () => {
           <hr className="bg-surface1 h-[1px] border-0 w-[30%]" />
         </div>
 
-        <button className="w-full h-[40px] flex items-center justify-center ring-overlay0 ring-opacity-90 ring-1 rounded-lg space-x-[5px]">
+        <button className="w-full h-[40px] flex items-center justify-center ring-overlay0 ring-opacity-90 ring-1 rounded-lg space-x-[5px] hover:bg-overlay0 hover:scale-[101%]">
           <img
             className=""
             src={"/googleLogo.png"}

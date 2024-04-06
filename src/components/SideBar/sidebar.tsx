@@ -45,9 +45,11 @@ const Sidebar: React.FC = () => {
       </nav>
 
       <div className="absolute bottom-0 w-64 p-4">
-        <div className="flex items-center p-2 rounded-lg hover:bg-overlay0 fill-textBase space-x-[12px]">
-          <LogoutIcon />
-          <span className="text-xl font-semibold">Logout</span>
+        <div className="flex rounded-lg hover:bg-overlay0 fill-textBase space-x-[12px]">
+          <button className="flex items-center p-2">
+            <LogoutIcon />
+            <span className="ml-2 text-xl font-semibold">Logout</span>
+          </button>
         </div>
       </div>
     </aside>
