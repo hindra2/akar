@@ -12,7 +12,15 @@ import HomePage from "./pages/HomePage";
 import TestPage from "./pages/TestPage";
 import DeckInfo from "./pages/DeckInfo";
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import LoginPage from "./pages/LoginPage"; // Your login page component
+=======
+import CardView from "./pages/CardView";
+>>>>>>> Stashed changes
+=======
+import CardView from "./pages/CardView";
+>>>>>>> Stashed changes
 =======
 import CardView from "./pages/CardView";
 >>>>>>> Stashed changes
