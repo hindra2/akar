@@ -5,7 +5,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="flex h-screen">
       <div className="w-[65%] h-full bg-base px-[100px] flex justify-center items-center">
-        <span className="text-7xl text-textBase">
+        <span className="text-white text-7xl">
           Flashcards boost memory retention by{" "}
           <span className="font-bold text-accent">50%</span> through active
           recall.
