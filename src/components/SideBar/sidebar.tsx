@@ -9,7 +9,7 @@ import {
   LogoutIcon,
   StatsIcon,
   SettingsIconSidebar,
-  AkarLogo
+  AkarLogo,
 } from "../icons";
 
 const Sidebar: React.FC = () => {
@@ -26,13 +26,20 @@ const Sidebar: React.FC = () => {
     }, 70);
   };
 
+  const animatedStyle = isClicked ? { transform: "scale(0.98)" } : {};
+
   return (
     <aside className="w-64 h-screen bg-surface0 text-textBase">
       <div className="flex items-center justify-between p-4 border-b border-overlay0">
-        <div className="flex justify-center items-center">
+        <button
+          className="flex items-center justify-center 
+                    onClick={handleOnClick}
+                    style={animatedStyle}
+        "
+        >
           <AkarLogo />
           <span className="text-lg font-semibold">akar</span>
-        </div>
+        </button>
         <div className="flex items-center justify-center bg-overlay0 h-[30px] w-[30px] rounded-full fill-textBase">
           <UserIcon />
         </div>
@@ -64,7 +71,11 @@ const Sidebar: React.FC = () => {
 
       <div className="absolute bottom-0 w-64 p-4">
         <div className="flex rounded-lg hover:bg-overlay0 fill-textBase space-x-[12px]">
-          <button className="flex items-center p-2" onClick={handleOnClick}>
+          <button
+            className="flex items-center p-2"
+            onClick={handleOnClick}
+            style={animatedStyle}
+          >
             <LogoutIcon />
             <span className="ml-2 text-xl font-semibold">Logout</span>
           </button>
