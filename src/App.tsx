@@ -11,19 +11,8 @@ import { useEffect } from "react";
 import HomePage from "./pages/HomePage";
 import TestPage from "./pages/TestPage";
 import DeckInfo from "./pages/DeckInfo";
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 import LoginPage from "./pages/LoginPage"; // Your login page component
-=======
 import CardView from "./pages/CardView";
->>>>>>> Stashed changes
-=======
-import CardView from "./pages/CardView";
->>>>>>> Stashed changes
-=======
-import CardView from "./pages/CardView";
->>>>>>> Stashed changes
 
 // Components imports
 import Sidebar from "./components/SideBar/sidebar";
@@ -58,37 +47,6 @@ function ScrollToTop() {
 const App: React.FC = () => {
   return (
     <Router>
-<<<<<<< Updated upstream
-      <ScrollToTop />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <LayoutWithSidebar>
-              <HomePage />
-            </LayoutWithSidebar>
-          }
-        />
-        <Route
-          path="/test"
-          element={
-            <LayoutWithSidebar>
-              <TestPage />
-            </LayoutWithSidebar>
-          }
-        />
-        <Route
-          path="/deckinfo"
-          element={
-            <LayoutWithSidebar>
-              <DeckInfo />
-            </LayoutWithSidebar>
-          }
-        />
-        <Route path="/login" element={<LoginPage />} />{" "}
-        {/* LoginPage without Sidebar */}
-      </Routes>
-=======
       <div className="flex min-h-screen overflow-hidden">
         <Sidebar />
         <ScrollToTop />
@@ -98,10 +56,10 @@ const App: React.FC = () => {
             <Route path="/test" element={<TestPage />} />
             <Route path="/deckinfo" element={<DeckInfo />} />
             <Route path="/cardview" element={<CardView />} />
+            <Route path="/login" element={<LoginPage />} />{" "}
           </Routes>
         </main>
       </div>
->>>>>>> Stashed changes
     </Router>
   );
 };
