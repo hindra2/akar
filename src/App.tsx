@@ -9,13 +9,14 @@ import { useEffect } from "react";
 
 // Pages imports
 import HomePage from "./pages/HomePage";
-import TestPage from "./pages/TestPage";
+import Statistics from "./pages/Statistics";
+import Settings from "./pages/Settings";
 import DeckInfo from "./pages/DeckInfo";
 import LoginPage from "./pages/LoginPage"; // Your login page component
-import CardView from "./pages/CardView";
 
 // Components imports
 import Sidebar from "./components/SideBar/sidebar";
+import CardView from "./pages/CardView";
 
 // Type for children prop
 interface LayoutWithSidebarProps {
@@ -47,19 +48,51 @@ function ScrollToTop() {
 const App: React.FC = () => {
   return (
     <Router>
-      <div className="flex min-h-screen overflow-hidden">
-        <Sidebar />
-        <ScrollToTop />
-        <main className="flex-grow bg-base">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/test" element={<TestPage />} />
-            <Route path="/deckinfo" element={<DeckInfo />} />
-            <Route path="/cardview" element={<CardView />} />
-            <Route path="/login" element={<LoginPage />} />{" "}
-          </Routes>
-        </main>
-      </div>
+      <ScrollToTop />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <LayoutWithSidebar>
+              <HomePage />
+            </LayoutWithSidebar>
+          }
+        />
+        <Route
+          path="/statistics"
+          element={
+            <LayoutWithSidebar>
+              <Statistics />
+            </LayoutWithSidebar>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <LayoutWithSidebar>
+              <Settings />
+            </LayoutWithSidebar>
+          }
+        />
+        <Route
+          path="/deckinfo"
+          element={
+            <LayoutWithSidebar>
+              <DeckInfo />
+            </LayoutWithSidebar>
+          }
+        />
+        <Route
+          path="/cardview"
+          element={
+            <LayoutWithSidebar>
+              <CardView />
+            </LayoutWithSidebar>
+          }
+        />
+        <Route path="/login" element={<LoginPage />} />{" "}
+        {/* LoginPage without Sidebar */}
+      </Routes>
     </Router>
   );
 };
