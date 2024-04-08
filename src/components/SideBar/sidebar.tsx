@@ -32,10 +32,10 @@ const Sidebar: React.FC = () => {
   return (
     <aside className="w-64 h-screen bg-surface0 text-textBase">
       <div className="flex items-center justify-between p-4 border-b border-overlay0">
-        <button className="flex items-center justify-center">
+        <div className="flex items-center justify-center">
           <AkarLogo />
           <span className="text-lg font-semibold">akar</span>
-        </button>
+        </div>
         <div className="flex items-center justify-center bg-overlay0 h-[30px] w-[30px] rounded-full fill-textBase">
           <UserIcon />
         </div>
