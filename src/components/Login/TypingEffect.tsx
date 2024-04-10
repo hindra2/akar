@@ -7,7 +7,7 @@ interface TypingEffectProps {
 
 const TypingEffect: React.FC<TypingEffectProps> = ({
   text,
-  typingSpeed = 0.00001,
+  typingSpeed = 0,
 }) => {
   const [displayedText, setDisplayedText] = useState("");
 
@@ -15,8 +15,16 @@ const TypingEffect: React.FC<TypingEffectProps> = ({
     let index = 0;
     const timer = setInterval(() => {
       if (index < text.length) {
-        setDisplayedText((prev) => prev + text.charAt(index));
-        index++;
+        const char = text.charAt(index);
+        if (char === "<") {
+          const endTagIndex = text.indexOf(">", index) + 1;
+          const tag = text.substring(index, endTagIndex);
+          setDisplayedText((prev) => prev + tag);
+          index = endTagIndex;
+        } else {
+          setDisplayedText((prev) => prev + char);
+          index++;
+        }
       } else {
         clearInterval(timer);
       }
@@ -25,7 +33,7 @@ const TypingEffect: React.FC<TypingEffectProps> = ({
     return () => clearInterval(timer);
   }, [text, typingSpeed]);
 
-  return <span>{displayedText}</span>;
+  return <span dangerouslySetInnerHTML={{ __html: displayedText }} />;
 };
 
 export default TypingEffect;
