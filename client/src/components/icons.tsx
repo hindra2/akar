@@ -162,27 +162,30 @@ const NextIcon = () => {
 
 const ChevronLeftIcon = () => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 320 512"
-      className="w-[20px] h-[20px]"
-    >
-      <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+    <svg width="3" height="10" viewBox="0 0 3 10" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[20px] h-[20px]">
+      <rect x="1.29407" width="1" height="5" rx="0.5" transform="rotate(15 1.29407 0)" fill="black"/>
+      <rect y="4.25882" width="1" height="5" rx="0.5" transform="rotate(-15 0 4.25882)" fill="black"/>
     </svg>
   );
 };
 
 const ChevronRightIcon = () => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 320 512"
-      className="w-[20px] h-[20px]"
-    >
-      <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
+    <svg width="3" height="10" viewBox="0 0 3 10" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[20px] h-[20px]">
+      <rect y="0.25882" width="1" height="5" rx="0.5" transform="rotate(-15 0 0.25882)" fill="black"/>
+      <rect x="1.29407" y="4" width="1" height="5" rx="0.5" transform="rotate(15 1.29407 4)" fill="black"/>
     </svg>
   );
 };
+
+const ChevronStraightIcon = () => {
+  return (
+    <svg width="1" height="9" viewBox="0 0 1 9" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-[20px] h-[20px]">
+      <rect width="1" height="9" rx="0.5" />
+    </svg>
+  );
+};
+
 
 export {
   HomeIcon,
@@ -199,4 +202,5 @@ export {
   NextIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  ChevronStraightIcon
 };

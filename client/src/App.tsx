@@ -34,7 +34,7 @@ function LayoutWithSidebar({ children }: LayoutWithSidebarProps) {
   };
 
   return (
-    <div className="flex min-h-screen overflow-hidden">
+    <div className="flex min-h-screen overflow-hidden bg-base">
       <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <main
         className={`flex-grow bg-base transition-all duration-300 ease-in-out ${

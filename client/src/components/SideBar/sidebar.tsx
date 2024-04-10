@@ -12,6 +12,7 @@ import {
   TimerIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  ChevronStraightIcon
 } from "../icons";
 
 interface SidebarProps {
@@ -36,7 +37,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, toggleSidebar }) => {
 
   return (
     <aside
-      className={`fixed top-0 left-0 h-screen bg-surface0 text-textBase transition-all duration-300 ease-in-out ${
+      className={`fixed top-0 left-0 h-screen bg-surface0 text-textBase transition-all duration-300 ease-in-out drop-shadow-2xl ${
         isSidebarOpen ? "w-64 translate-x-0" : "w-0 -translate-x-full"
       }`}
     >
@@ -101,7 +102,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, toggleSidebar }) => {
         className="absolute right-0 p-2 transition-transform duration-300 ease-in-out transform translate-x-full -translate-y-1/2 top-1/2 fill-textBase"
         onClick={toggleSidebar}
       >
-        {isSidebarOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        {isSidebarOpen ? 
+        <div className="group stroke-textBase flex items-center justify-center">
+          <div className="group-hover:hidden" >
+            <ChevronStraightIcon />
+          </div>
+          <div className="hidden group-hover:block">
+            <ChevronLeftIcon />
+          </div>
+        </div> : <div className="group stroke-textBase flex items-center justify-center">
+          <div className="group-hover:hidden" >
+            <ChevronStraightIcon />
+          </div>
+          <div className="hidden group-hover:block">
+            <ChevronRightIcon />
+          </div>
+        </div>}
       </button>
     </aside>
   );
