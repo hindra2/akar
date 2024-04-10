@@ -57,7 +57,7 @@ const CardView: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center h-full">
-      <div className="relative w-[60%] h-[15px] mt-[2%] overflow-hidden bg-translucentAccent rounded-lg ring-accent ring-1">
+      <div className="relative w-[60%] h-[15px] mt-[2%] overflow-hidden bg-translucentAccent rounded-lg">
         <div
           className="h-full transition-all duration-500 ease-in-out bg-accent"
           style={{ width: `${progressPercentage}%` }}
