@@ -57,6 +57,7 @@ app.post("/users/register", async (req, res) => {
 
 app.post("/users/login", (req, res) => {
   const { username, password } = req.body;
+  const errors = [];
 
   if (!username || !password) {
     errors.push({ message: "Please enter all fields" });
@@ -79,7 +80,7 @@ app.post("/users/login", (req, res) => {
       }
 
       if (isMatch) {
-        const token = jwt.sign({ id: user.id }, "your-secret-key", { expiresIn: "1h" });
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
         return res.status(200).json({ token });
       } else {
         return res.status(401).json({ error: "Invalid username or password" });
@@ -88,6 +89,6 @@ app.post("/users/login", (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log("Server has started on port 3000");
+app.listen(5173, () => {
+  console.log("Server has started on port 5173");
 });
