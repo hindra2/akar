@@ -12,7 +12,7 @@ import {
   TimerIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  ChevronStraightIcon
+  ChevronStraightIcon,
 } from "../icons";
 
 interface SidebarProps {
@@ -86,38 +86,41 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, toggleSidebar }) => {
           />
         </nav>
         <div className="p-4">
-          <div className="flex rounded-lg hover:bg-overlay0 fill-textBase space-x-[12px]">
-            <button
-              className="flex items-center p-2"
-              onClick={handleOnClick}
-              style={animatedStyle}
-            >
+          <button
+            className="flex rounded-lg hover:bg-overlay0 fill-textBase space-x-[12px] w-full"
+            onClick={handleOnClick}
+            style={animatedStyle}
+          >
+            <div className="flex items-center p-2">
               <LogoutIcon />
               <span className="ml-2 text-xl font-semibold">Logout</span>
-            </button>
-          </div>
+            </div>
+          </button>
         </div>
       </div>
       <button
         className="absolute right-0 p-2 transition-transform duration-300 ease-in-out transform translate-x-full -translate-y-1/2 top-1/2 fill-textBase"
         onClick={toggleSidebar}
       >
-        {isSidebarOpen ? 
-        <div className="group stroke-textBase flex items-center justify-center">
-          <div className="group-hover:hidden" >
-            <ChevronStraightIcon />
+        {isSidebarOpen ? (
+          <div className="flex items-center justify-center group stroke-textBase">
+            <div className="group-hover:hidden">
+              <ChevronStraightIcon />
+            </div>
+            <div className="hidden group-hover:block">
+              <ChevronLeftIcon />
+            </div>
           </div>
-          <div className="hidden group-hover:block">
-            <ChevronLeftIcon />
+        ) : (
+          <div className="flex items-center justify-center group stroke-textBase">
+            <div className="group-hover:hidden">
+              <ChevronStraightIcon />
+            </div>
+            <div className="hidden group-hover:block">
+              <ChevronRightIcon />
+            </div>
           </div>
-        </div> : <div className="group stroke-textBase flex items-center justify-center">
-          <div className="group-hover:hidden" >
-            <ChevronStraightIcon />
-          </div>
-          <div className="hidden group-hover:block">
-            <ChevronRightIcon />
-          </div>
-        </div>}
+        )}
       </button>
     </aside>
   );
