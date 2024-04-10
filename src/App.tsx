@@ -18,6 +18,7 @@ import LoginPage from "./pages/LoginPage";
 // Components imports
 import Sidebar from "./components/SideBar/sidebar";
 import CardView from "./pages/CardView";
+import AddCard from "./pages/AddCard";
 
 // Type for children prop
 interface LayoutWithSidebarProps {
@@ -96,6 +97,14 @@ const App: React.FC = () => {
           element={
             <LayoutWithSidebar>
               <CardView />
+            </LayoutWithSidebar>
+          }
+        />
+        <Route
+          path="/addcard"
+          element={
+            <LayoutWithSidebar>
+              <AddCard />
             </LayoutWithSidebar>
           }
         />
