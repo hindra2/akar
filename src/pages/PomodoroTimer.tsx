@@ -35,27 +35,26 @@ const Pomodoro: React.FC = () => {
   const strokeDashoffset = strokeDasharray - (strokeDasharray * progress) / 100;
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen p-8 bg-gray-800">
+    <div className="flex flex-col items-center justify-center h-screen p-8">
       <div className="relative">
         {/* Circular Progress Bar */}
-        <svg className="transform -rotate-90" width="200" height="200">
+        <svg className="transform -rotate-90" width="400" height="400">
           <circle
-            cx="100"
-            cy="100"
-            r="70"
-            stroke="#4B5563" // Start with grey color
-            strokeWidth="10"
+            cx="200"
+            cy="200"
+            r="140"
+            stroke="rgb(137, 180, 250, 0.3)"
+            strokeWidth="6"
             fill="transparent"
           />
           <circle
-            cx="100"
-            cy="100"
-            r="70"
-            stroke="#EF4444" // Red color fills up as time decreases
-            strokeWidth="10"
+            cx="200"
+            cy="200"
+            r="140"
+            stroke="#89b4fa"
             fill="transparent"
-            strokeDasharray={strokeDasharray}
-            strokeDashoffset={strokeDashoffset}
+            strokeDasharray={strokeDasharray.toString()}
+            strokeDashoffset={strokeDashoffset.toString()}
             strokeLinecap="round"
           />
         </svg>
@@ -63,14 +62,13 @@ const Pomodoro: React.FC = () => {
         {/* Timer */}
         <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full">
           <div className="text-center">
-            <div className="text-4xl font-bold text-white">
+            <div className="text-4xl font-bold text-textBase">
               {`${Math.floor(timeLeft / 60)
                 .toString()
                 .padStart(2, "0")}:${(timeLeft % 60)
                 .toString()
                 .padStart(2, "0")}`}
             </div>
-            <div className="text-red-300">Current Task: Research</div>
           </div>
         </div>
       </div>
