@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   HashRouter as Router,
   Routes,
@@ -27,10 +27,22 @@ interface LayoutWithSidebarProps {
 
 // Layout component including the Sidebar
 function LayoutWithSidebar({ children }: LayoutWithSidebarProps) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div className="flex min-h-screen overflow-hidden">
-      <Sidebar />
-      <main className="flex-grow bg-base">{children}</main>
+      <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <main
+        className={`flex-grow bg-base transition-all duration-300 ease-in-out ${
+          isSidebarOpen ? "ml-64" : "ml-0"
+        }`}
+      >
+        {children}
+      </main>
     </div>
   );
 }
@@ -38,11 +50,9 @@ function LayoutWithSidebar({ children }: LayoutWithSidebarProps) {
 // Scroll to top component
 function ScrollToTop() {
   const { pathname } = useLocation();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-
   return null;
 }
 
@@ -108,8 +118,7 @@ const App: React.FC = () => {
             </LayoutWithSidebar>
           }
         />
-        <Route path="/login" element={<LoginPage />} />{" "}
-        {/* LoginPage without Sidebar */}
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </Router>
   );
