@@ -24,6 +24,7 @@ export default {
         learning: "#fab387",
         review: "#a6e3a1",
         overlay0: "#6c7086",
+        overlay1: "#7c7f93",
       },
       fontWeight: {
         extralight: "200",
