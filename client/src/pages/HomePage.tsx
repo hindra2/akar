@@ -1,9 +1,9 @@
 import React from "react";
 
-import { PlusIcon } from "../components/icons";
 import Deck from "../components/Home/deck";
 import WeekStreak from "../components/Home/WeekStreak";
 import Greetings from "../components/Home/Greetings";
+import NewDeck from "../components/Home/NewDeck";
 
 const HomePage: React.FC = () => {
   return (
@@ -14,14 +14,7 @@ const HomePage: React.FC = () => {
         </div>
 
         <div className="flex flex-col items-end">
-          <button>
-            <div className="w-[140px] h-[40px] bg-surface0 rounded-lg flex justify-center items-center hover:bg-overlay0 hover:scale-[101%]">
-              <div className="fill-textBase">
-                <PlusIcon />
-              </div>
-              <span className="text-textBase ml-[10px] font-semibold">New Deck</span>
-            </div>
-          </button>
+          <NewDeck />
           <Deck name="CS173" newLabel="5" learningLabel="2" reviewLabel="9" />
           <Deck name="CS225" newLabel="3" learningLabel="5" reviewLabel="200" />
         </div>
@@ -30,7 +23,9 @@ const HomePage: React.FC = () => {
           <WeekStreak />
         </div>
 
-        <span className="text-center text-textBase mt-[4%]">12 Cards Studied Today</span>
+        <span className="text-center text-textBase mt-[4%]">
+          12 Cards Studied Today
+        </span>
       </div>
     </div>
   );
