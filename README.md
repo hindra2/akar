@@ -16,3 +16,7 @@ Usage
 npm run dev
 vite build
 ```
+
+### Built With
+react
+vite
