@@ -49,7 +49,7 @@ const NewDeckPopup: React.FC<PropOpen> = ({ isOpen, onClose }) => {
       <div
         ref={popupRef}
         onClick={(e) => e.stopPropagation()}
-        className={`relative h-[200px] w-[500px] bg-surface1 rounded-lg overflow-hidden shadow-2xl ${
+        className={`relative h-[200px] w-[500px] bg-surface0 rounded-lg overflow-hidden shadow-2xl ${
           animate ? "scale-100" : "scale-95"
         } transition-transform duration-500 ease-out flex`}
       >

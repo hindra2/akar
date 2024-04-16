@@ -1,87 +1,50 @@
-import React, { useState, useEffect } from "react";
-import { NextIcon } from "../components/icons";
-
-type CycleType =
-  | "Time to Focus!"
-  | "Take a Short Break!"
-  | "Take a Long Break!";
+import React, { useContext, useEffect } from 'react';
+import { NextIcon } from '../components/icons';
+import { PomodoroContext } from '../components/Pomodoro/PomodoroContext';
 
 const Pomodoro: React.FC = () => {
-  const [timeLeft, setTimeLeft] = useState<number>(1500); // Start with 25 minutes for Time to Focus!
-  const [isActive, setIsActive] = useState<boolean>(false);
-  const [cycleCount, setCycleCount] = useState<number>(0); // Tracks the number of Time to Focus! cycles completed
-  const [cycleType, setCycleType] = useState<CycleType>("Time to Focus!");
-
-  // Dynamically determine the total time based on the cycle type
-  const totalTime: number =
-    cycleType === "Time to Focus!"
-      ? 1500
-      : cycleType === "Take a Short Break!"
-      ? 300
-      : 900;
+  const { timeLeft, isActive, cycleType, cycleCount, updateTimer, toggle, nextCycle } = useContext(PomodoroContext);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: NodeJS.Timeout | null = null;
 
-    if (isActive && timeLeft > 0) {
+    if (isActive) {
       interval = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 1);
+        updateTimer();
       }, 1000);
-    } else if (timeLeft === 0) {
-      setIsActive(false); // Stop timer automatically at the end of a cycle
-      switch (cycleType) {
-        case "Time to Focus!":
-          if (cycleCount === 3) {
-            // After 4 Time to Focus! cycles
-            setCycleType("Take a Long Break!");
-            setCycleCount(0); // Reset cycle count after a Take a Long Break!
-            setTimeLeft(900); // 15 minutes for Take a Long Break!
-          } else {
-            setCycleType("Take a Short Break!");
-            setCycleCount(cycleCount + 1); // Increment cycle count
-            setTimeLeft(300); // 5 minutes for Take a Short Break!
-          }
-          break;
-        case "Take a Short Break!":
-        case "Take a Long Break!":
-          setCycleType("Time to Focus!");
-          setTimeLeft(1500); // 25 minutes for Time to Focus!
-          break;
-      }
     }
 
     return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isActive, timeLeft, cycleType, cycleCount]);
-
-  const toggle = (): void => {
-    setIsActive(!isActive);
-  };
-
-  const nextCycle = (): void => {
-    setIsActive(false); // Stop the current cycle
-    if (cycleType === "Time to Focus!") {
-      if (cycleCount === 3) {
-        setCycleType("Take a Long Break!");
-        setCycleCount(0); // Reset cycle count
-        setTimeLeft(900); // 15 minutes for Take a Long Break!
-      } else {
-        setCycleType("Take a Short Break!");
-        setCycleCount(cycleCount + 1); // Increment cycle count
-        setTimeLeft(300); // 5 minutes for Take a Short Break!
+      if (interval) {
+        clearInterval(interval);
       }
-    } else {
-      setCycleType("Time to Focus!");
-      setTimeLeft(1500); // 25 minutes for Time to Focus!
+    };
+  }, [isActive, updateTimer]);
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      nextCycle();
     }
-  };
+  }, [timeLeft, nextCycle]);
+
+  // Update timer state on backend whenever significant changes occur
+  useEffect(() => {
+    updateTimer();
+  }, [timeLeft, isActive, cycleType, cycleCount, updateTimer]);
+
+  // Dynamically determine the total time based on the cycle type
+  const totalTime: number =
+    cycleType === 'Time to Focus!'
+      ? 1500
+      : cycleType === 'Take a Short Break!'
+      ? 300
+      : 900;
 
   // Update the progress calculation to reflect the current session length
   const progress: number = (1 - timeLeft / totalTime) * 100;
-  const strokeDasharray: number = 2 * Math.PI * 210; // Circle circumference
+  const strokeDasharray: number = 2 * Math.PI * 210;
   const strokeDashoffset: number = strokeDasharray * (1 - progress / 100);
-
+  
   return (
     <div className="flex flex-col items-center justify-center h-screen p-8">
       <div className="text-center">

@@ -9,6 +9,10 @@ const bcrypt = require("bcrypt");
 app.use(cors());
 app.use(express.json());
 
+// Scripts imports
+const { getTimerState, setTimerState } = require("./scripts/timerState");
+const settingsRouter = require("./scripts/settings");
+
 //ROUTES//
 // register API
 app.post("/users/register", async (req, res) => {
@@ -89,6 +93,24 @@ app.post("/users/login", (req, res) => {
   });
 });
 
-app.listen(5173, () => {
-  console.log("Server has started on port 5173");
+app.listen(5174, () => {
+  console.log("Server has started on port 5174");
 });
+
+
+// Import timerState
+// Get current timer state
+app.get('/api/timer', (req, res) => {
+  res.json(getTimerState());
+});
+
+// Update current timer state
+app.post('/api/timer', (req, res) => {
+  const newState = req.body;
+  setTimerState(newState);
+  res.json({ message: "Timer updated successfully" });
+});
+
+
+// Settings
+app.use('/api/settings', settingsRouter);
