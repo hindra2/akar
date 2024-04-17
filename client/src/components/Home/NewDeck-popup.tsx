@@ -49,7 +49,7 @@ const NewDeckPopup: React.FC<PropOpen> = ({ isOpen, onClose }) => {
       <div
         ref={popupRef}
         onClick={(e) => e.stopPropagation()}
-        className={`relative h-[200px] w-[500px] bg-surface0 rounded-lg overflow-hidden shadow-2xl ${
+        className={`relative h-[200px] w-[500px] bg-surface1 rounded-lg overflow-hidden shadow-2xl ${
           animate ? "scale-100" : "scale-95"
         } transition-transform duration-500 ease-out flex`}
       >
@@ -67,7 +67,10 @@ const NewDeckPopup: React.FC<PropOpen> = ({ isOpen, onClose }) => {
             </div>
           </div>
           <div className="flex justify-end space-x-[10px]">
-            <button className="w-[75px] py-[7px] text-textBase bg-surface2 rounded-lg hover:bg-overlay1 hover:scale-[101%]">
+            <button
+              className="w-[75px] py-[7px] text-textBase bg-surface2 rounded-lg hover:bg-overlay1 hover:scale-[101%]"
+              onClick={onClose}
+            >
               Cancel
             </button>
             <button className="w-[75px] py-[7px] text-textBase bg-surface2 rounded-lg hover:bg-overlay1 hover:scale-[101%]">

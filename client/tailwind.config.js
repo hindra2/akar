@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -10,7 +11,7 @@ export default {
         base: "#1e1e2e",
         textBase: "#cdd6f4",
         textPlaceholder: "rgb(205, 214, 244, 0.3)",
-        Subtext2: "#a6adc8",
+        Subtext0: "#a6adc8",
         surface0: "#313244",
         translucentSurface0: "rgba(49, 50, 68, 0.3)",
         surface1: "#45475a",
@@ -25,6 +26,19 @@ export default {
         review: "#a6e3a1",
         overlay0: "#6c7086",
         overlay1: "#7c7f93",
+
+        dark: {
+          base: "#eff1f5",
+          textBase: "#4c4f69",
+          textPlaceholder: "rgb(239, 241, 245, 0.3)",
+          Subtext0: "#a5adce",
+          surface0: "#ccd0da",
+          translucentSurface0: "rgb(204, 208, 218, 0.3)",
+          surface1: "#bcc0cc",
+          surface2: "#acb0be",
+          overlay0: "#9ca0b0",
+          overlay1: "#8c8fa1",
+        },
       },
       fontWeight: {
         extralight: "200",

@@ -5,25 +5,34 @@ import DeckPreview from "../components/DeckInfo/DeckPreview";
 import DeckSettings from "../components/DeckInfo/DeckSettings";
 import InfoPreview from "../components/DeckInfo/InfoPreview";
 import NewCard from "../components/DeckInfo/NewCard";
+import { BackIcon } from "../components/icons";
 
 const DeckInfo: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate(); // Hook for navigation
 
-  const handleOnClick = (e: React.MouseEvent) => {
+  // Function to handle back button click, navigating to the root "/"
+  const handleBackClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsClicked(true);
 
     setTimeout(() => {
       setIsClicked(false);
-      navigate("/cardview");
+      navigate("/"); // Navigate directly to the root page
     }, 70);
   };
 
   const animatedStyle = isClicked ? { transform: "scale(0.98)" } : {};
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="relative flex items-center justify-center w-full h-screen">
+      <button
+        className="absolute top-[2%] left-8 fill-textBase"
+        onClick={handleBackClick}
+        style={animatedStyle}
+      >
+        <BackIcon />
+      </button>
       <div className="w-[700px] h-full mt-[200px]">
         <div className="flex justify-between">
           <div className="text-2xl font-semibold text-textBase">CS 173</div>
@@ -33,7 +42,11 @@ const DeckInfo: React.FC = () => {
         <DeckPreview />
 
         <div className="flex justify-center align-middle item-center">
-          <button className="mt-[40px] bg-surface1 w-[300px] py-[10px] rounded-lg hover:bg-overlay0 hover:scale-[101%]" onClick={handleOnClick} style={animatedStyle}>
+          <button
+            className="mt-[40px] bg-surface1 w-[300px] py-[10px] rounded-lg hover:bg-overlay0 hover:scale-[101%]"
+            onClick={handleBackClick}
+            style={animatedStyle}
+          >
             <span className="text-textBase">Study Now</span>
           </button>
         </div>

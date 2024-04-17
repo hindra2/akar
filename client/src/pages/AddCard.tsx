@@ -29,7 +29,7 @@ const AddCard: React.FC = () => {
       </button>
       <div className="flex flex-col w-[700px] mt-[200px]">
         <div className="flex items-center w-full mb-2 text-xl text-textBase">
-          Front
+          Question
         </div>
         <div className="flex items-center">
           <TextInput />
@@ -38,7 +38,7 @@ const AddCard: React.FC = () => {
 
       <div className="flex flex-col w-[700px] mt-[50px]">
         <div className="flex items-center w-full mb-2 text-xl text-textBase">
-          Back
+          Answer
         </div>
         <div className="flex items-center">
           <TextInput />
