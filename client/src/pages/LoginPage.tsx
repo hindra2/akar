@@ -1,4 +1,3 @@
-import React from "react";
 import LoginDetails from "../components/Login/LoginDetails";
 import { AkarLogo } from "../components/icons";
 import TypingEffect from "../components/Login/TypingEffect";

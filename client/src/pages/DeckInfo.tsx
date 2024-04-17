@@ -18,8 +18,14 @@ const DeckInfo: React.FC = () => {
 
     setTimeout(() => {
       setIsClicked(false);
-      navigate("/"); // Navigate directly to the root page
+      navigate("/"); // Navigate to the root page
     }, 70);
+  };
+
+  // Function to handle the "Study Now" button click, reloading the current page
+  const handleStudyNowClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate("/cardview"); // Reload the current page
   };
 
   const animatedStyle = isClicked ? { transform: "scale(0.98)" } : {};
@@ -44,7 +50,7 @@ const DeckInfo: React.FC = () => {
         <div className="flex justify-center align-middle item-center">
           <button
             className="mt-[40px] bg-surface1 w-[300px] py-[10px] rounded-lg hover:bg-overlay0 hover:scale-[101%]"
-            onClick={handleBackClick}
+            onClick={handleStudyNowClick} // Updated to handle the "Study Now" click
             style={animatedStyle}
           >
             <span className="text-textBase">Study Now</span>
