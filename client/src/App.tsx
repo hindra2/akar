@@ -58,6 +58,10 @@ function ScrollToTop() {
 
 // Main App component
 const App: React.FC = () => {
+  useEffect(() => {
+    const theme = localStorage.getItem("theme") || "dark"; // Default to dark mode
+    document.documentElement.classList.add(theme);
+  }, []);
   return (
     <Router>
       <ScrollToTop />
