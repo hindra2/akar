@@ -1,16 +1,14 @@
 import React from "react";
 
-// Define the props interface
-interface LoginDetailsProps {
+interface CreateNewAccountProps {
   toggleView: () => void;
 }
 
-// Use the interface in your component
-const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
+const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
   return (
     <div className="flex flex-col">
       <span className="text-4xl font-semibold text-center text-textBase mt-[30%]">
-        Welcome Back!
+        Create an Account
       </span>
       <div className="mt-[10%]">
         <div className="space-y-[10px]">
@@ -45,15 +43,15 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
           </div>
         </div>
         <button className="w-full h-[40px] bg-surface2 rounded-lg text-textBase my-[20px] hover:bg-overlay0 hover:scale-[101%]">
-          Sign in
+          Sign up
         </button>
         <div className="flex justify-center my-[10px]">
-          <span className="text-textBase">New user?</span>
+          <span className="text-textBase">Already have an account?</span>
           <button
             className="ml-[10px] underline text-textBase"
             onClick={toggleView}
           >
-            Create an Account
+            Login
           </button>
         </div>
       </div>
@@ -61,4 +59,4 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
   );
 };
 
-export default LoginDetails;
+export default CreateNewAccount;

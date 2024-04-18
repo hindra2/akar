@@ -59,8 +59,35 @@ function ScrollToTop() {
 // Main App component
 const App: React.FC = () => {
   useEffect(() => {
-    const theme = localStorage.getItem("theme") || "dark"; // Default to dark mode
-    document.documentElement.classList.add(theme);
+    // Function to set the class based on the theme preference
+    const applyTheme = (theme: string) => {
+      document.documentElement.classList.remove("dark", "light");
+      document.documentElement.classList.add(theme);
+    };
+
+    // Check the local storage or system preference for theme
+    const storedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    // If there's a stored theme, use it; otherwise, use system preference
+    const theme = storedTheme || (prefersDark ? "dark" : "light");
+    applyTheme(theme);
+
+    // Event listener for system theme changes
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = (e: MediaQueryListEvent) => {
+      const newTheme = e.matches ? "dark" : "light";
+      applyTheme(newTheme);
+      localStorage.setItem("theme", newTheme);
+    };
+
+    // Add event listener
+    mediaQuery.addEventListener("change", handleChange);
+
+    // Clean up event listener
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
   return (
     <Router>

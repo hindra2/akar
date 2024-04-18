@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import Switch from "../components/Settings/Switch";
 
 const Settings: React.FC = () => {
-  const [darkMode, setDarkMode] = useState(() =>
-    document.documentElement.classList.contains("dark")
+  // Use a functional update to read the previous state and negate it
+  const [darkMode, setDarkMode] = useState(
+    () =>
+      localStorage.getItem("theme") === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
   );
 
   useEffect(() => {
@@ -11,7 +15,7 @@ const Settings: React.FC = () => {
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
-  const toggleDarkMode = () => setDarkMode(!darkMode);
+  const toggleDarkMode = () => setDarkMode((prevMode) => !prevMode);
 
   return (
     <div className="p-4">

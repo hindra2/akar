@@ -1,9 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Apply Nunito font family to all elements */
 * {
   font-family: "Nunito", sans-serif;
+}
+
+/* Define color variables for the light theme */
+:root {
+  --color-base: #eff1f5;
+  --color-textBase: #4c4f69;
+  --color-textPlaceholder: rgba(239, 241, 245, 0.3);
+  --color-Subtext0: #a5adce;
+  --color-surface0: #ccd0da;
+  --color-translucentSurface0: rgba(204, 208, 218, 0.3);
+  --color-surface1: #bcc0cc;
+  --color-surface2: #acb0be;
+  --color-rosewater: #f5e0dc;
+  --color-red: #f38ba8;
+  --color-teal: #94e2d5;
+  --color-accent: #89b4fa;
+  --color-translucentAccent: rgba(137, 180, 250, 0.5);
+  --color-new: #cba6f7;
+  --color-learning: #fab387;
+  --color-review: #a6e3a1;
+  --color-overlay0: #9ca0b0;
+  --color-overlay1: #8c8fa1;
+}
+
+/* Override color variables for the dark theme if the system preference is set to dark */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-base: #1e1e2e;
+    --color-textBase: #cdd6f4;
+    --color-textPlaceholder: rgba(205, 214, 244, 0.3);
+    --color-Subtext0: #a6adc8;
+    --color-surface0: #313244;
+    --color-translucentSurface0: rgba(49, 50, 68, 0.3);
+    --color-surface1: #45475a;
+    --color-surface2: #585b70;
+    --color-rosewater: #f5e0dc;
+    --color-red: #f38ba8;
+    --color-teal: #94e2d5;
+    --color-accent: #89b4fa;
+    --color-translucentAccent: rgba(137, 180, 250, 0.5);
+    --color-new: #cba6f7;
+    --color-learning: #fab387;
+    --color-review: #a6e3a1;
+    --color-overlay0: #6c7086;
+    --color-overlay1: #7c7f93;
+  }
 }

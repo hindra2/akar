@@ -159,6 +159,20 @@ const CardView: React.FC = () => {
           )}
         </h1>
       </div>
+      {!showAnswer && !allCardsShown && (
+        <div className="flex space-x-[30px] mb-[1.5%]">
+          <button
+            className="h-[50px] w-[200px] rounded-full flex flex-col justify-center items-center align-middle text-textBase ring-accent ring-opacity-50 ring-1 px-[12px] transition-transform duration-75"
+            style={{
+              backgroundColor: "rgb(137, 180, 250, 0.2)",
+              ...buttonAnimatedStyle,
+            }}
+            onClick={toggleExpansion}
+          >
+            <span className="text-lg">Show Answer</span>
+          </button>
+        </div>
+      )}
       {showAnswer && !allCardsShown && (
         <div className="flex space-x-[30px] mb-[1.5%]">
           <button
