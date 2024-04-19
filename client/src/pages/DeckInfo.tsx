@@ -31,7 +31,7 @@ const DeckInfo: React.FC = () => {
   const animatedStyle = isClicked ? { transform: "scale(0.98)" } : {};
 
   return (
-    <div className="relative flex items-center justify-center w-full h-screen">
+    <div className="relative flex items-center justify-center w-full h-screen overflow-y-auto">
       <button
         className="absolute top-[2%] left-8 fill-textBase"
         onClick={handleBackClick}
