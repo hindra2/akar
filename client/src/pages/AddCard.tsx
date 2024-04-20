@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { BackIcon, PlusIcon } from "../components/icons";
+import { useNavigate, useLocation } from "react-router-dom";
+import { BackIcon, Edit, PlusIcon } from "../components/icons";
 
 const AddCard: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
@@ -58,22 +58,42 @@ const AddCard: React.FC = () => {
   }, []);
 
   // backend
-  const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
+  const location = useLocation();
+  const cardToEdit = location.state?.card;
+
+  const [question, setQuestion] = useState(cardToEdit?.card_question || "");
+  const [answer, setAnswer] = useState(cardToEdit?.card_answer || "");
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const body = { card_question: question, card_answer: answer };
-      const response = await fetch("http://localhost:5174/cards", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      let response;
+
+      if (cardToEdit) {
+        // Update existing card
+        response = await fetch(
+          `http://localhost:5174/cards/${cardToEdit.card_id}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          }
+        );
+      } else {
+        // Create new card
+        response = await fetch("http://localhost:5174/cards", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+      }
+
       console.log(response);
       // Clear the form fields after submission
       setQuestion("");
       setAnswer("");
+      navigate("/deckInfo");
     } catch (err) {
       console.error(err.message);
     }
@@ -190,12 +210,27 @@ const AddCard: React.FC = () => {
           <div className="flex justify-end w-full">
             <button
               type="submit"
-              className="w-[100px] h-[40px] bg-surface2 rounded-lg flex justify-center items-center hover:bg-overlay0 hover:scale-[101%] mt-[30px]"
+              className="px-[20px] h-[40px] bg-surface2 rounded-lg flex justify-center items-center hover:bg-overlay0 hover:scale-[101%] mt-[30px]"
             >
-              <div className="fill-textBase">
-                <PlusIcon />
-              </div>
-              <span className="text-textBase ml-[10px] font-semibold">Add</span>
+              {cardToEdit ? (
+                <>
+                  <div className="fill-textBase">
+                    <Edit />
+                  </div>
+                  <span className="text-textBase ml-[10px] font-semibold">
+                    Update
+                  </span>
+                </>
+              ) : (
+                <>
+                  <div className="fill-textBase">
+                    <PlusIcon />
+                  </div>
+                  <span className="text-textBase ml-[10px] font-semibold">
+                    Add
+                  </span>
+                </>
+              )}
             </button>
           </div>
         </form>
