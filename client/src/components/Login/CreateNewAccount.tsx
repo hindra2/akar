@@ -91,7 +91,7 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
             </div>
           </div>
           {errorMessage && (
-            <div className="mt-2 text-red-500">{errorMessage}</div>
+            <div className="mt-2 text-rose-700">{errorMessage}</div>
           )}
           <button
             type="submit"

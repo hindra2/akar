@@ -5,7 +5,6 @@ const pool = require("./db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
-console.log("JWT Secret:", process.env.JWT_SECRET); // This should print your secret
 
 //middleware
 app.use(cors());
