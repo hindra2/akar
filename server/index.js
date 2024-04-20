@@ -4,6 +4,8 @@ const cors = require("cors");
 const pool = require("./db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+require("dotenv").config();
+console.log("JWT Secret:", process.env.JWT_SECRET); // This should print your secret
 
 //middleware
 app.use(cors());
@@ -15,103 +17,82 @@ const settingsRouter = require("./scripts/settings");
 
 //ROUTES//
 // register API
+
+///////////// LOGIN BACKEND
 app.post("/users/register", async (req, res) => {
   const { username, password } = req.body;
-  const errors = [];
-
   if (!username || !password) {
-    errors.push({ message: "Please enter all fields" });
+    return res.status(400).json({ message: "Please enter all fields" });
   }
 
   if (password.length < 6) {
-    errors.push({ message: "Password must be at least 6 characters long" });
+    return res
+      .status(400)
+      .json({ message: "Password must be at least 6 characters long" });
   }
 
-  if (errors.length > 0) {
-    return res.status(400).json({ errors });
-  } else {
+  try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword);
-
-    // Validation passed
-    pool.query(
-      `SELECT * FROM users WHERE username = $1`,
-      [username],
-      (err, results) => {
-        if (err) {
-          console.log(err);
-          return res.status(500).json({ error: "Internal server error" });
-        }
-
-        console.log(results.rows);
-
-        if (results.rows.length > 0) {
-          return res
-            .status(400)
-            .json({ message: "Username already registered" });
-        } else {
-          pool.query(
-            `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, password`,
-            [username, hashedPassword],
-            (err, results) => {
-              if (err) {
-                console.log(err);
-                return res.status(500).json({ error: "Internal server error" });
-              }
-
-              console.log(results.rows);
-              return res
-                .status(201)
-                .json({ message: "User registered successfully" });
-            }
-          );
-        }
-      }
+    const userExists = await pool.query(
+      "SELECT * FROM users WHERE username = $1",
+      [username]
     );
+
+    if (userExists.rows.length > 0) {
+      return res.status(400).json({ message: "Username already registered" });
+    }
+
+    const newUser = await pool.query(
+      "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, username",
+      [username, hashedPassword]
+    );
+
+    res
+      .status(201)
+      .json({ message: "User registered successfully", user: newUser.rows[0] });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-app.post("/users/login", (req, res) => {
+// Login API
+app.post("/users/login", async (req, res) => {
   const { username, password } = req.body;
-  const errors = [];
 
   if (!username || !password) {
-    errors.push({ message: "Please enter all fields" });
+    return res.status(400).json({ message: "Please enter all fields" });
   }
 
-  pool.query(
-    `SELECT * FROM users WHERE username = $1`,
-    [username],
-    (err, results) => {
-      if (err) {
-        return res.status(500).json({ error: "Internal server error" });
-      }
+  try {
+    const userResult = await pool.query(
+      "SELECT * FROM users WHERE username = $1",
+      [username]
+    );
 
-      if (results.rows.length == 0) {
-        return res.status(401).json({ error: "Invalid username and password" });
-      }
-
-      const user = results.rows[0];
-
-      bcrypt.compare(password, user.password, (err, isMatch) => {
-        if (err) {
-          return res.status(500).json({ error: "Internal server error" });
-        }
-
-        if (isMatch) {
-          const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-            expiresIn: "1h",
-          });
-          return res.status(200).json({ token });
-        } else {
-          return res
-            .status(401)
-            .json({ error: "Invalid username or password" });
-        }
-      });
+    if (userResult.rows.length === 0) {
+      return res.status(401).json({ error: "Invalid username or password" });
     }
-  );
+
+    const user = userResult.rows[0];
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (isMatch) {
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+      res.json({ token });
+    } else {
+      res.status(401).json({ error: "Invalid username or password" });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
+///////////// LOGIN BACKEND
+
+///////////// CARDS BACKEND
 
 // create a card
 app.post("/cards", async (req, res) => {
@@ -181,9 +162,13 @@ app.delete("/cards/:id", async (req, res) => {
   }
 });
 
+///////////// CARDS BACKEND
+
 app.listen(5174, () => {
   console.log("Server has started on port 5174");
 });
+
+///////////// POMODORO BACKEND
 
 // Import timerState
 // Get current timer state
@@ -197,6 +182,8 @@ app.post("/api/timer", (req, res) => {
   setTimerState(newState);
   res.json({ message: "Timer updated successfully" });
 });
+
+///////////// POMODORO BACKEND
 
 // Settings
 app.use("/api/settings", settingsRouter);
