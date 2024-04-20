@@ -6,7 +6,7 @@ import { BackIcon } from "../components/icons";
 const CardView: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const handleOnClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -22,25 +22,26 @@ const CardView: React.FC = () => {
   const buttonAnimatedStyle = isButtonClicked
     ? { transform: "scale(0.98)" }
     : {};
-  const cardsData = [
-    {
-      question: "What is the formula of Force?",
-      answer: "Force = Mass × Acceleration",
-    },
-    {
-      question: "What is the capital of France?",
-      answer: "Paris",
-    },
-    {
-      question: "Who wrote Romeo and Juliet?",
-      answer: "William Shakespeare",
-    },
-  ];
 
+  const [cards, setCards] = useState([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [allCardsShown, setAllCardsShown] = useState(false);
   const [answeredCards, setAnsweredCards] = useState(0);
+
+  const getCards = async () => {
+    try {
+      const response = await fetch("http://localhost:5174/cards");
+      const jsonData = await response.json();
+      setCards(jsonData);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  useEffect(() => {
+    getCards();
+  }, []);
 
   const toggleExpansion = () => {
     if (!showAnswer) {
@@ -49,7 +50,7 @@ const CardView: React.FC = () => {
   };
 
   const handleNextCard = () => {
-    if (currentCardIndex === cardsData.length - 1) {
+    if (currentCardIndex === cards.length - 1) {
       setAllCardsShown(true);
     } else {
       setCurrentCardIndex((prevIndex) => prevIndex + 1);
@@ -60,7 +61,6 @@ const CardView: React.FC = () => {
 
   const handleButtonClick = (difficulty: string) => {
     if (showAnswer && !allCardsShown) {
-      // Handle button click based on difficulty
       console.log(`Button clicked: ${difficulty}`);
       setIsButtonClicked(true);
       setTimeout(() => {
@@ -110,9 +110,7 @@ const CardView: React.FC = () => {
     };
   }, [showAnswer, allCardsShown, handleOnClick]);
 
-  const progressPercentage = Math.round(
-    (answeredCards / cardsData.length) * 100
-  );
+  const progressPercentage = Math.round((answeredCards / cards.length) * 100);
 
   return (
     <div className="relative flex flex-col items-center w-full h-full">
@@ -138,8 +136,8 @@ const CardView: React.FC = () => {
         <h1 className="flex items-center justify-center w-full font-bold text-textBase">
           {!allCardsShown ? (
             <Card
-              question={cardsData[currentCardIndex].question}
-              answer={cardsData[currentCardIndex].answer}
+              question={cards[currentCardIndex]?.card_question || ""}
+              answer={cards[currentCardIndex]?.card_answer || ""}
               isExpanded={showAnswer}
               toggleExpansion={toggleExpansion}
             />
