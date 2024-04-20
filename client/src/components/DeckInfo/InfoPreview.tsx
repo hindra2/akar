@@ -1,47 +1,125 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { Edit, Ellipsis, Trash } from "../icons";
+import { useNavigate } from "react-router-dom";
 
 const InfoPreview = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
+  const [showDropdown, setShowDropdown] = useState<string | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
+  const navigate = useNavigate();
 
   // Function to toggle the flashcard's expansion
-  const toggleExpansion = () => {
-    setIsExpanded(!isExpanded);
-    // Reset showAnswer to false instantly if we are collapsing the card
-    if (isExpanded) setShowAnswer(false);
+  const toggleExpansion = (cardId: string) => {
+    setExpandedCard(expandedCard === cardId ? null : cardId);
+    setShowAnswer(expandedCard !== cardId);
+  };
+
+  // Function to toggle the dropdown
+  const toggleDropdown = (cardId: string) => {
+    setShowDropdown(showDropdown === cardId ? null : cardId);
+  };
+
+  // Backend
+  const [cards, setCards] = useState([]);
+
+  const getCards = async () => {
+    try {
+      const response = await fetch("http://localhost:5174/cards");
+      const jsonData = await response.json();
+      // Sort the cards in descending order based on card_id
+      const sortedCards = jsonData.sort((a, b) => b.card_id - a.card_id);
+      setCards(sortedCards);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const deleteCard = async (id) => {
+    try {
+      await fetch(`http://localhost:5174/cards/${id}`, {
+        method: "DELETE",
+      });
+      setCards(cards.filter((card) => card.card_id != id));
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  const editCard = (cardId: string) => {
+    const cardDetails = cards.find((card) => card.card_id === cardId);
+    navigate("/addcard", { state: { card: cardDetails } });
   };
 
   useEffect(() => {
-    if (isExpanded) {
-      // Wait for the expansion animation to finish before showing the answer
-      const timer = setTimeout(() => {
-        setShowAnswer(true);
-      }, 300); // This duration should match your transition duration
-      return () => clearTimeout(timer);
-    }
-  }, [isExpanded]);
+    getCards();
+  }, []);
+
   return (
-    <div>
-      <div
-        className={`w-full bg-surface0 rounded-lg mt-4 flex flex-col justify-center px-[20px] transition-all duration-300 ease-in-out cursor-pointer hover:bg-overlay0 hover:scale-[101%] ${
-          isExpanded ? "h-[100px]" : "h-[50px]"
-        }`}
-        onClick={toggleExpansion}
-      >
-        <span
-          className={`font-semibold transition-all duration-300 ease-in-out ${
-            isExpanded ? "text-xl text-textBase" : "text-textBase"
+    <div className="w-full">
+      {cards.map((card) => (
+        <div
+          key={card.card_id}
+          className={`w-full bg-surface0 rounded-lg mt-4 flex flex-col justify-center px-[20px] py-4 transition-all duration-300 ease-in-out cursor-pointer hover:scale-[101%] ${
+            expandedCard === card.card_id ? "min-h-[100px]" : "min-h-[50px]"
           }`}
+          onClick={() => toggleExpansion(card.card_id)}
         >
-          What is the formula of Force?
-        </span>
-        {showAnswer && (
-          <div className="transition-opacity duration-300 ease-in-out opacity-100">
-            <hr className="bg-surface1 my-[10px] h-[1px] border-0" />
-            <span className="text-textBase">Force = Mass × Acceleration</span>
+          <div className="flex items-center justify-between">
+            <span
+              className={`font-semibold transition-all duration-300 ease-in-out ${
+                expandedCard === card.card_id
+                  ? "text-xl text-textBase"
+                  : "text-textBase"
+              }`}
+            >
+              {card.card_question}
+            </span>
+            <div className="relative">
+              <button
+                className="fill-textBase focus:outline-none"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleDropdown(card.card_id);
+                }}
+              >
+                <Ellipsis />
+              </button>
+              {showDropdown === card.card_id && (
+                <div className="absolute right-0 w-32 mt-2 rounded-md shadow-lg bg-overlay0">
+                  <button
+                    className="flex w-full px-4 py-2 space-x-2 text-left text-white fill-white"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      editCard(card.card_id);
+                    }}
+                  >
+                    <Edit />
+                    <span>Edit</span>
+                  </button>
+                  <button
+                    className="flex w-full px-4 py-2 space-x-2 text-left text-white fill-white"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteCard(card.card_id);
+                    }}
+                  >
+                    <Trash />
+                    <span>Delete</span>
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-        )}
-      </div>
+          {expandedCard === card.card_id && (
+            <div className="transition-opacity duration-300 ease-in-out opacity-100">
+              <hr className="bg-surface1 my-[10px] h-[1px] border-0" />
+              <span className="break-words whitespace-normal text-textBase">
+                {card.card_answer}
+              </span>
+            </div>
+          )}
+        </div>
+      ))}
     </div>
   );
 };
