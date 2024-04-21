@@ -76,7 +76,7 @@ app.post("/users/login", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-///////////// LOGIN BACKEND
+////////////// LOGIN BACKEND
 
 ///////////// CARDS BACKEND
 
