@@ -19,6 +19,10 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
         username,
         password,
       });
+      const { token, userId, fullName } = response.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("fullName", fullName);
       navigate("/"); // Redirect to the homepage on successful login
     } catch (error) {
       if (error.response && error.response.data.error) {

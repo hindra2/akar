@@ -80,10 +80,33 @@ app.post("/users/login", async (req, res) => {
       const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
         expiresIn: "1h",
       });
-      res.json({ token, fullName: user.full_name });
+      res.json({ token, userId: user.id, fullName: user.full_name });
     } else {
       res.status(401).json({ error: "Invalid username or password" });
     }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Get user info by ID
+app.get("/users/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const userResult = await pool.query(
+      "SELECT id, full_name, username FROM users WHERE id = $1",
+      [userId]
+    );
+
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const user = userResult.rows[0];
+    console.log("Retrieved user:", user);
+    res.json(user);
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: "Internal server error" });

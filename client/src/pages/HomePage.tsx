@@ -35,8 +35,13 @@ const HomePage: React.FC = () => {
   const fetchUserInfo = async () => {
     try {
       const userId = localStorage.getItem("userId");
-      const response = await api.get(`/users/${userId}`);
-      setUser(response.data);
+      if (userId) {
+        const response = await api.get(`/users/${userId}`);
+        setUser(response.data);
+      } else {
+        console.error("User ID not found in localStorage");
+        // Handle the case when userId is null (e.g., redirect to login page)
+      }
     } catch (error) {
       console.error("Error fetching user info:", error);
     }

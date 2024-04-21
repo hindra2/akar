@@ -32,11 +32,15 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
     }
 
     try {
-      await axios.post("http://localhost:5174/users/register", {
-        fullName,
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:5174/users/register",
+        {
+          fullName,
+          username,
+          password,
+        }
+      );
+      console.log("User created:", response.data);
       navigate("/"); // Redirect to home page on successful registration
     } catch (error) {
       if (error.response && error.response.data.message) {

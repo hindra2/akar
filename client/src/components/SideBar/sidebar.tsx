@@ -24,11 +24,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, toggleSidebar }) => {
   const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate();
 
-  const handleOnClick = (e: React.MouseEvent) => {
+  const handleLogout = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsClicked(true);
     setTimeout(() => {
       setIsClicked(false);
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("fullName");
       navigate("/login");
     }, 70);
   };
@@ -88,7 +91,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, toggleSidebar }) => {
         <div className="p-4">
           <button
             className="flex rounded-lg hover:bg-overlay0 fill-textBase space-x-[12px] w-full"
-            onClick={handleOnClick}
+            onClick={handleLogout}
             style={animatedStyle}
           >
             <div className="flex items-center p-2">
