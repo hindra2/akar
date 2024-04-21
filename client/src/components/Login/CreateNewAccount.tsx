@@ -54,6 +54,18 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
         <form onSubmit={handleSubmit}>
           <div className="space-y-[10px]">
             <div className="flex flex-col space-y-[2px]">
+              <span className="text-textBase">Full Name</span>
+              <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
+                <input
+                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase"
+                  type="text"
+                  placeholder="full name"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col space-y-[2px]">
               <span className="text-textBase">Username or Email</span>
               <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
                 <input

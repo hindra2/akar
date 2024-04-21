@@ -108,7 +108,7 @@ app.post("/cards", async (req, res) => {
   }
 });
 
-// get all card
+// get all cards
 app.get("/cards", async (req, res) => {
   try {
     const allCards = await pool.query("SELECT * FROM cards");
@@ -135,10 +135,10 @@ app.get("/cards/:id", async (req, res) => {
 app.put("/cards/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { card_question } = req.body;
+    const { card_question, card_answer } = req.body;
     const updateCard = await pool.query(
-      "UPDATE cards SET card_question = $1 WHERE card_id = $2",
-      [card_question, id]
+      "UPDATE cards SET card_question = $1, card_answer = $2 WHERE card_id = $3",
+      [card_question, card_answer, id]
     );
 
     res.json("Card was updated");
@@ -160,8 +160,72 @@ app.delete("/cards/:id", async (req, res) => {
     console.log(err.message);
   }
 });
-
 ///////////// CARDS BACKEND
+
+///////////// DECKS BACKEND
+
+// create a deck
+app.post("/decks", async (req, res) => {
+  const { deck_name, user_id } = req.body;
+  try {
+    const newDeck = await pool.query(
+      "INSERT INTO decks (deck_name, user_id) VALUES ($1, $2) RETURNING *",
+      [deck_name, user_id]
+    );
+    res.json(newDeck.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Failed to create deck" });
+  }
+});
+
+// get all decks for a user
+app.get("/decks/:user_id", async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const userDecks = await pool.query(
+      "SELECT * FROM decks WHERE user_id = $1",
+      [user_id]
+    );
+    res.json(userDecks.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Failed to retrieve decks" });
+  }
+});
+
+// add a card to a deck
+app.post("/decks/:deck_id/cards", async (req, res) => {
+  const { deck_id } = req.params;
+  const { card_id } = req.body;
+  try {
+    const newDeckCard = await pool.query(
+      "INSERT INTO deck_cards (deck_id, card_id) VALUES ($1, $2) RETURNING *",
+      [deck_id, card_id]
+    );
+    res.json(newDeckCard.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Failed to add card to deck" });
+  }
+});
+
+// get all cards in a deck
+app.get("/decks/:deck_id/cards", async (req, res) => {
+  const { deck_id } = req.params;
+  try {
+    const deckCards = await pool.query(
+      "SELECT c.* FROM cards c INNER JOIN deck_cards dc ON c.card_id = dc.card_id WHERE dc.deck_id = $1",
+      [deck_id]
+    );
+    res.json(deckCards.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Failed to retrieve cards from deck" });
+  }
+});
+
+///////////// DECKS BACKEND
 
 app.listen(5174, () => {
   console.log("Server has started on port 5174");
