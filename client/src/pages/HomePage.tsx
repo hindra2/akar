@@ -65,6 +65,9 @@ const HomePage: React.FC = () => {
               key={deck.deck_id}
               name={deck.deck_name}
               deckId={deck.deck_id}
+              newLabel="5"
+              learningLabel="2"
+              reviewLabel="9"
             />
           ))}
         </div>
