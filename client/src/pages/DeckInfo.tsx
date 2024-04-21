@@ -1,6 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
-
 import DeckPreview from "../components/DeckInfo/DeckPreview";
 import DeckSettings from "../components/DeckInfo/DeckSettings";
 import InfoPreview from "../components/DeckInfo/InfoPreview";
@@ -9,23 +8,22 @@ import { BackIcon, SearchIcon } from "../components/icons";
 
 const DeckInfo: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
+  const location = useLocation();
+  const deckId = location.state?.deckId;
 
-  // Function to handle back button click, navigating to the root "/"
   const handleBackClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsClicked(true);
-
     setTimeout(() => {
       setIsClicked(false);
-      navigate("/"); // Navigate to the root page
+      navigate("/");
     }, 70);
   };
 
-  // Function to handle the "Study Now" button click, reloading the current page
   const handleStudyNowClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigate("/cardview"); // Reload the current page
+    navigate("/cardview", { state: { deckId } });
   };
 
   const animatedStyle = isClicked ? { transform: "scale(0.98)" } : {};
@@ -44,21 +42,17 @@ const DeckInfo: React.FC = () => {
           <div className="text-2xl font-semibold text-textBase">CS 173</div>
           <DeckSettings />
         </div>
-
         <DeckPreview />
-
         <div className="flex justify-center align-middle item-center">
           <button
             className="mt-[40px] bg-surface1 w-[300px] py-[10px] rounded-lg hover:bg-overlay0 hover:scale-[101%]"
-            onClick={handleStudyNowClick} // Updated to handle the "Study Now" click
+            onClick={handleStudyNowClick}
             style={animatedStyle}
           >
             <span className="text-textBase">Study Now</span>
           </button>
         </div>
-
         <hr className="bg-surface1 my-[70px] h-0.5 border-0" />
-
         <div className="flex items-center p-2 rounded-lg bg-surface1">
           <input
             className="w-full ml-2 text-white placeholder-gray-300 bg-transparent outline-none"
@@ -69,10 +63,9 @@ const DeckInfo: React.FC = () => {
             <SearchIcon />
           </div>
         </div>
-
         <div>
-          <NewCard />
-          <InfoPreview />
+          {deckId && <NewCard deckId={deckId} />}
+          {deckId && <InfoPreview deckId={deckId} />}
         </div>
       </div>
     </div>

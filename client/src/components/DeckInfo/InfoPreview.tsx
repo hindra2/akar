@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Edit, Ellipsis, Trash } from "../icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const InfoPreview = () => {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
@@ -20,11 +20,15 @@ const InfoPreview = () => {
   };
 
   // Backend
+  const location = useLocation();
+  const deckId = location.state?.deckId;
   const [cards, setCards] = useState([]);
 
   const getCards = async () => {
     try {
-      const response = await fetch("http://localhost:5174/cards");
+      const response = await fetch(
+        `http://localhost:5174/decks/${deckId}/cards`
+      );
       const jsonData = await response.json();
       // Sort the cards in descending order based on card_id
       const sortedCards = jsonData.sort((a, b) => b.card_id - a.card_id);
@@ -39,15 +43,15 @@ const InfoPreview = () => {
       await fetch(`http://localhost:5174/cards/${id}`, {
         method: "DELETE",
       });
-      setCards(cards.filter((card) => card.card_id != id));
+      setCards(cards.filter((card) => card.card_id !== id));
     } catch (err) {
       console.error(err.message);
     }
   };
 
-  const editCard = (cardId: string) => {
+  const editCard = (cardId) => {
     const cardDetails = cards.find((card) => card.card_id === cardId);
-    navigate("/addcard", { state: { card: cardDetails } });
+    navigate("/addcard", { state: { card: cardDetails, deckId: deckId } });
   };
 
   useEffect(() => {

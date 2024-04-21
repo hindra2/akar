@@ -2,17 +2,20 @@ import { PlusIcon } from "../icons";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const NewCard = () => {
+interface NewCardProps {
+  deckId: number;
+}
+
+const NewCard: React.FC<NewCardProps> = ({ deckId }) => {
   const [isClicked, setIsClicked] = useState(false);
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const handleOnClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsClicked(true);
-
     setTimeout(() => {
       setIsClicked(false);
-      navigate("/addcard");
+      navigate("/addcard", { state: { deckId } });
     }, 70);
   };
 
@@ -28,7 +31,7 @@ const NewCard = () => {
         <div className="fill-textBase">
           <PlusIcon />
         </div>
-        <span className=" text-Subtext0 ml-[10px] font-semibold">New Card</span>
+        <span className="text-Subtext0 ml-[10px] font-semibold">New Card</span>
       </button>
     </div>
   );

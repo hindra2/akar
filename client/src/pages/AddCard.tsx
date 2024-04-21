@@ -60,6 +60,7 @@ const AddCard: React.FC = () => {
   // backend
   const location = useLocation();
   const cardToEdit = location.state?.card;
+  const deckId = location.state?.deckId; // Get the deckId from the location state
 
   const [question, setQuestion] = useState(cardToEdit?.card_question || "");
   const [answer, setAnswer] = useState(cardToEdit?.card_answer || "");
@@ -81,8 +82,8 @@ const AddCard: React.FC = () => {
           }
         );
       } else {
-        // Create new card
-        response = await fetch("http://localhost:5174/cards", {
+        // Create new card for the specified deck
+        response = await fetch(`http://localhost:5174/decks/${deckId}/cards`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
@@ -93,7 +94,7 @@ const AddCard: React.FC = () => {
       // Clear the form fields after submission
       setQuestion("");
       setAnswer("");
-      navigate("/deckInfo");
+      navigate("/deckInfo", { state: { deckId: deckId } }); // Pass the deckId to the deckInfo page
     } catch (err) {
       console.error(err.message);
     }

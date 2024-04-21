@@ -4,9 +4,10 @@ import { ArrowIcon } from "../icons";
 
 interface DeckProps {
   name: string;
+  deckId: number;
 }
 
-const Deck: React.FC<DeckProps> = ({ name }) => {
+const Deck: React.FC<DeckProps> = ({ name, deckId }) => {
   const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate();
 
@@ -15,7 +16,7 @@ const Deck: React.FC<DeckProps> = ({ name }) => {
     setIsClicked(true);
     setTimeout(() => {
       setIsClicked(false);
-      navigate("/deckinfo");
+      navigate("/deckinfo", { state: { deckId } });
     }, 70);
   };
 

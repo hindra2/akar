@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Card from "../components/CardView/Card";
 import { BackIcon } from "../components/icons";
 
@@ -23,6 +23,9 @@ const CardView: React.FC = () => {
     ? { transform: "scale(0.98)" }
     : {};
 
+  const location = useLocation();
+  const deckId = location.state?.deckId; // Get the deckId from the location state
+
   const [cards, setCards] = useState([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -31,7 +34,9 @@ const CardView: React.FC = () => {
 
   const getCards = async () => {
     try {
-      const response = await fetch("http://localhost:5174/cards");
+      const response = await fetch(
+        `http://localhost:5174/decks/${deckId}/cards`
+      );
       const jsonData = await response.json();
       setCards(jsonData);
     } catch (err) {

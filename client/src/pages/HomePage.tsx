@@ -61,7 +61,11 @@ const HomePage: React.FC = () => {
         <div className="flex flex-col items-end">
           <NewDeck onDeckCreated={fetchDecks} />
           {decks.map((deck) => (
-            <Deck key={deck.deck_id} name={deck.deck_name} />
+            <Deck
+              key={deck.deck_id}
+              name={deck.deck_name}
+              deckId={deck.deck_id}
+            />
           ))}
         </div>
         <div className="mt-[30%] flex justify-center items-center">
