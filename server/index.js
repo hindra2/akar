@@ -105,7 +105,6 @@ app.get("/users/:userId", async (req, res) => {
     }
 
     const user = userResult.rows[0];
-    console.log("Retrieved user:", user);
     res.json(user);
   } catch (err) {
     console.error(err.message);
@@ -231,6 +230,25 @@ app.get("/decks/:userId", async (req, res) => {
     res.json(allDecks.rows);
   } catch (err) {
     console.error(err.message);
+  }
+});
+
+// get a single deck by id
+app.get("/decks/:deckId", async (req, res) => {
+  try {
+    const { deckId } = req.params;
+    const deck = await pool.query("SELECT * FROM decks WHERE deck_id = $1", [
+      deckId,
+    ]);
+
+    if (deck.rows.length === 0) {
+      return res.status(404).json({ error: "Deck not found" });
+    }
+
+    res.json(deck.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

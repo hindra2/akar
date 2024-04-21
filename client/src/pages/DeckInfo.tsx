@@ -1,16 +1,44 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DeckPreview from "../components/DeckInfo/DeckPreview";
 import DeckSettings from "../components/DeckInfo/DeckSettings";
 import InfoPreview from "../components/DeckInfo/InfoPreview";
 import NewCard from "../components/DeckInfo/NewCard";
 import { BackIcon, SearchIcon } from "../components/icons";
+import api from "../api";
+
+interface Deck {
+  deck_id: number;
+  deck_name: string;
+  user_id: number;
+}
 
 const DeckInfo: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
+  const [deck, setDeck] = useState<Deck | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const deckId = location.state?.deckId;
+
+  useEffect(() => {
+    const fetchDeck = async () => {
+      try {
+        if (deckId) {
+          console.log("Fetching deck with ID:", deckId);
+          const response = await api.get(`/decks/${deckId}`);
+          console.log("API response:", response);
+          console.log("Fetched deck data:", response.data);
+          setDeck(response.data);
+        } else {
+          console.log("Deck ID is null or undefined");
+        }
+      } catch (error) {
+        console.error("Error fetching deck:", error);
+      }
+    };
+
+    fetchDeck();
+  }, [deckId]);
 
   const handleBackClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -39,7 +67,9 @@ const DeckInfo: React.FC = () => {
       </button>
       <div className="w-[700px] h-full mt-[200px]">
         <div className="flex justify-between">
-          <div className="text-2xl font-semibold text-textBase">CS 173</div>
+          <div className="text-2xl font-semibold text-textBase">
+            {deck?.deck_name || "Loading..."}
+          </div>
           <DeckSettings />
         </div>
         <DeckPreview />
