@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { PlusIcon } from "../icons";
 import NewDeckPopup from "./NewDeck-popup";
+import api from "../../api";
 
-const NewDeck = () => {
+interface NewDeckProps {
+  onDeckCreated: () => void;
+}
+
+const NewDeck: React.FC<NewDeckProps> = ({ onDeckCreated }) => {
   const [isNewDeckPopupOpen, setIsNewDeckPopupOpen] = useState(false);
 
   const openNewDeckPopup = () => {
@@ -11,6 +16,19 @@ const NewDeck = () => {
 
   const closeNewDeckPopup = () => {
     setIsNewDeckPopupOpen(false);
+  };
+
+  const handleCreateDeck = async (deckName: string) => {
+    try {
+      const userId = localStorage.getItem("userId");
+      console.log("Creating deck with name:", deckName, "and user ID:", userId); // Log the values
+
+      await api.post("/decks", { deck_name: deckName, user_id: userId });
+      closeNewDeckPopup();
+      onDeckCreated();
+    } catch (error) {
+      console.error("Error creating deck:", error);
+    }
   };
 
   return (
@@ -25,7 +43,11 @@ const NewDeck = () => {
           </span>
         </div>
       </button>
-      <NewDeckPopup isOpen={isNewDeckPopupOpen} onClose={closeNewDeckPopup} />
+      <NewDeckPopup
+        isOpen={isNewDeckPopupOpen}
+        onClose={closeNewDeckPopup}
+        onCreateDeck={handleCreateDeck}
+      />
     </div>
   );
 };
