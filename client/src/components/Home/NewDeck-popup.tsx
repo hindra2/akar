@@ -3,12 +3,18 @@ import React, { useRef, useEffect, useState } from "react";
 interface PropOpen {
   isOpen: boolean;
   onClose: () => void;
+  onCreateDeck: (deckName: string) => void;
 }
 
-const NewDeckPopup: React.FC<PropOpen> = ({ isOpen, onClose }) => {
+const NewDeckPopup: React.FC<PropOpen> = ({
+  isOpen,
+  onClose,
+  onCreateDeck,
+}) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [animate, setAnimate] = useState(false);
+  const [deckName, setDeckName] = useState("");
 
   useEffect(() => {
     if (isOpen) {
@@ -29,11 +35,17 @@ const NewDeckPopup: React.FC<PropOpen> = ({ isOpen, onClose }) => {
         onClose();
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
+
+  const handleCreateDeck = () => {
+    onCreateDeck(deckName);
+    setDeckName("");
+  };
 
   if (!visible) {
     return null;
@@ -63,6 +75,8 @@ const NewDeckPopup: React.FC<PropOpen> = ({ isOpen, onClose }) => {
               <input
                 className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase"
                 type="text"
+                value={deckName}
+                onChange={(e) => setDeckName(e.target.value)}
               />
             </div>
           </div>
@@ -73,7 +87,10 @@ const NewDeckPopup: React.FC<PropOpen> = ({ isOpen, onClose }) => {
             >
               Cancel
             </button>
-            <button className="w-[75px] py-[7px] text-textBase bg-surface2 rounded-lg hover:bg-overlay1 hover:scale-[101%]">
+            <button
+              className="w-[75px] py-[7px] text-textBase bg-surface2 rounded-lg hover:bg-overlay1 hover:scale-[101%]"
+              onClick={handleCreateDeck}
+            >
               Create
             </button>
           </div>

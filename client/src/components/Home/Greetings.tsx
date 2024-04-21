@@ -1,3 +1,5 @@
+import React from "react";
+
 const getGreeting = (): string => {
   const hour = new Date().getHours();
   if (hour >= 5 && hour < 12) return "Good Morning";
@@ -6,12 +8,18 @@ const getGreeting = (): string => {
   return "Good Night";
 };
 
-const Greetings = () => {
+interface GreetingsProps {
+  fullName: string;
+}
+
+const Greetings: React.FC<GreetingsProps> = ({ fullName }) => {
   const greeting = getGreeting();
+  const firstName = fullName.split(" ")[0];
+
   return (
     <div>
       <span className="text-5xl font-semibold text-center text-textBase">
-        {greeting}, John
+        {greeting}, {firstName}
       </span>
     </div>
   );

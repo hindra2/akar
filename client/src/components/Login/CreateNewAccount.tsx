@@ -7,6 +7,7 @@ interface CreateNewAccountProps {
 }
 
 const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
+  const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -32,6 +33,7 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
 
     try {
       await axios.post("http://localhost:5174/users/register", {
+        fullName,
         username,
         password,
       });
@@ -60,8 +62,8 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
                   className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase"
                   type="text"
                   placeholder="full name"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
                 />
               </div>
             </div>
