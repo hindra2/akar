@@ -74,56 +74,42 @@ const AddCard: React.FC = () => {
 
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const body = { card_question: question, card_answer: answer };
-      let response;
+    const body = { card_question: question, card_answer: answer };
+    let response;
 
-      if (cardToEdit) {
-        // Update existing card
-        response = await fetch(
-          `http://localhost:5174/cards/${cardToEdit.card_id}`,
-          {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
-          }
-        );
-        // Show Sonner toast for successfully updating a card
-        toast.success("Card updated successfully!", {
-          position: "bottom-right",
-          duration: 2000,
-          theme: {
-            success: "bg-green-500 text-white",
-          },
-        });
-      } else {
-        // Create new card for the specified deck
-        response = await fetch(`http://localhost:5174/decks/${deckId}/cards`, {
-          method: "POST",
+    if (cardToEdit) {
+      // Editing existing card
+      response = await fetch(
+        `http://localhost:5174/cards/${cardToEdit.card_id}`,
+        {
+          method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
-        });
-        // Show Sonner toast for successfully creating a new card
-        toast.success("New card added successfully!", {
-          position: "bottom-right",
-          duration: 2000,
-          theme: {
-            success: "bg-green-500 text-white",
-          },
-        });
-      }
+        }
+      );
+      // Navigate back immediately without showing a toast
+      navigate("/deckInfo", { state: { deckId, deckName } });
+    } else {
+      // Adding new card
+      response = await fetch(`http://localhost:5174/decks/${deckId}/cards`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      toast.success("New card added successfully!", {
+        position: "bottom-right",
+        duration: 2000,
+        theme: {
+          success: "bg-green-500 text-white",
+        },
+      });
+    }
 
-      console.log(response);
-      // Clear the form fields after submission
+    console.log(response);
+    // Clear fields only on successful card addition
+    if (!cardToEdit) {
       setQuestion("");
       setAnswer("");
-
-      // Wait for the Sonner toast to be displayed before navigating
-      setTimeout(() => {
-        navigate("/deckInfo", { state: { deckId, deckName } });
-      }, 2000);
-    } catch (err) {
-      console.error(err.message);
     }
   };
 
