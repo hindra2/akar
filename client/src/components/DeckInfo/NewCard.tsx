@@ -4,18 +4,20 @@ import { useNavigate } from "react-router-dom";
 
 interface NewCardProps {
   deckId: number;
+  deckName: string;
 }
 
-const NewCard: React.FC<NewCardProps> = ({ deckId }) => {
+const NewCard: React.FC<NewCardProps> = ({ deckId, deckName }) => {
   const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate();
 
   const handleOnClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsClicked(true);
+
     setTimeout(() => {
       setIsClicked(false);
-      navigate("/addcard", { state: { deckId } });
+      navigate("/addcard", { state: { deckId, deckName } });
     }, 70);
   };
 
