@@ -13,6 +13,9 @@ node_modules
 dist
 dist-ssr
 *.local
+/server/firebase-credentials.json
+/client/src/firebase.ts
+/server/scripts/firebase.js
 
 # Editor directories and files
 .vscode/*
