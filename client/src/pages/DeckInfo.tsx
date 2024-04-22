@@ -19,7 +19,6 @@ const DeckInfo: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const deckId = location.state?.deckId;
-  const deckName = location.state?.deckName;
 
   useEffect(() => {
     const fetchDeck = async () => {
@@ -36,12 +35,14 @@ const DeckInfo: React.FC = () => {
         console.error("Error fetching deck:", error);
       }
     };
+
     fetchDeck();
   }, [deckId]);
 
   const handleBackClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsClicked(true);
+
     setTimeout(() => {
       setIsClicked(false);
       navigate("/");
@@ -71,7 +72,7 @@ const DeckInfo: React.FC = () => {
       <div className="w-[700px] h-full mt-[200px]">
         <div className="flex justify-between">
           <div className="text-2xl font-semibold text-textBase">
-            {deckName || "Loading..."}
+            {deck?.deck_name || "Loading..."}
           </div>
           <DeckSettings deckId={deckId} onDelete={handleDeleteDeck} />
         </div>

@@ -23,6 +23,7 @@ export default {
         surface1: "#45475a",
         surface2: "#585b70",
         rosewater: "#f5e0dc",
+        green: "#a6e3a1",
         red: "#f38ba8",
         teal: "#94e2d5",
         accent: "#89b4fa",

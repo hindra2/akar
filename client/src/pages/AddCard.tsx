@@ -1,10 +1,25 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { BackIcon, Edit, PlusIcon } from "../components/icons";
+import { Toaster, toast } from "sonner";
+
+interface Card {
+  card_id: number;
+  card_question: string;
+  card_answer: string;
+}
 
 const AddCard: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate(); // Hook for navigation
+  const location = useLocation();
+
+  const cardToEdit = location.state?.card;
+  const deckId = location.state?.deckId;
+  const deckName = location.state?.deckName;
+
+  const [question, setQuestion] = useState(cardToEdit?.card_question || "");
+  const [answer, setAnswer] = useState(cardToEdit?.card_answer || "");
 
   const handleOnClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -12,7 +27,7 @@ const AddCard: React.FC = () => {
 
     setTimeout(() => {
       setIsClicked(false);
-      navigate("/deckInfo");
+      navigate("/deckInfo", { state: { deckId, deckName } });
     }, 70);
   };
 
@@ -57,14 +72,6 @@ const AddCard: React.FC = () => {
     };
   }, []);
 
-  // backend
-  const location = useLocation();
-  const cardToEdit = location.state?.card;
-  const deckId = location.state?.deckId; // Get the deckId from the location state
-
-  const [question, setQuestion] = useState(cardToEdit?.card_question || "");
-  const [answer, setAnswer] = useState(cardToEdit?.card_answer || "");
-
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -81,6 +88,8 @@ const AddCard: React.FC = () => {
             body: JSON.stringify(body),
           }
         );
+        // Navigate back to the DeckInfo page with the deckId and deckName
+        navigate("/deckInfo", { state: { deckId, deckName } });
       } else {
         // Create new card for the specified deck
         response = await fetch(`http://localhost:5174/decks/${deckId}/cards`, {
@@ -88,13 +97,20 @@ const AddCard: React.FC = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
+        // Show Sonner toast for successfully creating a new card
+        toast.success("New card added successfully!", {
+          position: "bottom-left",
+          duration: 2000,
+          theme: {
+            success: "bg-green-500 text-white",
+          },
+        });
       }
 
       console.log(response);
       // Clear the form fields after submission
       setQuestion("");
       setAnswer("");
-      navigate("/deckInfo", { state: { deckId: deckId } }); // Pass the deckId to the deckInfo page
     } catch (err) {
       console.error(err.message);
     }
@@ -211,7 +227,7 @@ const AddCard: React.FC = () => {
           <div className="flex justify-end w-full">
             <button
               type="submit"
-              className="px-[20px] h-[40px] bg-surface2 rounded-lg flex justify-center items-center hover:bg-overlay0 hover:scale-[101%] mt-[30px]"
+              className="px-[20px] h-[40px] bg-surface2 rounded-lg flex justify-center items-center hover:bg-overlay0 hover:scale-[101%] mt-[30px] transition duration-200 ease-in-out"
             >
               {cardToEdit ? (
                 <>
@@ -236,6 +252,7 @@ const AddCard: React.FC = () => {
           </div>
         </form>
       </div>
+      <Toaster richColors />
     </div>
   );
 };
