@@ -97,7 +97,7 @@ const AddCard: React.FC = () => {
         body: JSON.stringify(body),
       });
       toast.success("New card added successfully!", {
-        position: "bottom-left",
+        position: "bottom-right",
         duration: 2000,
         theme: {
           success: "bg-green-500 text-white",
