@@ -5,6 +5,7 @@ const pool = require("./db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
+require("dotenv").config({ path: ".env.server" });
 
 //middleware
 app.use(cors());
