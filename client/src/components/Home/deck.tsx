@@ -25,7 +25,7 @@ const Deck: React.FC<DeckProps> = ({
     setIsClicked(true);
     setTimeout(() => {
       setIsClicked(false);
-      navigate("/deckinfo", { state: { deckId } });
+      navigate("/deckinfo", { state: { deckId, deckName: name } });
     }, 70);
   };
 

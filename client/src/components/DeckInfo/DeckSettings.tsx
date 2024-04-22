@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../../api";
 import {
   Edit,
   SettingsIcon,
@@ -9,11 +11,34 @@ import {
   Advanced,
 } from "../icons";
 
-const DeckSettings = () => {
+interface DeckSettingsProps {
+  deckId: number | undefined;
+  onDelete: () => void;
+}
+
+const DeckSettings: React.FC<DeckSettingsProps> = ({ deckId, onDelete }) => {
+  console.log("DeckSettings - deckId:", deckId);
   const [showSettingsDropdown, setShowSettingsDropdown] = useState(false);
+  const navigate = useNavigate();
 
   const toggleSettingsDropdown = () => {
     setShowSettingsDropdown(!showSettingsDropdown);
+  };
+
+  const handleDeleteDeck = async () => {
+    if (!deckId) {
+      console.error("Deck ID is undefined");
+      return;
+    }
+
+    try {
+      console.log("Deleting deck with ID:", deckId);
+      await api.delete(`/decks/${deckId}`);
+      onDelete();
+      navigate("/");
+    } catch (error) {
+      console.error("Error deleting deck:", error);
+    }
   };
 
   return (
@@ -38,7 +63,6 @@ const DeckSettings = () => {
             <Edit />
             <span>Rename</span>
           </button>
-
           <button
             className="flex w-full py-2 space-x-2 text-left text-white fill-white"
             onClick={(e) => {
@@ -57,7 +81,6 @@ const DeckSettings = () => {
             <Import />
             <span>Import</span>
           </button>
-
           <button
             className="flex w-full py-2 space-x-2 text-left text-white fill-white"
             onClick={(e) => {
@@ -67,7 +90,6 @@ const DeckSettings = () => {
             <Export />
             <span>Export</span>
           </button>
-
           <button
             className="flex w-full py-2 space-x-2 text-left text-white fill-white"
             onClick={(e) => {
@@ -77,11 +99,11 @@ const DeckSettings = () => {
             <Advanced />
             <span>Advanced</span>
           </button>
-
           <button
             className="flex w-full px-4 py-2 space-x-2 text-left fill-rose-500 text-rose-500"
             onClick={(e) => {
               e.stopPropagation();
+              handleDeleteDeck();
             }}
           >
             <Trash />

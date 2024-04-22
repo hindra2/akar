@@ -282,6 +282,37 @@ app.get("/decks/:deckId/cards", async (req, res) => {
   }
 });
 
+// Delete a deck and its associated cards
+app.delete("/decks/:deckId", async (req, res) => {
+  try {
+    const { deckId } = req.params;
+    console.log("Received delete request for deck ID:", deckId);
+
+    await pool.query("BEGIN");
+
+    console.log("Deleting cards from deck_cards table...");
+    await pool.query("DELETE FROM deck_cards WHERE deck_id = $1", [deckId]);
+
+    console.log("Deleting cards from cards table...");
+    await pool.query(
+      "DELETE FROM cards WHERE card_id IN (SELECT card_id FROM deck_cards WHERE deck_id = $1)",
+      [deckId]
+    );
+
+    console.log("Deleting deck from decks table...");
+    await pool.query("DELETE FROM decks WHERE deck_id = $1", [deckId]);
+
+    await pool.query("COMMIT");
+    console.log("Deck and associated cards deleted successfully");
+
+    res.sendStatus(204);
+  } catch (err) {
+    await pool.query("ROLLBACK");
+    console.error("Error deleting deck:", err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 ///////////// DECKS BACKEND
 
 app.listen(5174, () => {

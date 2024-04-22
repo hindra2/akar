@@ -19,6 +19,7 @@ const DeckInfo: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const deckId = location.state?.deckId;
+  const deckName = location.state?.deckName;
 
   useEffect(() => {
     const fetchDeck = async () => {
@@ -26,17 +27,15 @@ const DeckInfo: React.FC = () => {
         if (deckId) {
           console.log("Fetching deck with ID:", deckId);
           const response = await api.get(`/decks/${deckId}`);
-          console.log("API response:", response);
           console.log("Fetched deck data:", response.data);
           setDeck(response.data);
         } else {
-          console.log("Deck ID is null or undefined");
+          console.log("Deck ID is undefined");
         }
       } catch (error) {
         console.error("Error fetching deck:", error);
       }
     };
-
     fetchDeck();
   }, [deckId]);
 
@@ -54,6 +53,10 @@ const DeckInfo: React.FC = () => {
     navigate("/cardview", { state: { deckId } });
   };
 
+  const handleDeleteDeck = () => {
+    setDeck(null); // Update the deck state to null after deletion
+  };
+
   const animatedStyle = isClicked ? { transform: "scale(0.98)" } : {};
 
   return (
@@ -68,9 +71,9 @@ const DeckInfo: React.FC = () => {
       <div className="w-[700px] h-full mt-[200px]">
         <div className="flex justify-between">
           <div className="text-2xl font-semibold text-textBase">
-            {deck?.deck_name || "Loading..."}
+            {deckName || "Loading..."}
           </div>
-          <DeckSettings />
+          <DeckSettings deckId={deckId} onDelete={handleDeleteDeck} />
         </div>
         <DeckPreview />
         <div className="flex justify-center align-middle item-center">

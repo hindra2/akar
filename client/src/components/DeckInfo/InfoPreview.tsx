@@ -89,7 +89,7 @@ const InfoPreview = () => {
                 <Ellipsis />
               </button>
               {showDropdown === card.card_id && (
-                <div className="absolute right-0 w-32 mt-2 rounded-md shadow-lg bg-overlay0 ring-2 ring-overlay1">
+                <div className="absolute right-0 w-32 mt-2 rounded-md shadow-lg bg-surface1 ring-1 ring-overlay0">
                   <button
                     className="flex w-full px-4 py-2 space-x-2 text-left text-white fill-white"
                     onClick={(e) => {
