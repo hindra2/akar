@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Edit, Ellipsis, Trash } from "../icons";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Toaster, toast } from "sonner";
 
 const InfoPreview = () => {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
@@ -22,6 +23,7 @@ const InfoPreview = () => {
   // Backend
   const location = useLocation();
   const deckId = location.state?.deckId;
+  const deckName = location.state?.deckName;
   const [cards, setCards] = useState([]);
 
   const getCards = async () => {
@@ -44,6 +46,14 @@ const InfoPreview = () => {
         method: "DELETE",
       });
       setCards(cards.filter((card) => card.card_id !== id));
+      // Show Sonner toast for successfully deleting a card
+      toast.success("Card deleted successfully!", {
+        position: "bottom-right",
+        duration: 2000,
+        theme: {
+          success: "bg-green-500 text-white",
+        },
+      });
     } catch (err) {
       console.error(err.message);
     }
@@ -51,7 +61,9 @@ const InfoPreview = () => {
 
   const editCard = (cardId) => {
     const cardDetails = cards.find((card) => card.card_id === cardId);
-    navigate("/addcard", { state: { card: cardDetails, deckId: deckId } });
+    navigate("/addcard", {
+      state: { card: cardDetails, deckId: deckId, deckName: deckName },
+    });
   };
 
   useEffect(() => {
@@ -124,6 +136,7 @@ const InfoPreview = () => {
           )}
         </div>
       ))}
+      <Toaster richColors />
     </div>
   );
 };
