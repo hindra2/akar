@@ -88,8 +88,14 @@ const AddCard: React.FC = () => {
             body: JSON.stringify(body),
           }
         );
-        // Navigate back to the DeckInfo page with the deckId and deckName
-        navigate("/deckInfo", { state: { deckId, deckName } });
+        // Show Sonner toast for successfully updating a card
+        toast.success("Card updated successfully!", {
+          position: "bottom-right",
+          duration: 2000,
+          theme: {
+            success: "bg-green-500 text-white",
+          },
+        });
       } else {
         // Create new card for the specified deck
         response = await fetch(`http://localhost:5174/decks/${deckId}/cards`, {
@@ -99,7 +105,7 @@ const AddCard: React.FC = () => {
         });
         // Show Sonner toast for successfully creating a new card
         toast.success("New card added successfully!", {
-          position: "bottom-left",
+          position: "bottom-right",
           duration: 2000,
           theme: {
             success: "bg-green-500 text-white",
@@ -111,6 +117,11 @@ const AddCard: React.FC = () => {
       // Clear the form fields after submission
       setQuestion("");
       setAnswer("");
+
+      // Wait for the Sonner toast to be displayed before navigating
+      setTimeout(() => {
+        navigate("/deckInfo", { state: { deckId, deckName } });
+      }, 2000);
     } catch (err) {
       console.error(err.message);
     }
