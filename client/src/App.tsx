@@ -19,6 +19,7 @@ import LoginPage from "./pages/LoginPage";
 import Sidebar from "./components/SideBar/sidebar";
 import CardView from "./pages/CardView";
 import AddCard from "./pages/AddCard";
+import LandingPage from "./pages/Landing";
 
 // Type for children prop
 interface LayoutWithSidebarProps {
@@ -150,6 +151,7 @@ const App: React.FC = () => {
           }
         />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/landing" element={<LandingPage />} />
       </Routes>
     </Router>
   );
