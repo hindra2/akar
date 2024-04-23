@@ -25,3 +25,14 @@ CREATE TABLE deck_cards (
   FOREIGN KEY (deck_id) REFERENCES decks (deck_id),
   FOREIGN KEY (card_id) REFERENCES cards (card_id)
 );
+
+CREATE TABLE card_stats (
+  card_id INT PRIMARY KEY,
+  deck_id INT NOT NULL,
+  easiness_factor FLOAT NOT NULL DEFAULT 2.5,
+  repetitions INT NOT NULL DEFAULT 0,
+  last_interval INT NOT NULL DEFAULT 0,
+  due_date TIMESTAMP NOT NULL DEFAULT NOW(),
+  FOREIGN KEY (card_id) REFERENCES cards (card_id),
+  FOREIGN KEY (deck_id) REFERENCES decks (deck_id)
+);

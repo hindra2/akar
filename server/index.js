@@ -27,20 +27,30 @@ app.post("/users/register", async (req, res) => {
   }
 
   if (password.length < 6) {
-    return res.status(400).json({ message: "Password must be at least 6 characters long" });
+    return res
+      .status(400)
+      .json({ message: "Password must be at least 6 characters long" });
   }
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const userExists = await pool.query("SELECT * FROM users WHERE username = $1", [username]);
+    const userExists = await pool.query(
+      "SELECT * FROM users WHERE username = $1",
+      [username]
+    );
 
     if (userExists.rows.length > 0) {
       return res.status(400).json({ message: "Username already registered" });
     }
 
-    const newUser = await pool.query("INSERT INTO users (full_name, username, password) VALUES ($1, $2, $3) RETURNING id, full_name, username", [fullName, username, hashedPassword]);
+    const newUser = await pool.query(
+      "INSERT INTO users (full_name, username, password) VALUES ($1, $2, $3) RETURNING id, full_name, username",
+      [fullName, username, hashedPassword]
+    );
 
-    res.status(201).json({ message: "User registered successfully", user: newUser.rows[0] });
+    res
+      .status(201)
+      .json({ message: "User registered successfully", user: newUser.rows[0] });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: "Internal server error" });
@@ -56,7 +66,10 @@ app.post("/users/login", async (req, res) => {
   }
 
   try {
-    const userResult = await pool.query("SELECT id, full_name, username, password FROM users WHERE username = $1", [username]);
+    const userResult = await pool.query(
+      "SELECT id, full_name, username, password FROM users WHERE username = $1",
+      [username]
+    );
 
     if (userResult.rows.length === 0) {
       return res.status(401).json({ error: "Invalid username or password" });
@@ -84,7 +97,10 @@ app.get("/users/:userId", async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const userResult = await pool.query("SELECT id, full_name, username FROM users WHERE id = $1", [userId]);
+    const userResult = await pool.query(
+      "SELECT id, full_name, username FROM users WHERE id = $1",
+      [userId]
+    );
 
     if (userResult.rows.length === 0) {
       return res.status(404).json({ error: "User not found" });
@@ -108,10 +124,16 @@ app.post("/decks/:deckId/cards", async (req, res) => {
     const { card_question, card_answer } = req.body;
 
     // Insert the card into the cards table
-    const newCard = await pool.query("INSERT INTO cards (card_question, card_answer) VALUES($1, $2) RETURNING *", [card_question, card_answer]);
+    const newCard = await pool.query(
+      "INSERT INTO cards (card_question, card_answer) VALUES($1, $2) RETURNING *",
+      [card_question, card_answer]
+    );
 
     // Insert the card-deck association into the deck_cards table
-    await pool.query("INSERT INTO deck_cards (deck_id, card_id) VALUES($1, $2)", [deckId, newCard.rows[0].card_id]);
+    await pool.query(
+      "INSERT INTO deck_cards (deck_id, card_id) VALUES($1, $2)",
+      [deckId, newCard.rows[0].card_id]
+    );
 
     res.json(newCard.rows[0]);
   } catch (err) {
@@ -126,7 +148,10 @@ app.get("/decks/:deckId/cards", async (req, res) => {
     const { deckId } = req.params;
 
     // Retrieve all cards for the specified deck
-    const deckCards = await pool.query("SELECT c.* FROM cards c JOIN deck_cards dc ON c.card_id = dc.card_id WHERE dc.deck_id = $1", [deckId]);
+    const deckCards = await pool.query(
+      "SELECT c.* FROM cards c JOIN deck_cards dc ON c.card_id = dc.card_id WHERE dc.deck_id = $1",
+      [deckId]
+    );
 
     res.json(deckCards.rows);
   } catch (err) {
@@ -142,7 +167,10 @@ app.put("/cards/:cardId", async (req, res) => {
     const { card_question, card_answer } = req.body;
 
     // Update the card in the cards table
-    await pool.query("UPDATE cards SET card_question = $1, card_answer = $2 WHERE card_id = $3", [card_question, card_answer, cardId]);
+    await pool.query(
+      "UPDATE cards SET card_question = $1, card_answer = $2 WHERE card_id = $3",
+      [card_question, card_answer, cardId]
+    );
 
     res.json({ message: "Card updated successfully" });
   } catch (err) {
@@ -179,7 +207,10 @@ app.post("/decks", async (req, res) => {
     const { deck_name, user_id } = req.body;
     console.log("Received values:", deck_name, user_id); // Log the received values
 
-    const newDeck = await pool.query("INSERT INTO decks (deck_name, user_id) VALUES($1, $2) RETURNING *", [deck_name, user_id]);
+    const newDeck = await pool.query(
+      "INSERT INTO decks (deck_name, user_id) VALUES($1, $2) RETURNING *",
+      [deck_name, user_id]
+    );
 
     console.log("New deck created:", newDeck.rows[0]); // Log the created deck
 
@@ -194,7 +225,10 @@ app.post("/decks", async (req, res) => {
 app.get("/decks/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
-    const allDecks = await pool.query("SELECT * FROM decks WHERE user_id = $1", [userId]);
+    const allDecks = await pool.query(
+      "SELECT * FROM decks WHERE user_id = $1",
+      [userId]
+    );
     res.json(allDecks.rows);
   } catch (err) {
     console.error(err.message);
@@ -205,7 +239,9 @@ app.get("/decks/:userId", async (req, res) => {
 app.get("/decks/:deckId", async (req, res) => {
   try {
     const { deckId } = req.params;
-    const deck = await pool.query("SELECT * FROM decks WHERE deck_id = $1", [deckId]);
+    const deck = await pool.query("SELECT * FROM decks WHERE deck_id = $1", [
+      deckId,
+    ]);
 
     if (deck.rows.length === 0) {
       return res.status(404).json({ error: "Deck not found" });
@@ -223,7 +259,10 @@ app.post("/decks/:deckId/cards", async (req, res) => {
   try {
     const { deckId } = req.params;
     const { cardId } = req.body;
-    const addCard = await pool.query("INSERT INTO deck_cards (deck_id, card_id) VALUES($1, $2)", [deckId, cardId]);
+    const addCard = await pool.query(
+      "INSERT INTO deck_cards (deck_id, card_id) VALUES($1, $2)",
+      [deckId, cardId]
+    );
 
     res.json({ message: "Card added to deck" });
   } catch (err) {
@@ -235,7 +274,10 @@ app.post("/decks/:deckId/cards", async (req, res) => {
 app.get("/decks/:deckId/cards", async (req, res) => {
   try {
     const { deckId } = req.params;
-    const deckCards = await pool.query("SELECT c.* FROM cards c JOIN deck_cards dc ON c.card_id = dc.card_id WHERE dc.deck_id = $1", [deckId]);
+    const deckCards = await pool.query(
+      "SELECT c.* FROM cards c JOIN deck_cards dc ON c.card_id = dc.card_id WHERE dc.deck_id = $1",
+      [deckId]
+    );
     res.json(deckCards.rows);
   } catch (err) {
     console.error(err.message);
@@ -254,7 +296,10 @@ app.delete("/decks/:deckId", async (req, res) => {
     await pool.query("DELETE FROM deck_cards WHERE deck_id = $1", [deckId]);
 
     console.log("Deleting cards from cards table...");
-    await pool.query("DELETE FROM cards WHERE card_id IN (SELECT card_id FROM deck_cards WHERE deck_id = $1)", [deckId]);
+    await pool.query(
+      "DELETE FROM cards WHERE card_id IN (SELECT card_id FROM deck_cards WHERE deck_id = $1)",
+      [deckId]
+    );
 
     console.log("Deleting deck from decks table...");
     await pool.query("DELETE FROM decks WHERE deck_id = $1", [deckId]);
@@ -275,6 +320,94 @@ app.delete("/decks/:deckId", async (req, res) => {
 app.listen(5174, () => {
   console.log("Server has started on port 5174");
 });
+
+//////////// SPACED REPETITION ALGORITHM
+
+// Calculate the next repetition interval based on the user's rating
+// Calculate the next repetition interval based on the user's rating and deck size
+async function calculateInterval(
+  deckId,
+  easinessFactor,
+  repetitions,
+  lastInterval,
+  rating
+) {
+  try {
+    // Get the number of cards in the deck
+    const deckSize = await pool.query(
+      "SELECT COUNT(*) FROM deck_cards WHERE deck_id = $1",
+      [deckId]
+    );
+    const numCards = parseInt(deckSize.rows[0].count);
+
+    // Calculate the base interval
+    let interval;
+    if (rating >= 3) {
+      if (repetitions === 0) {
+        interval = 1;
+      } else if (repetitions === 1) {
+        interval = 6;
+      } else {
+        interval = Math.round(lastInterval * easinessFactor);
+      }
+    } else {
+      interval = 1;
+    }
+
+    // Adjust the interval based on the deck size
+    const adjustedInterval = Math.round(
+      interval * (1 + Math.log10(numCards) / 2)
+    );
+
+    return adjustedInterval;
+  } catch (err) {
+    console.error(err.message);
+    throw err;
+  }
+}
+
+// Update the easiness factor based on the user's rating
+function updateEasinessFactor(easinessFactor, rating) {
+  const newEasinessFactor =
+    easinessFactor + (0.1 - (5 - rating) * (0.08 + (5 - rating) * 0.02));
+  return Math.max(1.3, newEasinessFactor);
+}
+
+// Update the card statistics after a review
+async function updateCardStats(cardId, deckId, rating) {
+  try {
+    const cardStats = await pool.query(
+      "SELECT * FROM card_stats WHERE card_id = $1",
+      [cardId]
+    );
+
+    const easinessFactor = cardStats.rows[0].easiness_factor;
+    const repetitions = cardStats.rows[0].repetitions;
+    const lastInterval = cardStats.rows[0].last_interval;
+
+    const newEasinessFactor = updateEasinessFactor(easinessFactor, rating);
+    const newInterval = await calculateInterval(
+      deckId,
+      newEasinessFactor,
+      repetitions,
+      lastInterval,
+      rating
+    );
+
+    const newRepetitions = repetitions + 1;
+    const newDueDate = new Date(Date.now() + newInterval * 24 * 60 * 60 * 1000);
+
+    await pool.query(
+      "UPDATE card_stats SET easiness_factor = $1, repetitions = $2, last_interval = $3, due_date = $4 WHERE card_id = $5",
+      [newEasinessFactor, newRepetitions, newInterval, newDueDate, cardId]
+    );
+  } catch (err) {
+    console.error(err.message);
+    throw err;
+  }
+}
+
+//////////// SPACED REPETITION ALGORITHM
 
 ///////////// POMODORO BACKEND
 
