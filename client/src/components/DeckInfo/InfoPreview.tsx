@@ -3,20 +3,24 @@ import { Edit, Ellipsis, Trash } from "../icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 
+interface Card {
+  card_id: number;
+  card_question: string;
+  card_answer: string;
+}
+
 const InfoPreview = () => {
-  const [expandedCard, setExpandedCard] = useState<string | null>(null);
-  const [showDropdown, setShowDropdown] = useState<string | null>(null);
-  const [showAnswer, setShowAnswer] = useState(false);
+  const [expandedCard, setExpandedCard] = useState<number | null>(null);
+  const [showDropdown, setShowDropdown] = useState<number | null>(null);
   const navigate = useNavigate();
 
   // Function to toggle the flashcard's expansion
-  const toggleExpansion = (cardId: string) => {
+  const toggleExpansion = (cardId: number) => {
     setExpandedCard(expandedCard === cardId ? null : cardId);
-    setShowAnswer(expandedCard !== cardId);
   };
 
   // Function to toggle the dropdown
-  const toggleDropdown = (cardId: string) => {
+  const toggleDropdown = (cardId: number) => {
     setShowDropdown(showDropdown === cardId ? null : cardId);
   };
 
@@ -24,23 +28,23 @@ const InfoPreview = () => {
   const location = useLocation();
   const deckId = location.state?.deckId;
   const deckName = location.state?.deckName;
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState<Card[]>([]);
 
   const getCards = async () => {
     try {
       const response = await fetch(
         `http://localhost:5174/decks/${deckId}/cards`
       );
-      const jsonData = await response.json();
+      const jsonData: Card[] = await response.json();
       // Sort the cards in descending order based on card_id
       const sortedCards = jsonData.sort((a, b) => b.card_id - a.card_id);
       setCards(sortedCards);
     } catch (err) {
-      console.log(err.message);
+      console.log((err as Error).message);
     }
   };
 
-  const deleteCard = async (id) => {
+  const deleteCard = async (id: number) => {
     try {
       await fetch(`http://localhost:5174/cards/${id}`, {
         method: "DELETE",
@@ -50,16 +54,13 @@ const InfoPreview = () => {
       toast.success("Card deleted successfully!", {
         position: "bottom-right",
         duration: 2000,
-        theme: {
-          success: "bg-green-500 text-white",
-        },
       });
     } catch (err) {
-      console.error(err.message);
+      console.error((err as Error).message);
     }
   };
 
-  const editCard = (cardId) => {
+  const editCard = (cardId: number) => {
     const cardDetails = cards.find((card) => card.card_id === cardId);
     navigate("/addcard", {
       state: { card: cardDetails, deckId: deckId, deckName: deckName },

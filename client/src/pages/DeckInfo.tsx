@@ -7,15 +7,8 @@ import NewCard from "../components/DeckInfo/NewCard";
 import { BackIcon, SearchIcon } from "../components/icons";
 import api from "../api";
 
-interface Deck {
-  deck_id: number;
-  deck_name: string;
-  user_id: number;
-}
-
 const DeckInfo: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
-  const [deck, setDeck] = useState<Deck | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const deckId = location.state?.deckId;
@@ -28,7 +21,6 @@ const DeckInfo: React.FC = () => {
           console.log("Fetching deck with ID:", deckId);
           const response = await api.get(`/decks/${deckId}`);
           console.log("Fetched deck data:", response.data);
-          setDeck(response.data);
         } else {
           console.log("Deck ID is undefined");
         }
@@ -44,17 +36,17 @@ const DeckInfo: React.FC = () => {
     setIsClicked(true);
     setTimeout(() => {
       setIsClicked(false);
-      navigate("/");
+      navigate("/", { state: { deckId: deckId, deckName: deckName } });
     }, 70);
   };
 
   const handleStudyNowClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigate("/cardview", { state: { deckId } });
+    navigate("/cardview", { state: { deckId: deckId, deckName: deckName } });
   };
 
   const handleDeleteDeck = () => {
-    setDeck(null); // Update the deck state to null after deletion
+    // Logic for deleting a deck could also include navigating or updating the UI
   };
 
   const animatedStyle = isClicked ? { transform: "scale(0.98)" } : {};
@@ -98,7 +90,7 @@ const DeckInfo: React.FC = () => {
         </div>
         <div>
           {deckId && <NewCard deckId={deckId} deckName={deckName} />}
-          {deckId && <InfoPreview deckId={deckId} />}
+          {deckId && <InfoPreview />}
         </div>
       </div>
     </div>

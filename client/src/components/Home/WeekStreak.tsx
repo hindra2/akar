@@ -1,5 +1,3 @@
-import React from "react";
-
 const days = [
   { name: "Mon", fill: false },
   { name: "Tue", fill: true },

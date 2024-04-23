@@ -3,12 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { BackIcon, Edit, PlusIcon } from "../components/icons";
 import { Toaster, toast } from "sonner";
 
-interface Card {
-  card_id: number;
-  card_question: string;
-  card_answer: string;
-}
-
 const AddCard: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate(); // Hook for navigation
@@ -99,9 +93,6 @@ const AddCard: React.FC = () => {
       toast.success("New card added successfully!", {
         position: "bottom-right",
         duration: 2000,
-        theme: {
-          success: "bg-green-500 text-white",
-        },
       });
     }
 

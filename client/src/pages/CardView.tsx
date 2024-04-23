@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Card from "../components/CardView/Card";
+import CardComponent from "../components/CardView/Card";
 import { BackIcon } from "../components/icons";
+
+interface Card {
+  card_id: number;
+  card_question: string;
+  card_answer: string;
+}
 
 const CardView: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
@@ -26,22 +32,16 @@ const CardView: React.FC = () => {
   const location = useLocation();
   const deckId = location.state?.deckId; // Get the deckId from the location state
 
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState<Card[]>([]);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [allCardsShown, setAllCardsShown] = useState(false);
   const [answeredCards, setAnsweredCards] = useState(0);
 
   const getCards = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5174/decks/${deckId}/cards`
-      );
-      const jsonData = await response.json();
-      setCards(jsonData);
-    } catch (err) {
-      console.log(err.message);
-    }
+    const response = await fetch(`http://localhost:5174/decks/${deckId}/cards`);
+    const jsonData = await response.json();
+    setCards(jsonData);
   };
 
   useEffect(() => {
@@ -140,7 +140,7 @@ const CardView: React.FC = () => {
       <div className="flex justify-center flex-1">
         <h1 className="flex items-center justify-center w-full font-bold text-textBase">
           {!allCardsShown ? (
-            <Card
+            <CardComponent
               question={cards[currentCardIndex]?.card_question || ""}
               answer={cards[currentCardIndex]?.card_answer || ""}
               isExpanded={showAnswer}

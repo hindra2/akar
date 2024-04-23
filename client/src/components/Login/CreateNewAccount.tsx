@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
 interface CreateNewAccountProps {
@@ -43,7 +43,11 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
       console.log("User created:", response.data);
       navigate("/"); // Redirect to home page on successful registration
     } catch (error) {
-      if (error.response && error.response.data.message) {
+      if (
+        error instanceof AxiosError &&
+        error.response &&
+        error.response.data.message
+      ) {
         setErrorMessage(error.response.data.message);
       } else {
         setErrorMessage("An error occurred. Please try again.");

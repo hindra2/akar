@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 
 interface LoginDetailsProps {
@@ -25,10 +25,14 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
       localStorage.setItem("fullName", fullName);
       navigate("/"); // Redirect to the homepage on successful login
     } catch (error) {
-      if (error.response && error.response.data.error) {
-        setErrorMessage(error.response.data.error);
+      if (
+        error instanceof AxiosError &&
+        error.response &&
+        error.response.data.message
+      ) {
+        setErrorMessage(error.response.data.message);
       } else {
-        setErrorMessage("Login failed, please try again.");
+        setErrorMessage("An error occurred. Please try again.");
       }
     }
   };
