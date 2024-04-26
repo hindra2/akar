@@ -1,14 +1,15 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
 
-// https://vitejs.dev/config/
 export default defineConfig({
+  root: 'client',
   build: {
-    manifest: true,
+    outDir: './dist',
+    emptyOutDir: true,
     rollupOptions: {
-      input: "./src/main.tsx"
+      input: './index.html',
     },
   },
   plugins: [react()],
-  base: "/akar/"
-})
+  base: '/akar/',
+});
