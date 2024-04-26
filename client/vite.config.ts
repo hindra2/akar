@@ -7,7 +7,8 @@ export default defineConfig({
     manifest: true,
     rollupOptions: {
       input: "./src/main.tsx"
-    }
+    },
   },
   plugins: [react()],
+  base: "/akar/"
 })

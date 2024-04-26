@@ -13,6 +13,7 @@ const CardView: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const navigate = useNavigate();
+  const deckName = useLocation().state?.deckName;
 
   const handleOnClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -20,7 +21,7 @@ const CardView: React.FC = () => {
 
     setTimeout(() => {
       setIsClicked(false);
-      navigate("/deckInfo");
+      navigate(`/deckInfo`, { state: { deckId, deckName }});
     }, 70);
   };
 
