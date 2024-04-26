@@ -9,5 +9,6 @@ export default defineConfig({
       input: "./src/main.tsx"
     },
   },
-  plugins: [react()]
+  plugins: [react()],
+  base: "/akar/"
 })
