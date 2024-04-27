@@ -96,7 +96,7 @@ export const Header: React.FC = () => {
   return (
     <div className="relative top-0 left-0 w-full px-4 py-20 mx-auto max-w-7xl md:py-40">
       <h1 className="text-2xl font-bold text-white md:text-7xl">
-        The Ultimate <br /> Productivity Website
+        The Ultimate <br /> Productivity Studio
       </h1>
       <p className="max-w-2xl mt-8 text-base md:text-xl text-neutral-200">
         Elevate your learning and productivity with our app that combines the

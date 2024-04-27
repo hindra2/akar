@@ -1,42 +1,53 @@
 import React from "react";
 import LandingHeader from "../components/Landing/Header";
 import { HeroParallax } from "../components/Landing/HeroParallax";
+import TypingEffect from "../components/Login/TypingEffect";
+import { Tabs } from "../components/Landing/Tabs";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
   const products = [
-    {
-      thumbnail: "/landing/deckinfo.png",
-    },
-    {
-      thumbnail: "/landing/learning.png",
-    },
-    {
-      thumbnail: "/landing/pomodorofocus.png",
-    },
-    {
-      thumbnail: "/landing/learningpreview.png",
-    },
-    {
-      thumbnail: "/landing/login.png",
-    },
-    {
-      thumbnail: "/landing/pomodorobreak.png",
-    },
-    {
-      thumbnail: "/landing/addcard.png",
-    },
-    {
-      thumbnail: "/landing/deckinfo.png",
-    },
+    { thumbnail: "./landing/deckinfo.png" },
+    { thumbnail: "./landing/learning.png" },
+    { thumbnail: "./landing/pomodorofocus.png" },
+    { thumbnail: "./landing/learningpreview.png" },
+    { thumbnail: "./landing/login.png" },
+    { thumbnail: "./landing/pomodorobreak.png" },
+    { thumbnail: "./landing/addcard.png" },
+    { thumbnail: "./landing/deckinfo.png" },
   ];
 
+  const fullText = `Built for <span class="text-accent font-semibold">Students</span> by <span class="text-accent font-semibold">Students</span>`;
+
   return (
-    <div className="flex flex-col min-h-screen bg-surface0">
-      <div className="w-screen">
+    <div className="flex flex-col min-h-screen overflow-x-hidden shadow-2xl bg-surface0">
+      <div className="fixed top-0 z-50 w-screen bg-surface0">
         <LandingHeader />
       </div>
-      <div>
-        <HeroParallax products={products} />
+      <div className="mt-[50px]">
+        <div>
+          <HeroParallax products={products} />
+        </div>
+        <div className="flex flex-col items-center justify-center text-6xl text-white">
+          <TypingEffect text={fullText} typingSpeed={50} />
+          <div className="space-x-[20px]">
+            <button className="text-lg font-semibold" onClick={handleLogin}>
+              Log in
+            </button>
+            <button className="text-lg font-semibold px-[10px] py-[3px] bg-surface2 rounded-lg text-textBase hover:bg-overlay0 hover:scale-[101%]">
+              Sign Up
+            </button>
+          </div>
+        </div>
+        <div className="h-[20rem] md:h-[40rem] [perspective:1000px] relative flex flex-col max-w-5xl mx-auto w-full items-start justify-start my-40">
+          <Tabs />
+        </div>
       </div>
     </div>
   );
