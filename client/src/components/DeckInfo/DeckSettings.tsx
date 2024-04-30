@@ -100,7 +100,7 @@ const DeckSettings: React.FC<DeckSettingsProps> = ({ deckId, onDelete }) => {
             <span>Advanced</span>
           </button>
           <button
-            className="flex w-full px-4 py-2 space-x-2 text-left fill-rose-500 text-rose-500"
+            className="flex w-full py-2 space-x-2 text-left fill-rose-500 text-rose-500"
             onClick={(e) => {
               e.stopPropagation();
               handleDeleteDeck();

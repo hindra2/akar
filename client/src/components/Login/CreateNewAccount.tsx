@@ -41,7 +41,10 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
         }
       );
       console.log("User created:", response.data);
-      navigate("/"); // Redirect to home page on successful registration
+      const { token, userId } = response.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", userId);
+      navigate("/", { state: { userId, fullName } }); // Pass userId and fullName to the homepage
     } catch (error) {
       if (
         error instanceof AxiosError &&

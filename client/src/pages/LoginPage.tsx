@@ -36,14 +36,26 @@ const LoginPage: React.FC = () => {
       </div>
       <div className="w-[35%] h-full bg-base">
         <div className="px-[100px]">
-          {showLogin ? <LoginDetails toggleView={toggleView} /> : <CreateNewAccount toggleView={toggleView} />}
+          {showLogin ? (
+            <LoginDetails toggleView={toggleView} />
+          ) : (
+            <CreateNewAccount toggleView={toggleView} />
+          )}
           <div className="flex space-x-[20px] justify-center items-center mb-[20px]">
             <hr className="bg-surface1 h-[1px] border-0 w-[30%]" />
             <span className="text-textBase text-opacity-40">or</span>
             <hr className="bg-surface1 h-[1px] border-0 w-[30%]" />
           </div>
-          <button onClick={handleGoogleSignIn} className="w-full h-[40px] flex items-center justify-center ring-overlay0 ring-opacity-90 ring-1 rounded-lg space-x-[5px] hover:bg-overlay0 hover:scale-[101%]">
-            <img src={"/googleLogo.png"} alt="Google sign-in" height={20} width={20} />
+          <button
+            onClick={handleGoogleSignIn}
+            className="w-full h-[40px] flex items-center justify-center ring-overlay0 ring-opacity-90 ring-1 rounded-lg space-x-[5px] hover:bg-overlay0 hover:scale-[101%]"
+          >
+            <img
+              src={"./googleLogo.png"}
+              alt="Google sign-in"
+              height={20}
+              width={20}
+            />
             <span className="text-textBase">Sign in with Google</span>
           </button>
         </div>
