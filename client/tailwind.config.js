@@ -14,38 +14,23 @@ export default {
         display: ["Nunito"],
       },
       colors: {
-        base: "rgb(30, 30, 46)",
-        textBase: "rgb(205, 214, 244)",
-        textPlaceholder: "rgb(205, 214, 244, 0.3)",
-        Subtext0: "rgb(166, 173, 200)",
-        surface0: "rgb(49, 50, 68)",
-        translucentSurface0: "rgba(49, 50, 68, 0.3)",
-        surface1: "rgb(69, 71, 90)",
-        surface2: "rgb(88, 91, 112)",
-        rosewater: "rgb(245, 224, 220)",
-        green: "rgb(166, 227, 161)",
-        red: "rgb(243, 139, 168)",
-        teal: "rgb(148, 226, 213)",
-        accent: "rgb(137, 180, 250)",
-        translucentAccent: "rgb(137, 180, 250, 0.5)",
-        new: "rgb(203, 166, 247)",
-        learning: "rgb(250, 179, 135)",
-        review: "rgb(166, 227, 161)",
-        overlay0: "rgb(108, 112, 134)",
-        overlay1: "rgb(127, 132, 156)",
-
-        light: {
-          base: "rgb(239, 241, 245)",
-          textBase: "rgb(76, 79, 105)",
-          textPlaceholder: "rgb(239, 241, 245, 0.3)",
-          Subtext0: "rgb(108, 111, 133)",
-          surface0: "rgb(204, 208, 218)",
-          translucentSurface0: "rgb(204, 208, 218, 0.3)",
-          surface1: "rgb(188, 192, 204)",
-          surface2: "rgb(172, 176, 190)",
-          overlay0: "rgb(156, 160, 176)",
-          overlay1: "rgb(140, 143, 161)",
-        },
+        base: "rgba(var(--color-base), <alpha-value>)",
+        textBase: "rgba(var(--color-textBase), <alpha-value>)",
+        textPlaceholder: "rgba(var(--color-textPlaceholder), <alpha-value>)",
+        Subtext0: "rgba(var(--color-Subtext0), <alpha-value>)",
+        surface0: "rgba(var(--color-surface0), <alpha-value>)",
+        surface1: "rgba(var(--color-surface1), <alpha-value>)",
+        surface2: "rgba(var(--color-surface2), <alpha-value>)",
+        rosewater: "rgba(var(--color-rosewater), <alpha-value>)",
+        green: "rgba(var(--color-green), <alpha-value>)",
+        red: "rgba(var(--color-red), <alpha-value>)",
+        teal: "rgba(var(--color-teal), <alpha-value>)",
+        accent: "rgba(var(--color-accent), <alpha-value>)",
+        new: "rgba(var(--color-new), <alpha-value>)",
+        learning: "rgba(var(--color-learning), <alpha-value>)",
+        review: "rgba(var(--color-review), <alpha-value>)",
+        overlay0: "rgba(var(--color-overlay0), <alpha-value>)",
+        overlay1: "rgba(var(--color-overlay1), <alpha-value>)",
       },
       fontWeight: {
         extralight: "200",
@@ -73,7 +58,6 @@ function addVariablesForColors({ addBase, theme }: any) {
   let newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
   );
-
   addBase({
     ":root": newVars,
   });

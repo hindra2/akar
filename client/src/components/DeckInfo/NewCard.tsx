@@ -26,7 +26,7 @@ const NewCard: React.FC<NewCardProps> = ({ deckId, deckName }) => {
   return (
     <div>
       <button
-        className="w-full h-[50px] bg-translucentSurface0 rounded-lg mt-4 flex justify-center items-center px-[20px] transition-all duration-300 ease-in-out hover:bg-surface0 hover:scale-[101%] cursor-pointer"
+        className="w-full h-[50px] bg-surface0 bg-opacity-30 rounded-lg mt-4 flex justify-center items-center px-[20px] transition-all duration-300 ease-in-out hover:bg-surface0 hover:scale-[101%] cursor-pointer"
         onClick={handleOnClick}
         style={animatedStyle}
       >

@@ -21,7 +21,7 @@ const WeekStreak = () => {
             <div
               className={`h-[35px] w-[35px] rounded-full ${
                 day.fill
-                  ? "bg-translucentAccent ring-1 ring-accent"
+                  ? "bg-accent bg-opacity-30 ring-1 ring-accent"
                   : "ring-1 ring-accent"
               }`}
             ></div>

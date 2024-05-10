@@ -21,7 +21,7 @@ const CardView: React.FC = () => {
 
     setTimeout(() => {
       setIsClicked(false);
-      navigate(`/deckInfo`, { state: { deckId, deckName }});
+      navigate(`/deckInfo`, { state: { deckId, deckName } });
     }, 70);
   };
 
@@ -127,7 +127,7 @@ const CardView: React.FC = () => {
       >
         <BackIcon />
       </button>
-      <div className="relative w-[60%] h-[15px] mt-[2%] overflow-hidden bg-translucentAccent rounded-lg">
+      <div className="relative w-[60%] h-[15px] mt-[2%] overflow-hidden bg-accent bg-opacity-30 rounded-lg ring-[0.5px] ring-accent">
         <div
           className="h-full transition-all duration-500 ease-in-out bg-accent"
           style={{ width: `${progressPercentage}%` }}
