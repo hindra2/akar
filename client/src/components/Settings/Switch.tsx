@@ -11,13 +11,13 @@ const Switch: React.FC<SwitchProps> = ({ checked, onChange, label }) => {
   return (
     <div className="flex items-center justify-center w-full">
       <label
-        htmlFor="dark-mode-toggle"
+        htmlFor="theme-mode-toggle"
         className="mr-2 font-bold text-textBase"
       >
         {label}
       </label>
       <input
-        id="dark-mode-toggle"
+        id="theme-mode-toggle"
         type="checkbox"
         checked={checked}
         onChange={onChange}

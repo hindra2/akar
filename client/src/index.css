@@ -3,12 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Apply Nunito font family to all elements */
 * {
   font-family: "Nunito", sans-serif;
 }
-
-/* Define color variables for the light theme */
 @layer base {
   :root {
     --color-base: 30, 30, 46;
@@ -31,23 +28,22 @@
   }
 }
 
-@media (prefers-color-scheme: "light") {
-  :root {
-    --color-base: 239, 241, 245;
-    --color-textBase: 76, 79, 105;
-    --color-Subtext0: 108, 111, 133;
-    --color-surface0: 204, 208, 218;
-    --color-surface1: 188, 192, 204;
-    --color-surface2: 172, 176, 190;
-    --color-rosewater: 245, 224, 220;
-    --color-green: 166, 227, 161;
-    --color-red: 243, 139, 168;
-    --color-teal: 148, 226, 213;
-    --color-accent: 137, 180, 250;
-    --color-new: 203, 166, 247;
-    --color-learning: 250, 179, 135;
-    --color-review: 166, 227, 161;
-    --color-overlay0: 156, 160, 176;
-    --color-overlay1: 140, 143, 161;
-  }
+html.light {
+  --color-base: 239, 241, 245;
+  --color-textBase: 76, 79, 105;
+  --color-textPlaceholder: 76, 79, 105;
+  --color-Subtext0: 108, 111, 133;
+  --color-surface0: 204, 208, 218;
+  --color-surface1: 188, 192, 204;
+  --color-surface2: 172, 176, 190;
+  --color-rosewater: 245, 224, 220;
+  --color-green: 166, 227, 161;
+  --color-red: 243, 139, 168;
+  --color-teal: 148, 226, 213;
+  --color-accent: 137, 180, 250;
+  --color-new: 203, 166, 247;
+  --color-learning: 250, 179, 135;
+  --color-review: 166, 227, 161;
+  --color-overlay0: 156, 160, 176;
+  --color-overlay1: 140, 143, 161;
 }
