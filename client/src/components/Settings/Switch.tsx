@@ -17,6 +17,7 @@ const Switch: React.FC<SwitchProps> = ({ checked, onChange, label }) => {
         {label}
       </label>
       <input
+        defaultChecked
         id="theme-mode-toggle"
         type="checkbox"
         checked={checked}
