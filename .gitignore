@@ -16,6 +16,9 @@ dist-ssr
 .env
 /server/.env.server
 
+/server/node_modules/.package-lock.json
+/server/node_modules/bcrypt/lib/binding/napi-v3/bcrypt_lib.node
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
