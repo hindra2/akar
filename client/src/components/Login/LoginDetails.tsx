@@ -48,7 +48,7 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
             <span className="text-textBase">Username or Email</span>
             <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
               <input
-                className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase"
+                className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
                 type="text"
                 placeholder="username"
                 value={username}
@@ -60,7 +60,7 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
             <span className="text-textBase">Password</span>
             <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
               <input
-                className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase"
+                className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
                 type="password"
                 placeholder="password"
                 value={password}
