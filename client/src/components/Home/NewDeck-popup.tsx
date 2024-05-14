@@ -91,6 +91,12 @@ const NewDeckPopup: React.FC<PropOpen> = ({
               className="w-[75px] py-[7px] text-textBase bg-surface2 rounded-lg hover:bg-overlay1 hover:scale-[101%]"
               onClick={handleCreateDeck}
             >
+              Import
+            </button>
+            <button
+              className="w-[75px] py-[7px] text-textBase bg-surface2 rounded-lg hover:bg-overlay1 hover:scale-[101%]"
+              onClick={handleCreateDeck}
+            >
               Create
             </button>
           </div>

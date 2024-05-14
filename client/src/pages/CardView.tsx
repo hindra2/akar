@@ -139,7 +139,7 @@ const CardView: React.FC = () => {
         </div>
       </div>
       <div className="flex justify-center flex-1">
-        <h1 className="flex items-center justify-center w-full font-bold text-textBase">
+        <h1 className="flex items-center justify-center w-full font-bold text-textBase w-[80%]">
           {!allCardsShown ? (
             <CardComponent
               question={cards[currentCardIndex]?.card_question || ""}
