@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "proxy": "https://localhost:5173",
   "type": "module",
-  "homepage": "https://hindra2.github.io/akar",
+  "homepage": "https://hindra2.github.io/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
