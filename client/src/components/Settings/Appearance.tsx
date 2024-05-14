@@ -1,5 +1,5 @@
 import Switch from "./Switch";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const AppearanceSettings = () => {
   const [isLightMode, setIsLightMode] = useState(
