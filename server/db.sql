@@ -33,6 +33,7 @@ CREATE TABLE card_stats (
   repetitions INT NOT NULL DEFAULT 0,
   last_interval INT NOT NULL DEFAULT 0,
   due_date TIMESTAMP NOT NULL DEFAULT NOW(),
+  last_studied_at TIMESTAMP,
   FOREIGN KEY (card_id) REFERENCES cards (card_id),
   FOREIGN KEY (deck_id) REFERENCES decks (deck_id)
 );
