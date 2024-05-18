@@ -317,7 +317,7 @@ app.delete("/decks/:deckId", async (req, res) => {
 
 ///////////// DECKS BACKEND
 
-app.listen(5174, () => {
+app.listen(5432, () => {
   console.log("Server has started on port 5174");
 });
 
