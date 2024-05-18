@@ -322,25 +322,14 @@ app.listen(5174, () => {
 });
 
 //////////// SPACED REPETITION ALGORITHM
-
 // Calculate the next repetition interval based on the user's rating
-// Calculate the next repetition interval based on the user's rating and deck size
 async function calculateInterval(
-  deckId,
   easinessFactor,
   repetitions,
   lastInterval,
   rating
 ) {
   try {
-    // Get the number of cards in the deck
-    const deckSize = await pool.query(
-      "SELECT COUNT(*) FROM deck_cards WHERE deck_id = $1",
-      [deckId]
-    );
-    const numCards = parseInt(deckSize.rows[0].count);
-
-    // Calculate the base interval
     let interval;
     if (rating >= 3) {
       if (repetitions === 0) {
@@ -351,15 +340,10 @@ async function calculateInterval(
         interval = Math.round(lastInterval * easinessFactor);
       }
     } else {
+      repetitions = 0;
       interval = 1;
     }
-
-    // Adjust the interval based on the deck size
-    const adjustedInterval = Math.round(
-      interval * (1 + Math.log10(numCards) / 2)
-    );
-
-    return adjustedInterval;
+    return interval;
   } catch (err) {
     console.error(err.message);
     throw err;
@@ -374,27 +358,24 @@ function updateEasinessFactor(easinessFactor, rating) {
 }
 
 // Update the card statistics after a review
-async function updateCardStats(cardId, deckId, rating) {
+async function updateCardStats(cardId, rating) {
   try {
     const cardStats = await pool.query(
       "SELECT * FROM card_stats WHERE card_id = $1",
       [cardId]
     );
-
     const easinessFactor = cardStats.rows[0].easiness_factor;
     const repetitions = cardStats.rows[0].repetitions;
     const lastInterval = cardStats.rows[0].last_interval;
 
     const newEasinessFactor = updateEasinessFactor(easinessFactor, rating);
     const newInterval = await calculateInterval(
-      deckId,
       newEasinessFactor,
       repetitions,
       lastInterval,
       rating
     );
-
-    const newRepetitions = repetitions + 1;
+    const newRepetitions = rating >= 4 ? repetitions + 1 : 0;
     const newDueDate = new Date(Date.now() + newInterval * 24 * 60 * 60 * 1000);
 
     await pool.query(
@@ -406,8 +387,55 @@ async function updateCardStats(cardId, deckId, rating) {
     throw err;
   }
 }
+// SPACED REPETITION ALGORITHM
 
-//////////// SPACED REPETITION ALGORITHM
+// USING ALGORITHM
+// Connect the database to the algorithm for studying flashcards
+app.get("/decks/:deckId/study", async (req, res) => {
+  try {
+    const { deckId } = req.params;
+
+    // Get the cards from the specified deck that are due for review
+    const dueCards = await pool.query(
+      `SELECT c.*, cs.*
+       FROM cards c
+       JOIN card_stats cs ON c.card_id = cs.card_id
+       JOIN deck_cards dc ON c.card_id = dc.card_id
+       WHERE dc.deck_id = $1 AND cs.due_date <= NOW()
+       ORDER BY cs.due_date`,
+      [deckId]
+    );
+
+    if (dueCards.rows.length === 0) {
+      return res.status(404).json({ message: "No cards due for review" });
+    }
+
+    // Select the card with the earliest due date
+    const selectedCard = dueCards.rows.sort(
+      (a, b) => a.due_date - b.due_date
+    )[0];
+
+    res.json(selectedCard);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/cards/:cardId/review", async (req, res) => {
+  try {
+    const { cardId } = req.params;
+    const { rating } = req.body;
+
+    await updateCardStats(cardId, rating);
+
+    res.json({ message: "Card statistics updated successfully" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+// USING ALGORITHM
 
 ///////////// POMODORO BACKEND
 

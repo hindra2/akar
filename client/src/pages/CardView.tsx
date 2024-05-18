@@ -34,10 +34,17 @@ const CardView: React.FC = () => {
   const deckId = location.state?.deckId; // Get the deckId from the location state
 
   const [cards, setCards] = useState<Card[]>([]);
+  const [currentCard, setCurrentCard] = useState<Card | null>(null); // Initialize currentCard as null
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [allCardsShown, setAllCardsShown] = useState(false);
   const [answeredCards, setAnsweredCards] = useState(0);
+
+  const getNextCard = async () => {
+    const response = await fetch(`http://localhost:5174/decks/${deckId}/study`);
+    const jsonData = await response.json();
+    setCurrentCard(jsonData);
+  };
 
   const getCards = async () => {
     const response = await fetch(`http://localhost:5174/decks/${deckId}/cards`);
@@ -47,6 +54,7 @@ const CardView: React.FC = () => {
 
   useEffect(() => {
     getCards();
+    getNextCard(); // Call getNextCard function when the component mounts
   }, []);
 
   const toggleExpansion = () => {
@@ -63,16 +71,43 @@ const CardView: React.FC = () => {
     }
     setAnsweredCards((prevCount) => prevCount + 1);
     setShowAnswer(false);
+    getNextCard(); // Call getNextCard function after handling the current card
   };
 
-  const handleButtonClick = (difficulty: string) => {
-    if (showAnswer && !allCardsShown) {
+  const handleButtonClick = async (difficulty: string) => {
+    if (showAnswer && !allCardsShown && currentCard) {
+      // Check if currentCard is not null
       console.log(`Button clicked: ${difficulty}`);
       setIsButtonClicked(true);
+
+      const rating = difficultyToRating(difficulty);
+      await fetch(`http://localhost:5174/cards/${currentCard.card_id}/review`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rating }),
+      });
+
       setTimeout(() => {
         setIsButtonClicked(false);
         handleNextCard();
       }, 70);
+    }
+  };
+
+  const difficultyToRating = (difficulty: string) => {
+    switch (difficulty) {
+      case "Easy":
+        return 5;
+      case "Medium":
+        return 4;
+      case "Hard":
+        return 3;
+      case "Skip":
+        return 0;
+      default:
+        return 0;
     }
   };
 
