@@ -55,6 +55,7 @@ const AppearanceSettings = () => {
           </span>
         </button>
       </div>
+      <div className="w-full h-[400px]"></div>
     </div>
   );
 };

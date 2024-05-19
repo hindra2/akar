@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AccountSettings from "../components/Settings/Account";
 import GeneralSettings from "../components/Settings/General";
 import AppearanceSettings from "../components/Settings/Appearance";
@@ -6,19 +6,64 @@ import DatabaseSettings from "../components/Settings/Database";
 
 const Settings: React.FC = () => {
   const [activeComponent, setActiveComponent] = useState("generalSettings");
+  const generalRef = useRef<HTMLDivElement>(null);
+  const accountRef = useRef<HTMLDivElement>(null);
+  const appearanceRef = useRef<HTMLDivElement>(null);
+  const databaseRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const renderComponent = () => {
-    switch (activeComponent) {
-      case "generalSettings":
-        return <GeneralSettings />;
-      case "accountSettings":
-        return <AccountSettings />;
-      case "appearanceSettings":
-        return <AppearanceSettings />;
-      case "databaseSettings":
-        return <DatabaseSettings />;
-      default:
-        return <GeneralSettings />;
+  const handleScroll = () => {
+    const refs = [
+      { ref: generalRef, name: "generalSettings" },
+      { ref: accountRef, name: "accountSettings" },
+      { ref: appearanceRef, name: "appearanceSettings" },
+      { ref: databaseRef, name: "databaseSettings" },
+    ];
+
+    const middleOfViewport = window.innerHeight / 2;
+
+    const closestToMiddle = refs.reduce(
+      (closest, current) => {
+        const rect = current.ref.current?.getBoundingClientRect();
+        if (!rect) return closest;
+
+        const distanceToMiddle = Math.abs(
+          rect.top + rect.height / 2 - middleOfViewport
+        );
+        if (distanceToMiddle < closest.distance) {
+          return { name: current.name, distance: distanceToMiddle };
+        }
+        return closest;
+      },
+      { name: activeComponent, distance: Infinity }
+    );
+
+    if (closestToMiddle.name !== activeComponent) {
+      setActiveComponent(closestToMiddle.name);
+    }
+  };
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener("scroll", handleScroll);
+      return () => {
+        container.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [activeComponent]);
+
+  const scrollToSection = (section: string) => {
+    setActiveComponent(section);
+    const sectionRef = {
+      generalSettings: generalRef,
+      accountSettings: accountRef,
+      appearanceSettings: appearanceRef,
+      databaseSettings: databaseRef,
+    }[section];
+
+    if (sectionRef && sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -31,7 +76,7 @@ const Settings: React.FC = () => {
               ? "text-accent border-l-2 border-accent -ml-2 pl-4"
               : "text-textBase"
           }`}
-          onClick={() => setActiveComponent("generalSettings")}
+          onClick={() => scrollToSection("generalSettings")}
         >
           General
         </button>
@@ -41,7 +86,7 @@ const Settings: React.FC = () => {
               ? "text-accent border-l-2 border-accent -ml-2 pl-4"
               : "text-textBase"
           }`}
-          onClick={() => setActiveComponent("accountSettings")}
+          onClick={() => scrollToSection("accountSettings")}
         >
           Account
         </button>
@@ -51,7 +96,7 @@ const Settings: React.FC = () => {
               ? "text-accent border-l-2 border-accent -ml-2 pl-4"
               : "text-textBase"
           }`}
-          onClick={() => setActiveComponent("appearanceSettings")}
+          onClick={() => scrollToSection("appearanceSettings")}
         >
           Appearance
         </button>
@@ -61,13 +106,27 @@ const Settings: React.FC = () => {
               ? "text-accent border-l-2 border-accent -ml-2 pl-4"
               : "text-textBase"
           }`}
-          onClick={() => setActiveComponent("databaseSettings")}
+          onClick={() => scrollToSection("databaseSettings")}
         >
           Database
         </button>
       </div>
-      <div className="flex h-[80vh] w-[60%] ml-[100px]">
-        {renderComponent()}
+      <div
+        ref={containerRef}
+        className="flex flex-col h-[80vh] w-[60%] ml-[100px] overflow-auto"
+      >
+        <div ref={generalRef}>
+          <GeneralSettings />
+        </div>
+        <div ref={accountRef}>
+          <AccountSettings />
+        </div>
+        <div ref={appearanceRef}>
+          <AppearanceSettings />
+        </div>
+        <div ref={databaseRef}>
+          <DatabaseSettings />
+        </div>
       </div>
     </div>
   );
