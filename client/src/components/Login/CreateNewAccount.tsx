@@ -42,13 +42,13 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
       if (error) {
         setErrorMessage(error.message);
       } else {
-        const userId = data.user?.id;
+        const userId = localStorage.getItem("userId");
   
         if (userId) {
           // Insert the full name into the "names" table
           const { error: insertError } = await supabase
             .from("names")
-            .insert({ user_id: userId, full_name: fullName });
+            .insert({ user_id: userId, name: fullName });
   
           if (insertError) {
             setErrorMessage("Failed to store full name. Please try again.");
