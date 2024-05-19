@@ -39,31 +39,14 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
         password,
         options: {
           data: {
-            full_name: fullName
-          }
-        }
+            full_name: fullName,
+          },
+        },
       });
-  
+
       if (error) {
         setErrorMessage(error.message);
       } else {
-        // const userId = localStorage.getItem("userId");
-  
-        // if (userId) {
-        //   // Insert the full name into the "names" table
-        //   const { error: insertError } = await supabase
-        //     .from("names")
-        //     .insert({ user_id: userId, name: fullName });
-  
-        //   if (insertError) {
-        //     setErrorMessage("Failed to store full name. Please try again.");
-        //   } else {
-        //     // Account created successfully and full name stored
-        //     navigate("/");
-        //   }
-        // } else {
-        //   setErrorMessage("User ID not available. Please try again.");
-        // }
         navigate("/");
       }
     } catch (error) {
@@ -83,7 +66,7 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
               <span className="text-textBase">Full Name</span>
               <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
                 <input
-                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase"
+                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
                   type="text"
                   placeholder="full name"
                   value={fullName}
@@ -92,22 +75,22 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
               </div>
             </div>
             <div className="flex flex-col space-y-[2px]">
-              <span className="text-textBase">Username or Email</span>
+              <span className="text-textBase">Email</span>
               <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
                 <input
-                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase"
+                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
                   type="text"
-                  placeholder="username"
+                  placeholder="email"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
             </div>
-            <div className="flex flex-col space-y-[2px]">
+            <div className="flex flex-col space-y-[2px] mb-[10px]">
               <span className="text-textBase">Password</span>
               <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
                 <input
-                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase"
+                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
                   type="password"
                   placeholder="password"
                   value={password}
@@ -115,11 +98,11 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
                 />
               </div>
             </div>
-            <div className="flex flex-col space-y-[2px]">
+            <div className="flex flex-col mt-[-10px]">
               <span className="text-textBase">Confirm Password</span>
               <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
                 <input
-                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase"
+                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
                   type="password"
                   placeholder="confirm password"
                   value={confirmPassword}
@@ -133,7 +116,7 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
           )}
           <button
             type="submit"
-            className="w-full h-[40px] bg-surface2 rounded-lg text-textBase my-[20px] hover:bg-overlay0 hover:scale-[101%]"
+            className="w-full h-[40px] bg-accent rounded-lg text-white font-bold my-[20px] hover:bg-blue-400 hover:scale-[101%]"
           >
             Sign up
           </button>

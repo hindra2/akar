@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // import { Auth, AuthSession } from "@supabase/auth-ui-react";
-import supabase from '../../../utils/supabase';
+import supabase from "../../../utils/supabase";
 import { useNavigate } from "react-router-dom";
 
 interface LoginDetailsProps {
@@ -33,7 +33,11 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
           localStorage.setItem("userId", uuid);
 
           if (uuid) {
-            const { data: namesData , error: namesError } = await supabase.from("names").select("name").eq("user_id", uuid).single();
+            const { data: namesData, error: namesError } = await supabase
+              .from("names")
+              .select("name")
+              .eq("user_id", uuid)
+              .single();
 
             if (namesError) {
               console.error("Error retrieving full name:", namesError.message);
@@ -58,12 +62,12 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
       <form onSubmit={handleLogin} className="mt-[10%]">
         <div className="space-y-[10px]">
           <div className="flex flex-col space-y-[2px]">
-            <span className="text-textBase">Username or Email</span>
+            <span className="text-textBase">Email</span>
             <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
               <input
                 className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
                 type="text"
-                placeholder="username"
+                placeholder="email"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
