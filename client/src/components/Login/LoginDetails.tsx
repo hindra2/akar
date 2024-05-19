@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios, { AxiosError } from "axios";
+// import { Auth, AuthSession } from "@supabase/auth-ui-react";
+import { supabase } from "../supabaseClient";
 import { useNavigate } from "react-router-dom";
 
 interface LoginDetailsProps {
@@ -14,26 +15,24 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
     try {
-      const response = await axios.post("http://localhost:5174/users/login", {
-        username,
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: username,
         password,
       });
-      const { token, userId, fullName } = response.data;
-      localStorage.setItem("token", token);
-      localStorage.setItem("userId", userId);
-      localStorage.setItem("fullName", fullName);
-      navigate("/"); // Redirect to the homepage on successful login
-    } catch (error) {
-      if (
-        error instanceof AxiosError &&
-        error.response &&
-        error.response.data.message
-      ) {
-        setErrorMessage(error.response.data.message);
+
+      if (error) {
+        setErrorMessage(error.message);
       } else {
-        setErrorMessage("An error occurred. Please try again.");
+        const { session } = data;
+        if (session) {
+          localStorage.setItem("supabaseSession", JSON.stringify(session));
+          navigate("/");
+        }
       }
+    } catch (error) {
+      setErrorMessage("An error occurred. Please try again.");
     }
   };
 
@@ -74,7 +73,7 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
         )}
         <button
           type="submit"
-          className="w-full h-[40px] bg-surface2 rounded-lg text-textBase my-[20px] hover:bg-overlay0 hover:scale-[101%]"
+          className="w-full h-[40px] bg-accent rounded-lg text-white font-bold my-[20px] hover:bg-blue-400 hover:scale-[101%]"
         >
           Sign in
         </button>
