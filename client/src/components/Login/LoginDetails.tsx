@@ -2,6 +2,7 @@ import React, { useState } from "react";
 // import { Auth, AuthSession } from "@supabase/auth-ui-react";
 import supabase from "../../../utils/supabase";
 import { useNavigate } from "react-router-dom";
+import { EyeIcon, EyeOffIcon } from "../icons";
 
 interface LoginDetailsProps {
   toggleView: () => void;
@@ -11,6 +12,7 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -78,11 +80,26 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
             <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
               <input
                 className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="mr-2"
+              >
+                {showPassword ? (
+                  <div className="h-5 w-5 fill-textBase">
+                    <EyeIcon />
+                  </div>
+                ) : (
+                  <div className="h-5 w-5 fill-textBase">
+                    <EyeOffIcon />
+                  </div>
+                )}
+              </button>
             </div>
           </div>
         </div>

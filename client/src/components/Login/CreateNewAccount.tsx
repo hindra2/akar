@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-// import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../utils/supabase";
+import { EyeIcon, EyeOffIcon } from "../icons";
 
 interface CreateNewAccountProps {
   toggleView: () => void;
@@ -11,10 +11,9 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  // const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,11 +24,6 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
       setErrorMessage(
         "Password must be at least 8 characters long, contain at least one uppercase letter and one number"
       );
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setErrorMessage("Passwords do not match");
       return;
     }
 
@@ -88,26 +82,29 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
             </div>
             <div className="flex flex-col space-y-[2px] mb-[10px]">
               <span className="text-textBase">Password</span>
-              <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
+              <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1 items-center">
                 <input
                   className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-              </div>
-            </div>
-            <div className="flex flex-col mt-[-10px]">
-              <span className="text-textBase">Confirm Password</span>
-              <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
-                <input
-                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
-                  type="password"
-                  placeholder="confirm password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="mr-2"
+                >
+                  {showPassword ? (
+                    <div className="h-5 w-5 fill-textBase">
+                      <EyeIcon />
+                    </div>
+                  ) : (
+                    <div className="h-5 w-5 fill-textBase">
+                      <EyeOffIcon />
+                    </div>
+                  )}
+                </button>
               </div>
             </div>
           </div>
