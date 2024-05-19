@@ -35,21 +35,13 @@ const HomePage: React.FC = () => {
 
   const fetchUserInfo = async () => {
     try {
-      const userId = localStorage.getItem("userId");
-      if (userId) {
-        const { data, error } = await supabase
-          .from("names")
-          .select("name")
-          .eq("user_id", userId)
-          .single();
+      const { data: { user } } = await supabase.auth.getUser();
 
-        if (error) {
-          console.error("Error fetching user info:", error);
-        } else if (data) {
-          setUser({ id: 0, username: "", full_name: data.name });
-        }
+      if (user) {
+        setUser({ id: 0, username: "", full_name: user.user_metadata.full_name });
       } else {
-        console.error("User ID not found in localStorage");      }
+        console.error("User ID not found in localStorage");
+      }
     } catch (error) {
       console.error("Error fetching user info:", error);
     }

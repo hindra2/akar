@@ -37,28 +37,34 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
       const { error } = await supabase.auth.signUp({
         email: username,
         password,
+        options: {
+          data: {
+            full_name: fullName
+          }
+        }
       });
   
       if (error) {
         setErrorMessage(error.message);
       } else {
-        const userId = localStorage.getItem("userId");
+        // const userId = localStorage.getItem("userId");
   
-        if (userId) {
-          // Insert the full name into the "names" table
-          const { error: insertError } = await supabase
-            .from("names")
-            .insert({ user_id: userId, name: fullName });
+        // if (userId) {
+        //   // Insert the full name into the "names" table
+        //   const { error: insertError } = await supabase
+        //     .from("names")
+        //     .insert({ user_id: userId, name: fullName });
   
-          if (insertError) {
-            setErrorMessage("Failed to store full name. Please try again.");
-          } else {
-            // Account created successfully and full name stored
-            navigate("/");
-          }
-        } else {
-          setErrorMessage("User ID not available. Please try again.");
-        }
+        //   if (insertError) {
+        //     setErrorMessage("Failed to store full name. Please try again.");
+        //   } else {
+        //     // Account created successfully and full name stored
+        //     navigate("/");
+        //   }
+        // } else {
+        //   setErrorMessage("User ID not available. Please try again.");
+        // }
+        navigate("/");
       }
     } catch (error) {
       setErrorMessage("An error occurred. Please try again.");
