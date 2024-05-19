@@ -15,10 +15,8 @@ const LoginPage: React.FC = () => {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
-      // Handle successful sign-in
       console.log(result.user);
     } catch (error) {
-      // Handle sign-in error
       console.error(error);
     }
   };

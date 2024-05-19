@@ -4,6 +4,7 @@ import WeekStreak from "../components/Home/WeekStreak";
 import Greetings from "../components/Home/Greetings";
 import NewDeck from "../components/Home/NewDeck";
 import api from "../api";
+import supabase from '../../utils/supabase';
 
 interface Deck {
   deck_id: number;
@@ -36,12 +37,19 @@ const HomePage: React.FC = () => {
     try {
       const userId = localStorage.getItem("userId");
       if (userId) {
-        const response = await api.get(`/users/${userId}`);
-        setUser(response.data);
+        const { data, error } = await supabase
+          .from("names")
+          .select("name")
+          .eq("user_id", userId)
+          .single();
+
+        if (error) {
+          console.error("Error fetching user info:", error);
+        } else if (data) {
+          setUser({ id: 0, username: "", full_name: data.name });
+        }
       } else {
-        console.error("User ID not found in localStorage");
-        // Handle the case when userId is null (e.g., redirect to login page)
-      }
+        console.error("User ID not found in localStorage");      }
     } catch (error) {
       console.error("Error fetching user info:", error);
     }
