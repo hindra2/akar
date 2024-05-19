@@ -8,7 +8,7 @@ import { auth } from "../firebase";
 
 const LoginPage: React.FC = () => {
   const [showLogin, setShowLogin] = useState(true);
-  const fullText = `Flashcards boost memory retention by <span class="text-accent font-semibold">up to 50%</span> through active recall.`;
+  const fullText = `Flashcards boost memory retention by <span class="text-accent font-semibold">up to 150%</span> through active recall.`;
 
   const toggleView = () => setShowLogin(!showLogin);
   const handleGoogleSignIn = async () => {

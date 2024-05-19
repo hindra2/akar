@@ -96,12 +96,13 @@ export const Header: React.FC = () => {
   return (
     <div className="relative top-0 left-0 w-full px-4 py-20 mx-auto max-w-7xl md:py-40">
       <h1 className="text-2xl font-bold text-white md:text-7xl">
-        The Ultimate <br /> Productivity Studio
+        The <span className="text-accent">Ultimate</span> <br /> Productivity
+        Studio
       </h1>
-      <p className="max-w-2xl mt-8 text-base md:text-xl text-neutral-200">
+      <p className="max-w-2xl mt-8 text-base md:text-xl text-white">
         Elevate your learning and productivity with our app that combines the
         power of flashcards and the Pomodoro technique. Optimize your study
-        sessions and achieve your goals faster.
+        sessions and achieve your goals up to 150% faster.
       </p>
     </div>
   );
@@ -124,7 +125,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       whileHover={{
         y: -20,
       }}
-      className="group/product h-96 w-[30rem] relative flex-shrink-0"
+      className="group/product h-[250px] w-[30rem] relative flex-shrink-0"
     >
       <div className="block">
         <img

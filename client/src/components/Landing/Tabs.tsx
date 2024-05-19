@@ -24,7 +24,7 @@ const tabsData: Tab[] = [
     title: "Home Page",
     value: "home",
     content: (
-      <div className="relative w-full h-full p-10 overflow-hidden text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-purple-700 to-violet-900">
+      <div className="relative w-full h-full p-10 overflow-hidden text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-400 to-accent">
         <p>Home Page</p>
         <DummyContent imageSrc="./landing/deckinfo.png" />
       </div>
@@ -34,7 +34,7 @@ const tabsData: Tab[] = [
     title: "Flashcards",
     value: "flashcards",
     content: (
-      <div className="relative w-full h-full p-10 overflow-hidden text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-purple-700 to-violet-900">
+      <div className="relative w-full h-full p-10 overflow-hidden text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-400 to-accent">
         <p>Flashcards</p>
         <DummyContent imageSrc="./landing/learning.png" />
       </div>
@@ -44,7 +44,7 @@ const tabsData: Tab[] = [
     title: "Pomodoro",
     value: "pomodoro",
     content: (
-      <div className="relative w-full h-full p-10 overflow-hidden text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-purple-700 to-violet-900">
+      <div className="relative w-full h-full p-10 overflow-hidden text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-400 to-accent">
         <p>Pomodoro</p>
         <DummyContent imageSrc="./landing/pomodorofocus.png" />
       </div>
@@ -54,7 +54,7 @@ const tabsData: Tab[] = [
     title: "Learning",
     value: "learning",
     content: (
-      <div className="relative w-full h-full p-10 overflow-hidden text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-purple-700 to-violet-900">
+      <div className="relative w-full h-full p-10 overflow-hidden text-xl font-bold text-white rounded-2xl md:text-4xl bg-gradient-to-br from-blue-400 to-accent">
         <p>Learning</p>
         <DummyContent imageSrc="./landing/learningpreview.png" />
       </div>
@@ -96,7 +96,7 @@ export const Tabs = () => {
               <motion.div
                 layoutId="clickedbutton"
                 transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
-                className="absolute inset-0 rounded-full bg-violet-500"
+                className="absolute inset-0 rounded-full bg-accent"
               />
             )}
             <span className="relative block">{tab.title}</span>
