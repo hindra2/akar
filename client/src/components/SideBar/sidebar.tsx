@@ -73,11 +73,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, toggleSidebar }) => {
         <nav className="flex-grow space-y-[2px]">
           <NavigationLink to="/" label="Home" Icon={HomeIcon} />
           <NavigationLink
-            to="/statistics"
-            label="Statistics"
-            Icon={StatsIcon}
-          />
-          <NavigationLink
             to="/pomodoro"
             label="Pomodoro Timer"
             Icon={TimerIcon}
