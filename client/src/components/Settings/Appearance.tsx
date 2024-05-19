@@ -29,9 +29,6 @@ const AppearanceSettings = () => {
             } rounded-lg relative`}
             style={{ height: "100px", width: "150px" }}
           >
-            {!isLightMode && (
-              <span className="absolute top-0 right-0 text-accent">✓</span>
-            )}
             <div className="h-4 bg-gray-600 rounded mb-2"></div>
             <div className="grid grid-cols-3 gap-2">
               <div className="h-8 bg-gray-700 rounded col-span-2"></div>
@@ -47,9 +44,6 @@ const AppearanceSettings = () => {
             } rounded-lg relative`}
             style={{ height: "100px", width: "150px" }}
           >
-            {isLightMode && (
-              <span className="absolute top-0 right-0 text-accent">✓</span>
-            )}
             <div className="h-4 bg-gray-300 rounded mb-2"></div>
             <div className="grid grid-cols-3 gap-2">
               <div className="h-8 bg-gray-200 rounded col-span-2"></div>
