@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // import { Auth, AuthSession } from "@supabase/auth-ui-react";
-import { supabase } from "../supabaseClient";
+import supabase from '../../../utils/supabase';
 import { useNavigate } from "react-router-dom";
 
 interface LoginDetailsProps {
@@ -27,7 +27,21 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
       } else {
         const { session } = data;
         if (session) {
-          localStorage.setItem("supabaseSession", JSON.stringify(session));
+          // localStorage.setItem("supabaseSession", JSON.stringify(session));
+
+          const uuid = session.user.id;
+          localStorage.setItem("userId", uuid);
+
+          if (uuid) {
+            const { data: namesData , error: namesError } = await supabase.from("names").select("name").eq("user_id", uuid).single();
+
+            if (namesError) {
+              console.error("Error retrieving full name:", namesError.message);
+            } else {
+              const fullName = namesData?.name || "";
+              localStorage.setItem("fullName", fullName);
+            }
+          }
           navigate("/");
         }
       }

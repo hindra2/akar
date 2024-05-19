@@ -4,6 +4,7 @@ const cors = require("cors");
 const pool = require("./db");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const supabase = require("./utils/supabase")
 require("dotenv").config();
 require("dotenv").config({ path: ".env.server" });
 
@@ -16,41 +17,51 @@ const { getTimerState, setTimerState } = require("./scripts/timerState");
 const settingsRouter = require("./scripts/settings");
 const firebase = require("./scripts/firebase");
 
-//ROUTES//
-// register API
-
-///////////// LOGIN BACKEND
+// LOGIN BACKEND
 app.post("/users/register", async (req, res) => {
-  const { fullName, username, password } = req.body;
-  if (!fullName || !username || !password) {
+  const { fullName, email, password } = req.body;
+
+  if (!fullName || !email || !password) {
     return res.status(400).json({ message: "Please enter all fields" });
   }
 
   if (password.length < 6) {
-    return res
-      .status(400)
-      .json({ message: "Password must be at least 6 characters long" });
+    return res.status(400).json({ message: "Password must be at least 6 characters long" });
   }
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const userExists = await pool.query(
-      "SELECT * FROM users WHERE username = $1",
-      [username]
-    );
+    // Check if the email is already registered
+    const { data: existingUser, error: existingUserError } = await supabase
+      .from("users")
+      .select("email")
+      .eq("email", email)
+      .single();
 
-    if (userExists.rows.length > 0) {
-      return res.status(400).json({ message: "Username already registered" });
+    if (existingUserError && existingUserError.code !== "PGRST116") {
+      throw existingUserError;
     }
 
-    const newUser = await pool.query(
-      "INSERT INTO users (full_name, username, password) VALUES ($1, $2, $3) RETURNING id, full_name, username",
-      [fullName, username, hashedPassword]
-    );
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already registered" });
+    }
 
-    res
-      .status(201)
-      .json({ message: "User registered successfully", user: newUser.rows[0] });
+    // Create a new user
+    const { user, session, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+    });
+
+    if (error) throw error;
+
+    // Insert the user's full name into the users table
+    const { data: insertedUser, error: insertError } = await supabase
+      .from("users")
+      .insert({ user_id: user.id, full_name: fullName })
+      .single();
+
+    if (insertError) throw insertError;
+
+    res.status(201).json({ message: "User registered successfully", user, session });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ error: "Internal server error" });

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import axios, { AxiosError } from "axios";
+// import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import supabase from "../../../utils/supabase";
 
 interface CreateNewAccountProps {
   toggleView: () => void;
@@ -13,6 +14,7 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  // const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,29 +34,34 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:5174/users/register",
-        {
-          fullName,
-          username,
-          password,
-        }
-      );
-      console.log("User created:", response.data);
-      const { token, userId } = response.data;
-      localStorage.setItem("token", token);
-      localStorage.setItem("userId", userId);
-      navigate("/", { state: { userId, fullName } }); // Pass userId and fullName to the homepage
-    } catch (error) {
-      if (
-        error instanceof AxiosError &&
-        error.response &&
-        error.response.data.message
-      ) {
-        setErrorMessage(error.response.data.message);
+      const { data, error } = await supabase.auth.signUp({
+        email: username,
+        password,
+      });
+  
+      if (error) {
+        setErrorMessage(error.message);
       } else {
-        setErrorMessage("An error occurred. Please try again.");
+        const userId = data.user?.id;
+  
+        if (userId) {
+          // Insert the full name into the "names" table
+          const { error: insertError } = await supabase
+            .from("names")
+            .insert({ user_id: userId, full_name: fullName });
+  
+          if (insertError) {
+            setErrorMessage("Failed to store full name. Please try again.");
+          } else {
+            // Account created successfully and full name stored
+            navigate("/");
+          }
+        } else {
+          setErrorMessage("User ID not available. Please try again.");
+        }
       }
+    } catch (error) {
+      setErrorMessage("An error occurred. Please try again.");
     }
   };
 
