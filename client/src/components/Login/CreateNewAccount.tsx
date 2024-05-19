@@ -34,7 +34,7 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
     }
 
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email: username,
         password,
       });
