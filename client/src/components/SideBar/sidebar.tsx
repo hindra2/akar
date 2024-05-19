@@ -6,7 +6,7 @@ import {
   UserIcon,
   SearchIcon,
   LogoutIcon,
-  StatsIcon,
+  // StatsIcon,
   SettingsIconSidebar,
   AkarLogo,
   TimerIcon,
