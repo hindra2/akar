@@ -3,7 +3,8 @@ import {
   HashRouter as Router,
   Routes,
   Route,
-  useLocation
+  useLocation,
+  Navigate
 } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -67,14 +68,13 @@ const App: React.FC = () => {
   }
 
   const handleLogout = () => {
+    localStorage.removeItem("user");
     setIsLoggedIn(false);
   }
 
   useEffect(() => {
     const user = localStorage.getItem("user");
-    if (user) {
-      setIsLoggedIn(true);
-    }
+    setIsLoggedIn(!!user);
     
     const applyTheme = (theme: string) => {
       
@@ -156,8 +156,9 @@ const App: React.FC = () => {
           </>
         ):(
           <>
+            <Route path="/" element={<Navigate to="/landing" replace />} />
+            <Route path="/landing" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
-            <Route path="/" element={<LandingPage />} />
           </>
         )}
       </Routes>
