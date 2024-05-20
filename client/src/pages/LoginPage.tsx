@@ -6,7 +6,11 @@ import TypingEffect from "../components/Login/TypingEffect";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../firebase";
 
-const LoginPage: React.FC = () => {
+interface LoginProps {
+  onLogin: () => void;
+}
+
+const LoginPage: React.FC<LoginProps> = ({ onLogin }) => {
   const [showLogin, setShowLogin] = useState(true);
   const fullText = `Flashcards boost memory retention by <span class="text-accent font-semibold">up to 150%</span> through active recall.`;
 
@@ -35,9 +39,9 @@ const LoginPage: React.FC = () => {
       <div className="w-[35%] h-full bg-base">
         <div className="px-[100px]">
           {showLogin ? (
-            <LoginDetails toggleView={toggleView} />
+            <LoginDetails onLogin={onLogin} toggleView={toggleView} />
           ) : (
-            <CreateNewAccount toggleView={toggleView} />
+            <CreateNewAccount onLogin={onLogin} toggleView={toggleView} />
           )}
           <div className="flex space-x-[20px] justify-center items-center mb-[20px]">
             <hr className="bg-surface1 h-[1px] border-0 w-[30%]" />
