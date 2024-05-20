@@ -3,7 +3,7 @@ import {
   HashRouter as Router,
   Routes,
   Route,
-  useLocation,
+  useLocation
 } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -59,8 +59,14 @@ function ScrollToTop() {
 
 // Main App component
 const App: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   useEffect(() => {
+    const user = localStorage.getItem("user");
+    setIsLoggedIn(!!user);
+    
     const applyTheme = (theme: string) => {
+      
       document.documentElement.classList.remove("dark", "light");
       document.documentElement.classList.add(theme);
     };
@@ -89,64 +95,60 @@ const App: React.FC = () => {
     <Router>
       <ScrollToTop />
       <Routes>
-        <Route
-          path="/"
-          element={
-            <LayoutWithSidebar>
-              <HomePage />
-            </LayoutWithSidebar>
-          }
-        />
-        <Route
-          path="/statistics"
-          element={
-            <LayoutWithSidebar>
-              <Statistics />
-            </LayoutWithSidebar>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <LayoutWithSidebar>
-              <Settings />
-            </LayoutWithSidebar>
-          }
-        />
-        <Route
-          path="/pomodoro"
-          element={
-            <LayoutWithSidebar>
-              <Pomodoro />
-            </LayoutWithSidebar>
-          }
-        />
-        <Route
-          path="/deckinfo"
-          element={
-            <LayoutWithSidebar>
-              <DeckInfo />
-            </LayoutWithSidebar>
-          }
-        />
-        <Route
-          path="/cardview"
-          element={
-            <LayoutWithSidebar>
-              <CardView />
-            </LayoutWithSidebar>
-          }
-        />
-        <Route
-          path="/addcard"
-          element={
-            <LayoutWithSidebar>
-              <AddCard />
-            </LayoutWithSidebar>
-          }
-        />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/landing" element={<LandingPage />} />
+        {isLoggedIn ? (
+          <>
+            <Route path="/" element={
+              <LayoutWithSidebar>
+                <HomePage />
+              </LayoutWithSidebar>
+            }
+            />
+            <Route path="/statistics" element={
+                <LayoutWithSidebar>
+                  <Statistics />
+                </LayoutWithSidebar>
+              }
+            />
+            <Route path="/settings" element={
+                <LayoutWithSidebar>
+                  <Settings />
+                </LayoutWithSidebar>
+              }
+            />
+            <Route path="/pomodoro" element={
+                <LayoutWithSidebar>
+                  <Pomodoro />
+                </LayoutWithSidebar>
+              }
+            />
+            <Route path="/deckinfo" element={
+                <LayoutWithSidebar>
+                  <DeckInfo />
+                </LayoutWithSidebar>
+              }
+            />
+            <Route
+              path="/cardview"
+              element={
+                <LayoutWithSidebar>
+                  <CardView />
+                </LayoutWithSidebar>
+              }
+            />
+            <Route path="/addcard" element={
+                <LayoutWithSidebar>
+                  <AddCard />
+                </LayoutWithSidebar>
+              }
+            />
+            <Route path="/login" element={<LoginPage />} />
+          </>
+        ):(
+          <>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={<LandingPage />} />
+          </>
+        )}
       </Routes>
     </Router>
   );
