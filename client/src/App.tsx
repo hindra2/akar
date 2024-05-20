@@ -61,6 +61,10 @@ function ScrollToTop() {
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  }
+
   useEffect(() => {
     const user = localStorage.getItem("user");
     setIsLoggedIn(!!user);
@@ -141,11 +145,11 @@ const App: React.FC = () => {
                 </LayoutWithSidebar>
               }
             />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
           </>
         ):(
           <>
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
             <Route path="/" element={<LandingPage />} />
           </>
         )}

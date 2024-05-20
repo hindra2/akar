@@ -5,9 +5,10 @@ import { EyeIcon, EyeOffIcon } from "../icons";
 
 interface CreateNewAccountProps {
   toggleView: () => void;
+  onLogin: () => void;
 }
 
-const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
+const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView, onLogin }) => {
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -41,6 +42,7 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
       if (error) {
         setErrorMessage(error.message);
       } else {
+        onLogin();
         navigate("/");
       }
     } catch (error) {

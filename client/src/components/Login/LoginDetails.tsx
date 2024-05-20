@@ -6,9 +6,10 @@ import { EyeIcon, EyeOffIcon } from "../icons";
 
 interface LoginDetailsProps {
   toggleView: () => void;
+  onLogin: () => void;
 }
 
-const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
+const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView, onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -47,6 +48,7 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView }) => {
               const fullName = namesData?.name || "";
               localStorage.setItem("fullName", fullName);
             }
+            onLogin();
           }
           navigate("/");
         }
