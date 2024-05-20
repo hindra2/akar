@@ -72,7 +72,9 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const user = localStorage.getItem("user");
-    setIsLoggedIn(!!user);
+    if (user) {
+      setIsLoggedIn(true);
+    }
     
     const applyTheme = (theme: string) => {
       
