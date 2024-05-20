@@ -18,9 +18,10 @@ import {
 interface SidebarProps {
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
+  onLogout: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, toggleSidebar }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, toggleSidebar, onLogout }) => {
   const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate();
 
@@ -32,6 +33,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, toggleSidebar }) => {
       localStorage.removeItem("token");
       localStorage.removeItem("userId");
       localStorage.removeItem("fullName");
+      onLogout();
       navigate("/login");
     }, 70);
   };

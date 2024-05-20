@@ -29,7 +29,7 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView, onLogin
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: username,
         password,
         options: {
@@ -42,6 +42,7 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView, onLogin
       if (error) {
         setErrorMessage(error.message);
       } else {
+        localStorage.setItem("user", JSON.stringify(data));
         onLogin();
         navigate("/");
       }

@@ -24,10 +24,11 @@ import LandingPage from "./pages/Landing";
 // Type for children prop
 interface LayoutWithSidebarProps {
   children: React.ReactNode;
+  onLogout: () => void;
 }
 
 // Layout component including the Sidebar
-function LayoutWithSidebar({ children }: LayoutWithSidebarProps) {
+function LayoutWithSidebar({ children, onLogout }: LayoutWithSidebarProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -36,7 +37,7 @@ function LayoutWithSidebar({ children }: LayoutWithSidebarProps) {
 
   return (
     <div className="flex min-h-screen overflow-hidden bg-base">
-      <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} onLogout={onLogout}/>
       <main
         className={`flex-grow bg-base transition-all duration-300 ease-in-out ${
           isSidebarOpen ? "ml-64" : "ml-0"
@@ -63,6 +64,10 @@ const App: React.FC = () => {
 
   const handleLogin = () => {
     setIsLoggedIn(true);
+  }
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
   }
 
   useEffect(() => {
@@ -102,31 +107,31 @@ const App: React.FC = () => {
         {isLoggedIn ? (
           <>
             <Route path="/" element={
-              <LayoutWithSidebar>
+              <LayoutWithSidebar onLogout={handleLogout}>
                 <HomePage />
               </LayoutWithSidebar>
             }
             />
             <Route path="/statistics" element={
-                <LayoutWithSidebar>
+                <LayoutWithSidebar onLogout={handleLogout}>
                   <Statistics />
                 </LayoutWithSidebar>
               }
             />
             <Route path="/settings" element={
-                <LayoutWithSidebar>
+                <LayoutWithSidebar onLogout={handleLogout}>
                   <Settings />
                 </LayoutWithSidebar>
               }
             />
             <Route path="/pomodoro" element={
-                <LayoutWithSidebar>
+                <LayoutWithSidebar onLogout={handleLogout}>
                   <Pomodoro />
                 </LayoutWithSidebar>
               }
             />
             <Route path="/deckinfo" element={
-                <LayoutWithSidebar>
+                <LayoutWithSidebar onLogout={handleLogout}>
                   <DeckInfo />
                 </LayoutWithSidebar>
               }
@@ -134,13 +139,13 @@ const App: React.FC = () => {
             <Route
               path="/cardview"
               element={
-                <LayoutWithSidebar>
+                <LayoutWithSidebar onLogout={handleLogout}>
                   <CardView />
                 </LayoutWithSidebar>
               }
             />
             <Route path="/addcard" element={
-                <LayoutWithSidebar>
+                <LayoutWithSidebar onLogout={handleLogout}>
                   <AddCard />
                 </LayoutWithSidebar>
               }
