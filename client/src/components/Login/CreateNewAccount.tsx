@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-// import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../utils/supabase";
+import { EyeIcon, EyeOffIcon } from "../icons";
 
 interface CreateNewAccountProps {
   toggleView: () => void;
@@ -11,10 +11,9 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  // const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,42 +27,20 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
       return;
     }
 
-    if (password !== confirmPassword) {
-      setErrorMessage("Passwords do not match");
-      return;
-    }
-
     try {
       const { error } = await supabase.auth.signUp({
         email: username,
         password,
         options: {
           data: {
-            full_name: fullName
-          }
-        }
+            full_name: fullName,
+          },
+        },
       });
-  
+
       if (error) {
         setErrorMessage(error.message);
       } else {
-        // const userId = localStorage.getItem("userId");
-  
-        // if (userId) {
-        //   // Insert the full name into the "names" table
-        //   const { error: insertError } = await supabase
-        //     .from("names")
-        //     .insert({ user_id: userId, name: fullName });
-  
-        //   if (insertError) {
-        //     setErrorMessage("Failed to store full name. Please try again.");
-        //   } else {
-        //     // Account created successfully and full name stored
-        //     navigate("/");
-        //   }
-        // } else {
-        //   setErrorMessage("User ID not available. Please try again.");
-        // }
         navigate("/");
       }
     } catch (error) {
@@ -83,7 +60,7 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
               <span className="text-textBase">Full Name</span>
               <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
                 <input
-                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase"
+                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
                   type="text"
                   placeholder="full name"
                   value={fullName}
@@ -92,39 +69,42 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
               </div>
             </div>
             <div className="flex flex-col space-y-[2px]">
-              <span className="text-textBase">Username or Email</span>
+              <span className="text-textBase">Email</span>
               <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
                 <input
-                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase"
+                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
                   type="text"
-                  placeholder="username"
+                  placeholder="email"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
             </div>
-            <div className="flex flex-col space-y-[2px]">
+            <div className="flex flex-col space-y-[2px] mb-[10px]">
               <span className="text-textBase">Password</span>
-              <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
+              <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1 items-center">
                 <input
-                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase"
-                  type="password"
+                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
+                  type={showPassword ? "text" : "password"}
                   placeholder="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-              </div>
-            </div>
-            <div className="flex flex-col space-y-[2px]">
-              <span className="text-textBase">Confirm Password</span>
-              <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
-                <input
-                  className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase"
-                  type="password"
-                  placeholder="confirm password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="mr-2"
+                >
+                  {showPassword ? (
+                    <div className="h-5 w-5 fill-textBase">
+                      <EyeIcon />
+                    </div>
+                  ) : (
+                    <div className="h-5 w-5 fill-textBase">
+                      <EyeOffIcon />
+                    </div>
+                  )}
+                </button>
               </div>
             </div>
           </div>
@@ -133,7 +113,7 @@ const CreateNewAccount: React.FC<CreateNewAccountProps> = ({ toggleView }) => {
           )}
           <button
             type="submit"
-            className="w-full h-[40px] bg-surface2 rounded-lg text-textBase my-[20px] hover:bg-overlay0 hover:scale-[101%]"
+            className="w-full h-[40px] bg-accent rounded-lg text-white font-bold my-[20px] hover:bg-blue-400 hover:scale-[101%]"
           >
             Sign up
           </button>
