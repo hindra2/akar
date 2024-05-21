@@ -1,4 +1,5 @@
 import { Ellipsis } from "../icons";
+import { useState } from "react";
 
 const Table = () => {
   const data = [
@@ -43,6 +44,9 @@ const Table = () => {
       dateCreated: "2023-09-05",
     },
   ];
+
+  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+
   return (
     <div>
       <table className="min-w-full text-textBase text-left">
@@ -60,7 +64,14 @@ const Table = () => {
           {data.map((row, index) => (
             <tr
               key={index}
-              className={`${index % 2 === 0 ? "bg-base" : "bg-surface0"}`}
+              className={`${
+                selectedRowIndex === index
+                  ? "bg-accent text-white"
+                  : index % 2 === 0
+                  ? "bg-base"
+                  : "bg-surface0"
+              }`}
+              onClick={() => setSelectedRowIndex(index)}
             >
               <td className="p-2 rounded-l-xl">{row.question}</td>
               <td className="p-2">{row.deck}</td>
