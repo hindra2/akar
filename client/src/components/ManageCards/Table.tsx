@@ -45,7 +45,7 @@ const Table = () => {
     },
   ];
 
-  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+  const [selectedRowIndex, setSelectedRowIndex] = useState<number | null>(null);
 
   return (
     <div>
