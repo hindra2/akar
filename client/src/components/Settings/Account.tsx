@@ -4,11 +4,11 @@ import { useState } from "react";
 const AccountSettings = () => {
   const [showPassword, setShowPassword] = useState(false);
   return (
-    <div>
+    <div className="mb-[60px]">
       <span className="text-5xl font-bold text-textBase">Account</span>
       <hr className="border-t border-textBase w-[700px] mt-[10px]" />
       <div className="w-[700px] mb-[20px]">
-        <div className="text-textBase mt-[10px] flex flex-col space-y-[15px]">
+        <div className="text-textBase mt-[20px] flex flex-col space-y-[15px]">
           <div className="ring-1 ring-accent ring-opacity-70 p-[10px] rounded-lg ml-[2px] bg-accent bg-opacity-5">
             <span className="text-xl font-bold">Change your display name</span>
             <div className="flex flex-col space-y-[2px]">
