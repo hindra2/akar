@@ -56,9 +56,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, toggleSidebar, onLogou
             <AkarLogo />
             <span className="text-lg font-semibold">akar</span>
           </div>
-          <div className="flex items-center justify-center bg-overlay0 h-[30px] w-[30px] rounded-full fill-textBase">
-            <UserIcon />
-          </div>
         </div>
         <div className="p-4">
           <div className="flex items-center p-2 rounded-lg bg-surface1">

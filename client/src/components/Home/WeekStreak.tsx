@@ -12,7 +12,7 @@ const WeekStreak = () => {
   return (
     <div className="flex flex-col">
       <span className="font-semibold text-textBase">This Week</span>
-      <div className="mt-[20px] flex space-x-[40px]">
+      <div className="mt-[15px] flex space-x-[40px]">
         {days.map((day) => (
           <div
             key={day.name}

@@ -28,8 +28,8 @@ const LandingPage: React.FC = () => {
   const fullText = `Built for <span class="text-accent font-semibold">Students</span> by <span class="text-accent font-semibold">Students</span>`;
 
   return (
-    <div className="flex flex-col min-h-screen overflow-x-hidden shadow-2xl bg-surface1 scrollbar scrollbar-thin scrollbar-thumb-gray-700">
-      <div className="fixed top-0 z-50 w-screen bg-surface1">
+    <div className="flex flex-col min-h-screen overflow-x-hidden shadow-2xl bg-surface0 scrollbar scrollbar-thin scrollbar-thumb-gray-700">
+      <div className="fixed top-0 z-50 w-screen bg-surface0">
         <LandingHeader />
       </div>
       <div className="mt-[50px]">
