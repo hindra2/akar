@@ -44,7 +44,6 @@ const DeckSettings: React.FC<DeckSettingsProps> = ({ deckId, onDelete }) => {
       }
     
       console.log("Deck deleted successfully");
-    
       onDelete();
       navigate("/");
     } catch (error) {

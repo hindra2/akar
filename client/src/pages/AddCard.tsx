@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { BackIcon, Edit, PlusIcon } from "../components/icons";
 import { Toaster, toast } from "sonner";
+import supabase from "../../utils/supabase";
 
 const AddCard: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
@@ -69,38 +70,50 @@ const AddCard: React.FC = () => {
   const onSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const body = { card_question: question, card_answer: answer };
-    let response;
 
     if (cardToEdit) {
-      // Editing existing card
-      response = await fetch(
-        `http://localhost:5174/cards/${cardToEdit.card_id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        }
-      );
-      // Navigate back immediately without showing a toast
-      navigate("/deckInfo", { state: { deckId, deckName } });
+      // // Editing existing card
+      const { data, error } = await supabase
+        .from("cards")
+        .update(body)
+        .eq("card_id", cardToEdit.card_id)
+        .single();
+
+      if (error) {
+        console.error("Error updating card:", error);
+      } else {
+        console.log("Card updated successfully:", data);
+        // Navigate back immediately without showing a toast
+        navigate("/deckInfo", { state: { deckId, deckName } });
+      }
     } else {
       // Adding new card
-      response = await fetch(`http://localhost:5174/decks/${deckId}/cards`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      toast.success("New card added successfully!", {
-        position: "bottom-right",
-        duration: 2000,
-      });
-    }
+      const { data: newCard, error: insertError } = await supabase
+        .from("cards")
+        .insert(body)
+        .single();
 
-    console.log(response);
-    // Clear fields only on successful card addition
-    if (!cardToEdit) {
-      setQuestion("");
-      setAnswer("");
+      if (insertError) {
+        console.error("Error adding new card:", insertError);
+      } else if (newCard) {
+        console.log("New card added successfully:", newCard);
+
+      const { error: linkError } = await supabase
+        .from("deck_cards")
+        .insert({ deck_id: deckId, card_id: newCard.id });
+
+      if (linkError) {
+        console.error("Error linking card to deck:", linkError);
+      } else {
+        console.log("Card linked to deck successfully");
+        toast.success("New card added successfully!", {
+          position: "bottom-right",
+          duration: 2000,
+        });
+        setQuestion("");
+        setAnswer("");
+      }
+      }
     }
   };
 
