@@ -3,7 +3,6 @@ import Deck from "../components/Home/deck";
 import WeekStreak from "../components/Home/WeekStreak";
 import Greetings from "../components/Home/Greetings";
 import NewDeck from "../components/Home/NewDeck";
-import api from "../api";
 import supabase from "../../utils/supabase";
 
 interface Deck {
