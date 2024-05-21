@@ -7,7 +7,7 @@ Akar is a flashcard application that utilizes spaced repetition.
 Setup
 ```
 git clone https://github.com/hindra2/akar.git
-cd akar
+cd client
 npm install
 ```
 

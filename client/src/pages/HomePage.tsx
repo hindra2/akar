@@ -3,7 +3,6 @@ import Deck from "../components/Home/deck";
 import WeekStreak from "../components/Home/WeekStreak";
 import Greetings from "../components/Home/Greetings";
 import NewDeck from "../components/Home/NewDeck";
-import api from "../api";
 import supabase from "../../utils/supabase";
 
 interface Deck {
@@ -24,12 +23,25 @@ const HomePage: React.FC = () => {
 
   const fetchDecks = async () => {
     try {
-      const userId = localStorage.getItem("userId");
-      const response = await api.get(`/decks/${userId}`);
-      console.log("Fetched decks:", response.data);
-      setDecks(response.data);
+      const { data: { user } } = await supabase.auth.getUser();
+  
+      if (user) {
+        const { data, error } = await supabase
+          .from('decks')
+          .select('*')
+          .eq('user_id', user.id);
+  
+        if (error) {
+          console.error('Error fetching decks:', error);
+        } else {
+          console.log('Fetched decks:', data);
+          setDecks(data);
+        }
+      } else {
+        console.error('User not found');
+      }
     } catch (error) {
-      console.error("Error fetching decks:", error);
+      console.error('Error fetching decks:', error);
     }
   };
 
