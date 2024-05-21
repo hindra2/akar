@@ -20,19 +20,26 @@ const NewDeck: React.FC<NewDeckProps> = ({ onDeckCreated }) => {
 
   const handleCreateDeck = async (deckName: string) => {
     try {
-      const userId = localStorage.getItem("userId");
-      console.log("Creating deck with name:", deckName, "and user ID:", userId); // Log the values
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      
+      if (userError) {
+        console.error("Error getting user:", userError);
+        return;
+      }
+      
+      console.log("Creating deck with name:", deckName, "and user ID:", user?.id); // Log the values
 
       const { error } = await supabase
         .from('decks')
-        .insert({ deck_name: deckName, user_id: userId })
+        .insert({ deck_name: deckName, user_id: user?.id })
         .single()
 
       closeNewDeckPopup();
       onDeckCreated();
 
       if (error) {
-        throw error
+        console.error("Error creating deck:", error);
+        return
       }
     } catch (error) {
       console.error("Error creating deck:", error);
