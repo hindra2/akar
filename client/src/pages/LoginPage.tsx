@@ -3,8 +3,7 @@ import LoginDetails from "../components/Login/LoginDetails";
 import CreateNewAccount from "../components/Login/CreateNewAccount";
 import { AkarLogo } from "../components/icons";
 import TypingEffect from "../components/Login/TypingEffect";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth } from "../firebase";
+import supabase from "../../utils/supabase";
 
 interface LoginProps {
   onLogin: () => void;
@@ -15,13 +14,16 @@ const LoginPage: React.FC<LoginProps> = ({ onLogin }) => {
   const fullText = `Flashcards boost memory retention by <span class="text-accent font-semibold">up to 150%</span> through active recall.`;
 
   const toggleView = () => setShowLogin(!showLogin);
+
   const handleGoogleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      console.log(result.user);
-    } catch (error) {
-      console.error(error);
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+    if (error) {
+      console.error("Error signing in:", error);
+    } else {
+      console.log("User signed in:", data);
+      onLogin();
     }
   };
 
@@ -38,26 +40,14 @@ const LoginPage: React.FC<LoginProps> = ({ onLogin }) => {
       </div>
       <div className="w-[35%] h-full bg-base">
         <div className="px-[100px]">
-          {showLogin ? (
-            <LoginDetails onLogin={onLogin} toggleView={toggleView} />
-          ) : (
-            <CreateNewAccount onLogin={onLogin} toggleView={toggleView} />
-          )}
+          {showLogin ? <LoginDetails onLogin={onLogin} toggleView={toggleView} /> : <CreateNewAccount onLogin={onLogin} toggleView={toggleView} />}
           <div className="flex space-x-[20px] justify-center items-center mb-[20px]">
             <hr className="bg-surface1 h-[1px] border-0 w-[30%]" />
             <span className="text-textBase text-opacity-40">or</span>
             <hr className="bg-surface1 h-[1px] border-0 w-[30%]" />
           </div>
-          <button
-            onClick={handleGoogleSignIn}
-            className="w-full h-[40px] flex items-center justify-center ring-overlay0 ring-opacity-90 ring-1 rounded-lg space-x-[5px] hover:bg-overlay0 hover:scale-[101%]"
-          >
-            <img
-              src={"./googleLogo.png"}
-              alt="Google sign-in"
-              height={20}
-              width={20}
-            />
+          <button className="w-full h-[40px] flex items-center justify-center ring-overlay0 ring-opacity-90 ring-1 rounded-lg space-x-[5px] hover:bg-overlay0 hover:scale-[101%]" onClick={handleGoogleSignIn}>
+            <img src={"./googleLogo.png"} alt="Google sign-in" height={20} width={20} />
             <span className="text-textBase">Sign in with Google</span>
           </button>
         </div>
