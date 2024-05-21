@@ -4,7 +4,7 @@ import WeekStreak from "../components/Home/WeekStreak";
 import Greetings from "../components/Home/Greetings";
 import NewDeck from "../components/Home/NewDeck";
 import api from "../api";
-import supabase from '../../utils/supabase';
+import supabase from "../../utils/supabase";
 
 interface Deck {
   deck_id: number;
@@ -35,10 +35,16 @@ const HomePage: React.FC = () => {
 
   const fetchUserInfo = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       if (user) {
-        setUser({ id: 0, username: "", full_name: user.user_metadata.full_name });
+        setUser({
+          id: 0,
+          username: "",
+          full_name: user.user_metadata.full_name,
+        });
       } else {
         console.error("User ID not found in localStorage");
       }
@@ -71,12 +77,14 @@ const HomePage: React.FC = () => {
             />
           ))}
         </div>
-        <div className="mt-[30%] flex justify-center items-center">
-          <WeekStreak />
+        <div className="flex flex-col absolute bottom-[50px]">
+          <div className="flex justify-center items-center">
+            <WeekStreak />
+          </div>
+          <span className="text-center text-textBase mt-[20px] w-full">
+            12 Cards Studied Today
+          </span>
         </div>
-        <span className="text-center text-textBase mt-[4%]">
-          12 Cards Studied Today
-        </span>
       </div>
     </div>
   );
