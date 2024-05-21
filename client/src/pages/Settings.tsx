@@ -113,7 +113,7 @@ const Settings: React.FC = () => {
       </div>
       <div
         ref={containerRef}
-        className="flex flex-col h-[80vh] w-[60%] ml-[100px] overflow-auto"
+        className="flex flex-col h-[80vh] w-[60%] ml-[100px] overflow-auto overflow-y-scroll no-scrollbar"
       >
         <div ref={generalRef}>
           <GeneralSettings />
