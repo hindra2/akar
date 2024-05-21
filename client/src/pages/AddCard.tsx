@@ -4,6 +4,7 @@ import { BackIcon, Edit, PlusIcon } from "../components/icons";
 import { Toaster, toast } from "sonner";
 import supabase from "../../utils/supabase";
 
+
 const AddCard: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate(); // Hook for navigation
@@ -88,19 +89,24 @@ const AddCard: React.FC = () => {
       }
     } else {
       // Adding new card
+      console.log("Inserting:", body);
       const { data: newCard, error: insertError } = await supabase
         .from("cards")
         .insert(body)
+        .select("*")
         .single();
 
-      if (insertError) {
+      console.log("Inserted card:", newCard);
+
+
+      if (insertError) {1
         console.error("Error adding new card:", insertError);
       } else if (newCard) {
         console.log("New card added successfully:", newCard);
 
       const { error: linkError } = await supabase
         .from("deck_cards")
-        .insert({ deck_id: deckId, card_id: newCard.id });
+        .insert({ deck_id: deckId, card_id: newCard.card_id});
 
       if (linkError) {
         console.error("Error linking card to deck:", linkError);
