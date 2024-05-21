@@ -3,7 +3,6 @@ import NavigationLink from "./sidebarNav";
 import { useNavigate } from "react-router-dom";
 import {
   HomeIcon,
-  UserIcon,
   SearchIcon,
   LogoutIcon,
   StatsIcon,
