@@ -167,8 +167,8 @@ const App: React.FC = () => {
           </>
         ):(
           <>
-            <Route path="/" element={<Navigate to="/landing" replace />} />
-            <Route path="/landing" element={<LandingPage />} />
+            {/* <Route path="/" element={<Navigate to="/landing" replace />} /> */}
+            <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
           </>
         )}
