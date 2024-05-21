@@ -75,14 +75,14 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const checkSession = async () => {
-      const session = await supabase.auth.getSession();
-      setIsLoggedIn(!!session);
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsLoggedIn(session !== null);
     };
   
     checkSession();
   
-    const authListener = supabase.auth.onAuthStateChange(async (session) => {
-      setIsLoggedIn(!!session);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_, session) => {
+      setIsLoggedIn(session !== null);
     });
   
     const applyTheme = (theme: string) => {
@@ -108,7 +108,7 @@ const App: React.FC = () => {
     mediaQuery.addEventListener("change", handleChange);
   
     return () => {
-      authListener.data.subscription.unsubscribe();
+      subscription.unsubscribe();
       mediaQuery.removeEventListener("change", handleChange);
     };
   }, []);
@@ -117,7 +117,9 @@ const App: React.FC = () => {
     <Router>
       <ScrollToTop />
       <Routes>
-        {isLoggedIn ? (
+        {isLoggedIn === null ? (
+          <div>Loading...</div>
+        ) : isLoggedIn ? (
           <>
             <Route path="/" element={
               <LayoutWithSidebar onLogout={handleLogout}>
@@ -167,8 +169,8 @@ const App: React.FC = () => {
           </>
         ):(
           <>
-            <Route path="/" element={<Navigate to="/landing" replace />} />
             <Route path="/landing" element={<LandingPage />} />
+            <Route path="/" element={<Navigate to="/landing" replace />} />
             <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
           </>
         )}
