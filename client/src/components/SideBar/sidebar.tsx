@@ -3,7 +3,6 @@ import NavigationLink from "./sidebarNav";
 import { useNavigate } from "react-router-dom";
 import {
   HomeIcon,
-  SearchIcon,
   LogoutIcon,
   StatsIcon,
   SettingsIconSidebar,
@@ -20,7 +19,11 @@ interface SidebarProps {
   onLogout: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, toggleSidebar, onLogout }) => {
+const Sidebar: React.FC<SidebarProps> = ({
+  isSidebarOpen,
+  toggleSidebar,
+  onLogout,
+}) => {
   const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate();
 
@@ -56,19 +59,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, toggleSidebar, onLogou
             <span className="text-lg font-semibold">akar</span>
           </div>
         </div>
-        <div className="p-4">
-          <div className="flex items-center p-2 rounded-lg bg-surface1">
-            <input
-              className="w-full ml-2 text-white placeholder-gray-300 bg-transparent outline-none"
-              type="text"
-              placeholder="Search"
-            />
-            <div className="fill-textBase">
-              <SearchIcon />
-            </div>
-          </div>
-        </div>
-        <nav className="flex-grow space-y-[2px]">
+        <nav className="flex-grow space-y-[10px] mt-[20px]">
           <NavigationLink to="/" label="Home" Icon={HomeIcon} />
           <NavigationLink
             to="/statistics"
