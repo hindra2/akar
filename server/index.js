@@ -126,8 +126,8 @@ app.get("/users/:userId", async (req, res) => {
 });
 ////////////// LOGIN BACKEND
 
-///////////// CARDS BACKEND
 
+///////////// CARDS BACKEND
 // create a card for a specific deck
 app.post("/decks/:deckId/cards", async (req, res) => {
   try {
@@ -207,7 +207,6 @@ app.delete("/cards/:cardId", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
 ///////////// CARDS BACKEND
 
 ///////////// DECKS BACKEND

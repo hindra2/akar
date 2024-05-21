@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PlusIcon } from "../icons";
 import NewDeckPopup from "./NewDeck-popup";
-import api from "../../api";
+import supabase from "../../../utils/supabase";
 
 interface NewDeckProps {
   onDeckCreated: () => void;
@@ -23,9 +23,17 @@ const NewDeck: React.FC<NewDeckProps> = ({ onDeckCreated }) => {
       const userId = localStorage.getItem("userId");
       console.log("Creating deck with name:", deckName, "and user ID:", userId); // Log the values
 
-      await api.post("/decks", { deck_name: deckName, user_id: userId });
+      const { error } = await supabase
+        .from('decks')
+        .insert({ deck_name: deckName, user_id: userId })
+        .single()
+
       closeNewDeckPopup();
       onDeckCreated();
+
+      if (error) {
+        throw error
+      }
     } catch (error) {
       console.error("Error creating deck:", error);
     }
