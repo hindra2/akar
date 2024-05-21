@@ -28,7 +28,7 @@ const LandingPage: React.FC = () => {
   const fullText = `Built for <span class="text-accent font-semibold">Students</span> by <span class="text-accent font-semibold">Students</span>`;
 
   return (
-    <div className="">
+    <div className="overflow-auto overflow-y-scroll no-scrollbar">
       <div className="flex flex-col min-h-screen overflow-x-hidden shadow-2xl bg-surface0 overflow-y-scroll no-scrollbar">
         <div className="fixed top-0 z-50 w-screen bg-surface0">
           <LandingHeader />
