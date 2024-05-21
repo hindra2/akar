@@ -7,6 +7,7 @@ import {
   Navigate
 } from "react-router-dom";
 import { useEffect } from "react";
+import supabase from "../utils/supabase";
 
 // Pages imports
 import HomePage from "./pages/HomePage";
@@ -73,33 +74,43 @@ const App: React.FC = () => {
   }
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    setIsLoggedIn(!!user);
-    
+    const checkSession = async () => {
+      const session = await supabase.auth.getSession();
+      setIsLoggedIn(!!session);
+    };
+  
+    checkSession();
+  
+    const authListener = supabase.auth.onAuthStateChange(async (session) => {
+      setIsLoggedIn(!!session);
+    });
+  
     const applyTheme = (theme: string) => {
-      
       document.documentElement.classList.remove("dark", "light");
       document.documentElement.classList.add(theme);
     };
-
+  
     const storedTheme = localStorage.getItem("theme");
     const prefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)"
     ).matches;
-
+  
     const theme = storedTheme || (prefersDark ? "dark" : "light");
     applyTheme(theme);
-
+  
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const handleChange = (e: MediaQueryListEvent) => {
       const newTheme = e.matches ? "dark" : "light";
       applyTheme(newTheme);
       localStorage.setItem("theme", newTheme);
     };
-
+  
     mediaQuery.addEventListener("change", handleChange);
-
-    return () => mediaQuery.removeEventListener("change", handleChange);
+  
+    return () => {
+      authListener.data.subscription.unsubscribe();
+      mediaQuery.removeEventListener("change", handleChange);
+    };
   }, []);
 
   return (
