@@ -166,6 +166,7 @@ const App: React.FC = () => {
               }
             />
             <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
+            <Route path="/landing" element={<Navigate to="/" replace />} />
           </>
         ):(
           <>
