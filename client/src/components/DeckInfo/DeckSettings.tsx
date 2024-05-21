@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../api";
+import supabase from "../../../utils/supabase";
 import {
   Edit,
   SettingsIcon,
@@ -33,7 +33,18 @@ const DeckSettings: React.FC<DeckSettingsProps> = ({ deckId, onDelete }) => {
 
     try {
       console.log("Deleting deck with ID:", deckId);
-      await api.delete(`/decks/${deckId}`);
+      
+      const { error } = await supabase
+        .from('decks')
+        .delete()
+        .eq('deck_id', deckId);
+    
+      if (error) {
+        throw error;
+      }
+    
+      console.log("Deck deleted successfully");
+    
       onDelete();
       navigate("/");
     } catch (error) {
