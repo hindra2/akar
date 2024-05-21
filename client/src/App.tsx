@@ -4,7 +4,7 @@ import {
   Routes,
   Route,
   useLocation,
-  // Navigate
+  Navigate
 } from "react-router-dom";
 import { useEffect } from "react";
 import supabase from "../utils/supabase";
@@ -167,8 +167,8 @@ const App: React.FC = () => {
           </>
         ):(
           <>
-            {/* <Route path="/" element={<Navigate to="/landing" replace />} /> */}
-            <Route path="/" element={<LandingPage />} />
+            <Route path="/" element={<Navigate to="/landing" replace />} />
+            <Route path="/landing" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
           </>
         )}
