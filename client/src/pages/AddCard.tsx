@@ -83,7 +83,7 @@ const AddCard: React.FC = () => {
       if (error) {
         console.error("Error updating card:", error);
       } else {
-        console.log("Card updated successfully:", data);
+        console.log("Card updated successfully:", body);
         navigate("/deckInfo", { state: { deckId, deckName } });
       }
     } else {

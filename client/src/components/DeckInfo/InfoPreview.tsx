@@ -55,9 +55,15 @@ const InfoPreview = () => {
 
   const deleteCard = async (id: number) => {
     try {
-      await fetch(`http://localhost:5174/cards/${id}`, {
-        method: "DELETE",
-      });
+      const { error: deleteCardError } = await supabase
+      .from("cards")
+      .delete()
+      .match({ card_id: id });
+      
+      if (deleteCardError) {
+        console.error(deleteCardError);
+      }
+
       setCards(cards.filter((card) => card.card_id !== id));
       // Show Sonner toast for successfully deleting a card
       toast.success("Card deleted successfully!", {
