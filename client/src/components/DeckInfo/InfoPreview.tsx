@@ -37,10 +37,11 @@ const InfoPreview = () => {
       let { data: cards, error } = await supabase
         .from('cards')
         .select('*')
-        .eq('deck_cards', deckId) // Assuming there's a relationship column 'deck_id' in 'cards'
+        .eq('deck_id', deckId) // Filter cards based on the 'deck_id' column
         .order('card_id', { ascending: false });
-  
+    
       if (error) throw error;
+    
       if (cards) {
         // Set the fetched cards to state
         setCards(cards);
