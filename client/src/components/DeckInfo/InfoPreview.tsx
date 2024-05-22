@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Edit, Ellipsis, Trash } from "../icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Toaster, toast } from "sonner";
+import supabase from "../../../utils/supabase";
 
 interface Card {
   card_id: number;
@@ -32,15 +33,22 @@ const InfoPreview = () => {
 
   const getCards = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5174/decks/${deckId}/cards`
-      );
-      const jsonData: Card[] = await response.json();
-      // Sort the cards in descending order based on card_id
-      const sortedCards = jsonData.sort((a, b) => b.card_id - a.card_id);
-      setCards(sortedCards);
+      // Fetch cards from Supabase
+      let { data: cards, error } = await supabase
+        .from('cards')
+        .select('*')
+        .eq('deck_cards', deckId) // Assuming there's a relationship column 'deck_id' in 'cards'
+        .order('card_id', { ascending: false });
+  
+      if (error) throw error;
+      if (cards) {
+        // Set the fetched cards to state
+        setCards(cards);
+      } else {
+        setCards([]);
+      }
     } catch (err) {
-      console.log((err as Error).message);
+      console.error('Error fetching cards:', (err as Error).message);
     }
   };
 
