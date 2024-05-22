@@ -1,10 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { BackIcon, Edit, PlusIcon } from "../components/icons";
+import { Edit, PlusIcon } from "../icons";
 import { Toaster, toast } from "sonner";
 
-const AddCard: React.FC = () => {
-  const [isClicked, setIsClicked] = useState(false);
+const EditCard: React.FC = () => {
   const navigate = useNavigate(); // Hook for navigation
   const location = useLocation();
   const cardToEdit = location.state?.card;
@@ -13,18 +12,6 @@ const AddCard: React.FC = () => {
 
   const [question, setQuestion] = useState(cardToEdit?.card_question || "");
   const [answer, setAnswer] = useState(cardToEdit?.card_answer || "");
-
-  const handleOnClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsClicked(true);
-
-    setTimeout(() => {
-      setIsClicked(false);
-      navigate("/deckInfo", { state: { deckId, deckName } });
-    }, 70);
-  };
-
-  const animatedStyle = isClicked ? { transform: "scale(0.98)" } : {};
 
   const questionRef = useRef<HTMLDivElement>(null);
   const answerRef = useRef<HTMLDivElement>(null);
@@ -160,13 +147,6 @@ const AddCard: React.FC = () => {
 
   return (
     <div className="relative flex flex-col items-center h-full">
-      <button
-        className="absolute top-[2%] left-8 fill-textBase"
-        onClick={handleOnClick}
-        style={animatedStyle}
-      >
-        <BackIcon />
-      </button>
       <div>
         <form onSubmit={onSubmitForm}>
           <div className="flex flex-col w-[700px] mt-[200px]">
@@ -244,4 +224,4 @@ const AddCard: React.FC = () => {
   );
 };
 
-export default AddCard;
+export default EditCard;
