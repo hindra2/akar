@@ -34,13 +34,23 @@ const DeckSettings: React.FC<DeckSettingsProps> = ({ deckId, onDelete }) => {
     try {
       console.log("Deleting deck with ID:", deckId);
       
-      const { error } = await supabase
+      const { error: deckDeletionError } = await supabase
         .from('decks')
         .delete()
         .eq('deck_id', deckId);
     
-      if (error) {
-        throw error;
+      if (deckDeletionError) {
+        throw deckDeletionError;
+      }
+
+      // Deleting all cards associated with the deck
+      const { error: cardDeletionError } = await supabase
+        .from("cards")
+        .delete()
+        .eq("deck_id", deckId)
+
+      if (cardDeletionError) {
+        throw cardDeletionError;
       }
     
       console.log("Deck deleted successfully");
