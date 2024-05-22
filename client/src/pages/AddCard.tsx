@@ -74,7 +74,7 @@ const AddCard: React.FC = () => {
 
     if (cardToEdit) {
       // Editing existing card
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("cards")
         .update(body)
         .eq("card_id", cardToEdit.card_id)

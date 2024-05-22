@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import CardComponent from "../components/CardView/Card";
 import { BackIcon } from "../components/icons";
+import supabase from "../../utils/supabase";
 
 interface Card {
   card_id: number;
@@ -41,15 +42,41 @@ const CardView: React.FC = () => {
   const [answeredCards, setAnsweredCards] = useState(0);
 
   const getNextCard = async () => {
-    const response = await fetch(`http://localhost:5174/decks/${deckId}/study`);
-    const jsonData = await response.json();
-    setCurrentCard(jsonData);
+    try {
+      const { data, error } = await supabase
+        .from("cards")
+        .select("*")
+        .eq("deck_id", deckId)
+        .order("card_id", { ascending: true })
+        .limit(1)
+        .single();
+
+      if (error) {
+        console.error("Error fetching next card:", error);
+      } else {
+        setCurrentCard(data);
+      }
+    } catch (error) {
+      console.error("Error fetching next card:", error);
+    } 
   };
 
   const getCards = async () => {
-    const response = await fetch(`http://localhost:5174/decks/${deckId}/cards`);
-    const jsonData = await response.json();
-    setCards(jsonData);
+    try {
+      const { data, error } = await supabase
+        .from("cards")
+        .select("*")
+        .eq("deck_id", deckId)
+        .order("card_id", { ascending: true });
+
+      if (error) {
+        console.error("Error fetching cards:", error);
+      } else {
+        setCards(data);
+      }
+    } catch (error) {
+      console.error("Error fetching cards:", error);
+    }
   };
 
   useEffect(() => {
@@ -80,14 +107,14 @@ const CardView: React.FC = () => {
       console.log(`Button clicked: ${difficulty}`);
       setIsButtonClicked(true);
 
-      const rating = difficultyToRating(difficulty);
-      await fetch(`http://localhost:5174/cards/${currentCard.card_id}/review`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ rating }),
-      });
+      // const rating = difficultyToRating(difficulty);
+      // await fetch(`http://localhost:5174/cards/${currentCard.card_id}/review`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ rating }),
+      // });
 
       setTimeout(() => {
         setIsButtonClicked(false);
@@ -96,20 +123,20 @@ const CardView: React.FC = () => {
     }
   };
 
-  const difficultyToRating = (difficulty: string) => {
-    switch (difficulty) {
-      case "Easy":
-        return 5;
-      case "Medium":
-        return 4;
-      case "Hard":
-        return 3;
-      case "Skip":
-        return 0;
-      default:
-        return 0;
-    }
-  };
+  // const difficultyToRating = (difficulty: string) => {
+  //   switch (difficulty) {
+  //     case "Easy":
+  //       return 5;
+  //     case "Medium":
+  //       return 4;
+  //     case "Hard":
+  //       return 3;
+  //     case "Skip":
+  //       return 0;
+  //     default:
+  //       return 0;
+  //   }
+  // };
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
