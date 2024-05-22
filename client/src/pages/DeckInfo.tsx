@@ -1,11 +1,10 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DeckPreview from "../components/DeckInfo/DeckPreview";
 import DeckSettings from "../components/DeckInfo/DeckSettings";
 import InfoPreview from "../components/DeckInfo/InfoPreview";
 import NewCard from "../components/DeckInfo/NewCard";
 import { BackIcon, SearchIcon } from "../components/icons";
-import api from "../api";
 
 const DeckInfo: React.FC = () => {
   const [isClicked, setIsClicked] = useState(false);
@@ -14,22 +13,22 @@ const DeckInfo: React.FC = () => {
   const deckId = location.state?.deckId;
   const deckName = location.state?.deckName;
 
-  useEffect(() => {
-    const fetchDeck = async () => {
-      try {
-        if (deckId) {
-          console.log("Fetching deck with ID:", deckId);
-          const response = await api.get(`/decks/${deckId}`);
-          console.log("Fetched deck data:", response.data);
-        } else {
-          console.log("Deck ID is undefined");
-        }
-      } catch (error) {
-        console.error("Error fetching deck:", error);
-      }
-    };
-    fetchDeck();
-  }, [deckId]);
+  // useEffect(() => {
+  //   const fetchDeck = async () => {
+  //     try {
+  //       if (deckId) {
+  //         console.log("Fetching deck with ID:", deckId);
+  //         const response = await api.get(`/decks/${deckId}`);
+  //         console.log("Fetched deck data:", response.data);
+  //       } else {
+  //         console.log("Deck ID is undefined");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching deck:", error);
+  //     }
+  //   };
+  //   fetchDeck();
+  // }, [deckId]);
 
   const handleBackClick = (e: React.MouseEvent) => {
     e.preventDefault();

@@ -11,6 +11,8 @@ import {
   Advanced,
 } from "../icons";
 
+import RenameDeckPopup from "./RenameDeckPopup";
+
 interface DeckSettingsProps {
   deckId: number | undefined;
   onDelete: () => void;
@@ -20,6 +22,16 @@ const DeckSettings: React.FC<DeckSettingsProps> = ({ deckId, onDelete }) => {
   console.log("DeckSettings - deckId:", deckId);
   const [showSettingsDropdown, setShowSettingsDropdown] = useState(false);
   const navigate = useNavigate();
+
+  const [isRenameDeckPopupOpen, setIsRenameDeckPopupOpen] = useState(false);
+
+  const openRenameDeckPopup = () => {
+    setIsRenameDeckPopupOpen(true);
+  };
+
+  const closeRenameDeckPopup = () => {
+    setIsRenameDeckPopupOpen(false);
+  };
 
   const toggleSettingsDropdown = () => {
     setShowSettingsDropdown(!showSettingsDropdown);
@@ -78,11 +90,16 @@ const DeckSettings: React.FC<DeckSettingsProps> = ({ deckId, onDelete }) => {
             className="flex w-full py-2 space-x-2 text-left text-white fill-white"
             onClick={(e) => {
               e.stopPropagation();
+              openRenameDeckPopup();
             }}
           >
             <Edit />
             <span>Rename</span>
           </button>
+          <RenameDeckPopup 
+            isOpen={isRenameDeckPopupOpen}
+            onClose={closeRenameDeckPopup}
+          />
           <button
             className="flex w-full py-2 space-x-2 text-left text-white fill-white"
             onClick={(e) => {
