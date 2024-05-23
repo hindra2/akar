@@ -59,8 +59,8 @@ const AccountSettings = () => {
           <div className="ring-1 ring-accent ring-opacity-70 p-[10px] rounded-lg ml-[2px] bg-accent bg-opacity-5">
             <span className="text-xl font-bold">Change your full name</span>
             <form onSubmit={handleDisplayNameChange}>
-              <div className="flex flex-col space-y-[2px]">
-                <span className="text-textBase">Full Name</span>
+              <div className="flex flex-col mt-[15px] space-y-[2px]">
+                <span className="text-textBase ">Full Name</span>
                 <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
                   <input
                     className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
@@ -82,7 +82,7 @@ const AccountSettings = () => {
             <span className="text-xl font-bold">Change your password</span>
             <form onSubmit={handleChangePassword}>
               <div>
-                <span className="text-textBase">Current password</span>
+                <span className="text-textBase mt-[15px] flex flex-col space-y-[13px]">Current password</span>
                 <div className="bg-surface1 h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1 ml-[2px]">
                   <input
                     className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
@@ -105,7 +105,7 @@ const AccountSettings = () => {
                 </div>
               </div>
               <div>
-                <span className="text-textBase">New password</span>
+                <span className="text-textBase mt-[20px] flex flex-col space-y-[30px]">New password</span>
                 <div className="bg-surface1 h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1 ml-[2px]">
                   <input
                     className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
@@ -128,7 +128,7 @@ const AccountSettings = () => {
                 </div>
               </div>
               <div>
-                <span className="text-textBase">Repeat new password</span>
+                <span className="text-textBase mt-[20px] flex flex-col space-y-[30px]">Repeat new password</span>
                 <div className="bg-surface1 h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1 ml-[2px]">
                   <input
                     className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
