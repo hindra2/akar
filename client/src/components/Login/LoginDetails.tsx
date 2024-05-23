@@ -36,11 +36,7 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView, onLogin }) => {
           localStorage.setItem("userId", uuid);
 
           if (uuid) {
-            const { data: namesData, error: namesError } = await supabase
-              .from("names")
-              .select("name")
-              .eq("user_id", uuid)
-              .single();
+            const { data: namesData, error: namesError } = await supabase.from("names").select("name").eq("user_id", uuid).single();
 
             if (namesError) {
               console.error("Error retrieving full name:", namesError.message);
@@ -58,23 +54,25 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView, onLogin }) => {
     }
   };
 
+  const handleResetPassword = async () => {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(username);
+
+    if (error) {
+      setErrorMessage(error.message);
+    } else {
+      setErrorMessage("Password reset email sent. Please check your inbox.");
+    }
+  };
+
   return (
     <div className="flex flex-col">
-      <span className="text-4xl font-semibold text-center text-textBase mt-[30%]">
-        Welcome Back!
-      </span>
+      <span className="text-4xl font-semibold text-center text-textBase mt-[30%]">Welcome Back!</span>
       <form onSubmit={handleLogin} className="mt-[10%]">
         <div className="space-y-[10px]">
           <div className="flex flex-col space-y-[2px]">
             <span className="text-textBase">Email</span>
             <div className="bg-surface1 w-full h-[40px] rounded-lg flex ring-overlay0 ring-opacity-90 ring-1">
-              <input
-                className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30"
-                type="text"
-                placeholder="email"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
+              <input className="w-full ml-2 bg-transparent outline-none placeholder-textPlaceholder text-textBase placeholder-opacity-30" type="text" placeholder="email" value={username} onChange={(e) => setUsername(e.target.value)} />
             </div>
           </div>
           <div className="flex flex-col space-y-[2px]">
@@ -87,11 +85,7 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView, onLogin }) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="mr-2"
-              >
+              <button type="button" onClick={() => setShowPassword(!showPassword)} className="mr-2">
                 {showPassword ? (
                   <div className="h-5 w-5 fill-textBase">
                     <EyeIcon />
@@ -105,22 +99,17 @@ const LoginDetails: React.FC<LoginDetailsProps> = ({ toggleView, onLogin }) => {
             </div>
           </div>
         </div>
-        {errorMessage && (
-          <div className="mt-2 text-rose-700">{errorMessage}</div>
-        )}
-        <button
-          type="submit"
-          className="w-full h-[40px] bg-accent rounded-lg text-white font-bold my-[20px] hover:bg-blue-400 hover:scale-[101%]"
-        >
+        {errorMessage && <div className="mt-2 text-rose-700">{errorMessage}</div>}
+        <button type="submit" className="w-full h-[40px] bg-accent rounded-lg text-white font-bold my-[20px] hover:bg-blue-400 hover:scale-[101%]">
           Sign in
+        </button>
+        <button type="button" className="w-full h-[40px] bg-surface1 rounded-lg text-textBase font-bold my-[10px] hover:bg-surface2 hover:scale-[101%]" onClick={handleResetPassword}>
+          Forgot Password?
         </button>
       </form>
       <div className="flex justify-center my-[10px]">
         <span className="text-textBase">New user?</span>
-        <button
-          className="ml-[10px] underline text-textBase"
-          onClick={toggleView}
-        >
+        <button className="ml-[10px] underline text-textBase" onClick={toggleView}>
           Create an Account
         </button>
       </div>
