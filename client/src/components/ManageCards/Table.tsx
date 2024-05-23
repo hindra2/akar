@@ -1,7 +1,7 @@
 import { Edit } from "../icons";
 import { useState } from "react";
-import { Resizable } from "re-resizable";
 import EditCard from "./EditCard";
+import Split from "react-split";
 
 const Table = () => {
   const data = [
@@ -49,32 +49,25 @@ const Table = () => {
 
   const [selectedRowIndex, setSelectedRowIndex] = useState<number | null>(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
-  const [tableSize, setTableSize] = useState({ width: "100%", height: "100%" });
 
   const handleEditOpen = (index: number) => {
     setSelectedRowIndex(index);
     setIsEditOpen(true);
-    setTableSize({ width: "50%", height: "100%" });
   };
 
   const handleEditClose = () => {
     setIsEditOpen(false);
-    setTableSize({ width: "100%", height: "100%" });
   };
 
   return (
-    <div className="flex">
-      <Resizable
-        size={tableSize}
-        style={{ position: "relative" }}
-        onResizeStop={(_, __, ref, d) => {
-          const newWidth = parseInt(ref.style.width) + d.width;
-          setTableSize({
-            width: `${newWidth}px`,
-            height: "100%",
-          });
-        }}
-      >
+    <Split
+      sizes={isEditOpen ? [50, 50] : [100, 0]}
+      minSize={[300, 300]}
+      gutterSize={10}
+      cursor="col-resize"
+      className="flex h-full"
+    >
+      <div>
         <table className="min-w-full text-textBase text-left">
           <thead>
             <tr className="bg-surface0">
@@ -113,23 +106,13 @@ const Table = () => {
             ))}
           </tbody>
         </table>
-      </Resizable>
+      </div>
       {isEditOpen && (
-        <Resizable
-          size={{ width: `calc(100% - ${tableSize.width})`, height: "100%" }}
-          style={{ position: "relative" }}
-          onResizeStop={(_, __, ref, d) => {
-            const newWidth = parseInt(ref.style.width) - d.width;
-            setTableSize({
-              width: `calc(100% - ${newWidth}px)`,
-              height: "100%",
-            });
-          }}
-        >
+        <div>
           <EditCard onClose={handleEditClose} />
-        </Resizable>
+        </div>
       )}
-    </div>
+    </Split>
   );
 };
 
