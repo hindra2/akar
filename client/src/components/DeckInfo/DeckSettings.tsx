@@ -104,6 +104,7 @@ const DeckSettings: React.FC<DeckSettingsProps> = ({ deckId, onDelete }) => {
             className="flex w-full py-2 space-x-2 text-left text-white fill-white"
             onClick={(e) => {
               e.stopPropagation();
+              navigate("/managecards")
             }}
           >
             <Manage />

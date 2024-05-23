@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  HashRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-  Navigate,
-} from "react-router-dom";
+import { HashRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import supabase from "../utils/supabase";
 
@@ -40,18 +34,8 @@ function LayoutWithSidebar({ children, onLogout }: LayoutWithSidebarProps) {
 
   return (
     <div className="flex min-h-screen overflow-hidden bg-base">
-      <Sidebar
-        isSidebarOpen={isSidebarOpen}
-        toggleSidebar={toggleSidebar}
-        onLogout={onLogout}
-      />
-      <main
-        className={`flex-grow bg-base transition-all duration-300 ease-in-out ${
-          isSidebarOpen ? "ml-64" : "ml-0"
-        }`}
-      >
-        {children}
-      </main>
+      <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} onLogout={onLogout} />
+      <main className={`flex-grow bg-base transition-all duration-300 ease-in-out ${isSidebarOpen ? "ml-64" : "ml-0"}`}>{children}</main>
     </div>
   );
 }
@@ -100,9 +84,7 @@ const App: React.FC = () => {
     };
 
     const storedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
     const theme = storedTheme || (prefersDark ? "dark" : "light");
     applyTheme(theme);
@@ -201,10 +183,7 @@ const App: React.FC = () => {
           <>
             <Route path="/landing" element={<LandingPage />} />
             <Route path="/" element={<Navigate to="/landing" replace />} />
-            <Route
-              path="/login"
-              element={<LoginPage onLogin={handleLogin} />}
-            />
+            <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
           </>
         )}
       </Routes>
