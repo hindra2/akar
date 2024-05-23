@@ -67,7 +67,7 @@ const Table = () => {
       <Resizable
         size={tableSize}
         style={{ position: "relative" }}
-        onResizeStop={(e, direction, ref, d) => {
+        onResizeStop={(_, __, ref, d) => {
           const newWidth = parseInt(ref.style.width) + d.width;
           setTableSize({
             width: `${newWidth}px`,
@@ -118,7 +118,7 @@ const Table = () => {
         <Resizable
           size={{ width: `calc(100% - ${tableSize.width})`, height: "100%" }}
           style={{ position: "relative" }}
-          onResizeStop={(e, direction, ref, d) => {
+          onResizeStop={(_, __, ref, d) => {
             const newWidth = parseInt(ref.style.width) - d.width;
             setTableSize({
               width: `calc(100% - ${newWidth}px)`,
